@@ -1,0 +1,113 @@
+
+seed_artist = "daft punk"
+ bucket = [:hotttnesss, :familiarity, :artist_location,
+             :discovery, :discovery_rank, :familiarity, :genre,
+             :hotttnesss, :hotttnesss_rank, :images, :songs]
+  pivot = {results: 5,
+              name: seed_artist,
+              sort: "hotttnesss-desc",
+              bucket: @bucket,
+              mood: 'happy'}
+
+#Searching for artist by name:
+  Echowrap.artist_search(results: 5,
+                        name: seed_artist,
+                        sort: "hotttnesss-desc",
+                        bucket: @bucket )
+
+#Searching by description - cannot use mode:
+Echowrap.artist_search(results: 5,
+                      sort: "hotttnesss-desc",
+                      bucket: [:hotttnesss, :familiarity, :artist_location,
+                               :discovery, :discovery_rank, :familiarity, :genre,
+                               :hotttnesss, :hotttnesss_rank, :images, :songs, ],
+                      style: ['rock', 'pop']
+                      mood: 'happy' )
+
+
+
+
+
+Echowrap.song_search(:key => 8,
+                     :mode => 0,
+                     :min_tempo => 87,
+                     :max_tempo =>  93,
+                     :artist_min_familiarity => 0.8,
+                     :results => 100,
+                     :sort => 'danceability-desc'
+                     ).map do |song|
+  puts "#{song.id} #{song.artist_id} #{song.artist_name} #{song.title}"
+end
+
+
+
+
+
+
+
+
+
+
+
+
+x = Playlister.new("daft punk", 2)
+x.load_pivot
+x.find_artist
+
+result = Echowrap.artist_search(name: x.seed_artist, bucket: @bucket )
+
+genres = result.first.to_hash[:genres].map {|k,v| k.values }.flatten
+
+song = result.first.songs.last
+
+song_details = Echowrap.song_profile(song.id, bucket: :audio_summary)
+
+genre = genres.sample
+
+nres = Echowrap.song_search(mode: 0, style: genres.join(","),
+mood: "happy", artist_max_hotttnesss: 0.65, :bucket=>
+              [:song_hotttnesss,
+               :artist_familiarity,
+               :artist_location,
+               :audio_summary,
+               :artist_discovery],
+                 results: 40,
+                 rank_type: "relevance",
+                 sort: 'song_hotttnesss-desc')
+
+
+
+
+
+
+:biographies,
+ :blogs,
+ :doc_counts,
+ :images,
+ :foreign_ids,
+ :location,
+ :news,
+ :reviews,
+ :songs,
+ :terms,
+ :urls,
+ :video,
+ :years_active,
+ :name,
+ :name?,
+ :twitter,
+ :twitter?,
+ :id,
+ :id?,
+ :familiarity,
+ :familiarity?,
+ :hotttnesss,
+ :hotttnesss?,
+
+
+
+
+#artist search bucket:
+ "audio", "biographies", "blogs", "doc_counts", "familiarity", "familiarity_rank",
+ "genre", "hotttnesss", "hotttnesss_rank", "discovery", "discovery_rank", "images",
+ "artist_location", "news", "reviews", "songs", "terms", "urls", "video", "years_active",
