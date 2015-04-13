@@ -15,8 +15,7 @@ hide
 .env
 
 demo.html
-scratch.txt
-scratch2.rb
+scratch*
 genres_skim.rb
 genres_raw.html
 generes_by_popularity.csv
