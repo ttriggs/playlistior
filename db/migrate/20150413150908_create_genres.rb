@@ -3,7 +3,7 @@ class CreateGenres < ActiveRecord::Migration
     create_table :genres do |t|
       t.string "name", null: false
       t.string "popularity", null: false
-      t.string "category", null: false
+      t.string "group", null: false
 
       t.timestamps
     end

@@ -6,10 +6,13 @@ class SessionsController < ApplicationController
   def create
     # handle error cases...
     tokens = get_tokens
-    user_data = get_user_data(tokens["access_token"])
-binding.pry
-    user = User.find_or_create_by(username: user_data["id"])
+    user = fetch_or_create_user(get_user_data(tokens["access_token"]))
     session[:user_id] = user.id
+    session[:token] = { token: tokens["access_token"],
+                        created_at: Time.now,
+                        expires: tokens["expires_in"],
+                        refresh: tokens["refresh_token"]
+                      }
     redirect_to root_path
   end
 
@@ -25,6 +28,23 @@ binding.pry
   end
 
   private
+
+  def fetch_or_create_user(user_data)
+    user = User.find_or_create_by(email: user_data["email"],
+                                  spotify_id: user_data["id"])
+    user.spotify_link = user_data["href"]
+    user.country = user_data["country"]
+    user.name = user_data["display_name"]
+    user.image = user_data["images"].first["url"]
+    binding.pry
+    if user.save
+      flash[:info] = "Signed in successfully."
+      user
+    else
+      flash[:notice] = "Error fetching your account data"
+      failure
+    end
+  end
 
   def get_tokens
     code = params[:code]

@@ -1,6 +1,9 @@
 class User < ActiveRecord::Base
-  # # Include default devise modules. Others available are:
-  # # :confirmable, :lockable, :timeoutable and :omniauthable
-  # devise :database_authenticatable, :registerable,
-  #        :recoverable, :rememberable, :trackable, :validatable
+
+  validates :spotify_id, presence: true, uniqueness: true
+  validates :email, uniqueness: true
+
+  def admin?
+    role == "admin"
+  end
 end
