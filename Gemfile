@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+ruby "2.1.5"
+
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.0'
 # Use postgresql as the database for Active Record
@@ -51,5 +53,10 @@ gem 'shoulda-matchers', group: [:development, :test], require: false
 gem 'foundation-rails', "5.5.1.0"
 gem 'echowrap'
 gem 'httparty'
-# gem 'omniauth-spotify'
 gem 'rails_12factor', group: :production
+gem 'fog'
+gem 'fog-aws'
+gem 'carrierwave'
+gem 'mini_magick'
+
+gem 'coveralls', group: :test, require: false
