@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
+  has_many :playlists, dependent: :destroy
 
-  validates :spotify_id, presence: true, uniqueness: true
-  validates :email, uniqueness: true
+  validates :spotify_id, uniqueness: { case_sensitive: false}
 
   def admin?
     role == "admin"

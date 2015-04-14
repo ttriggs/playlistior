@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150413150908) do
+ActiveRecord::Schema.define(version: 20150414144005) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,19 +24,45 @@ ActiveRecord::Schema.define(version: 20150413150908) do
     t.datetime "updated_at"
   end
 
-  create_table "users", force: :cascade do |t|
-    t.string   "name",                          null: false
-    t.string   "email",        default: "",     null: false
-    t.string   "spotify_id",                    null: false
-    t.string   "role",         default: "user"
-    t.string   "image",        default: ""
-    t.string   "country",      default: ""
-    t.string   "spotify_link", default: ""
+  create_table "playlists", force: :cascade do |t|
+    t.string   "name",                      null: false
+    t.integer  "user_id",                   null: false
+    t.string   "spotify_id",                null: false
+    t.string   "link",                      null: false
+    t.string   "seed_artist"
+    t.string   "create_token", default: ""
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
-  add_index "users", ["name"], name: "index_users_on_name", unique: true, using: :btree
+  create_table "styles", force: :cascade do |t|
+    t.integer  "playlist_id", null: false
+    t.integer  "genre_id",    null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "styles", ["genre_id", "playlist_id"], name: "index_styles_on_genre_id_and_playlist_id", unique: true, using: :btree
+
+  create_table "tracks", force: :cascade do |t|
+    t.integer  "playlist_id", null: false
+    t.string   "uri",         null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string   "name",                          null: false
+    t.string   "email",        default: ""
+    t.string   "spotify_id",                    null: false
+    t.string   "spotify_link", default: ""
+    t.string   "image",        default: ""
+    t.string   "country",      default: ""
+    t.string   "role",         default: "user"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "users", ["spotify_id"], name: "index_users_on_spotify_id", unique: true, using: :btree
 
 end

@@ -3,10 +3,16 @@ Rails.application.routes.draw do
 
   get "/auth/:provider/callback", to: "sessions#create"
   get "/auth/failure", to: "sessions#failure"
-  # get "/auth/spotify/callback", to: "sessions#create"
+
+  resource :playlists, only: [:show, :index, :create]
+  resource :users, only: [:show]
 
   resource :session, only: [:new, :create, :destroy] do
     get "failure", on: :member
   end
 
+  # namespace :admin do
+  #   resources :users, only: [:index, :destroy]
+  #   resources :playlists, only: [:destroy]
+  # end
 end

@@ -1,6 +1,19 @@
 
-<div>
+
 <% if user_signed_in? %>
-  Signed in as <% current_user.name %>
+  Signed in as <%= current_user.name %>
+  <%= image_tag(current_user.image) %>
+
+  <div class="row">
+    <%= form_tag(playlists_path, method: 'post') do %>
+      <div class="large-8 small-8 columns" >
+        <%= text_field_tag :playlist, params[:playlist], placeholder: "Enter seed artist to begin" %>
+      </div>
+      <div class="large-4 small-3 columns">
+        <%= submit_tag "Create Playlist", class: "alert button" %>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  Sign in with spotify to get started...
 <% end %>
-</div>
