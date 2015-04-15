@@ -39,16 +39,6 @@ class Camelot
                  ["Db", 0] => 12 }
   end
 
-  def get_neighbor_params(params_array)
-    key, mode = params_array
-    key = @en_keys[key]
-    zone  = @camelot[[key, mode]]
-    close_zones = @camelot.select {|k, v| v == zone }
-    near_zones = @camelot.select {|k, v| v.between?(zone - 1, zone +1) && k[1] == mode}
-    all_zones = close_zones.merge(near_zones).keys
-    all_zones.map! {|key, mode| [@en_keys.key(key), mode] }
-  end
-
   def order_tracks
     tracklist = [take_random(@full_tracklist)]
     until tracklist.length == Playlist::SONGS_LIMIT
@@ -57,6 +47,16 @@ class Camelot
       tracklist << get_next_neighbor_song(neighbors_params)
     end
     tracklist
+  end
+
+  def get_neighbor_params(params_array)
+    key, mode = params_array
+    key = @en_keys[key]
+    zone  = @camelot[[key, mode]]
+    close_zones = @camelot.select {|k, v| v == zone }
+    near_zones = @camelot.select {|k, v| v.between?(zone - 1, zone +1) && k[1] == mode}
+    all_zones = close_zones.merge(near_zones).keys
+    all_zones.map! {|key, mode| [@en_keys.key(key), mode] }
   end
 
   def get_key_and_mode(track)
@@ -78,7 +78,6 @@ class Camelot
   def get_next_neighbor_song(neighbors_params)
     index = -1
     neighbors_params.shuffle.each do |song_params|
-    puts index
       next if index > -1
       @full_tracklist.find do |song|
         index = get_index_of_next_song(song_params) || index

@@ -9,9 +9,11 @@ class PlaylistsController < ApplicationController
     playlist = Playlist.find_or_initialize_by(user: current_user,
                                               seed_artist: params[:playlist])
     playlist.create_token = session[:token]["number"]
-    playlist.build_spotify_playlist
+    response = playlist.build_spotify_playlist
 
-    if playlist.save
+    if response["snapshot_id"]
+      playlist.snapshot_id = response["snapshot_id"]
+      playlist.save!
       flash[:notice] = "Playlist opened"
     else
       flash[:error] = "Failed to create playlist"

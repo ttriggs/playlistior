@@ -63,8 +63,26 @@ binding.pry # errorzzzz???
 
   def add_tracks
     ordered_tracklist = Camelot.new(get_full_tracklist).order_tracks
+    # Track.save_tracks(self, ordered_tracklist)
+    uri_array = build_uri_array(ordered_tracklist)
+    params = { body: { "uris"=> uri_array }.to_json,
+               headers: {"Authorization" => "Bearer #{create_token}",
+               "Content-Type" => "application/json"}
+             }
+    url = "#{user.spotify_link}/playlists/#{spotify_id}/tracks"
 
-binding.pry # build out track uri methods
+    HTTParty.post(url, params)
+  end
+
+  def build_uri_array(tracklist)
+    tracklist.map do |song|
+      song.tracks.first.foreign_id
+    end
+  end
+
+
+  def add_tracks_to_playlist
+binding.pry
   end
 
   def get_full_tracklist
@@ -74,11 +92,23 @@ binding.pry # build out track uri methods
   end
 
   def songs_by_genre(genre_name)
-    result = Echowrap.song_search(style: genre_name,
-                                  results: 100,
-                                  bucket: ["id:spotify-WW",
-                                          :song_hotttnesss,
-                                          :audio_summary, :tracks])
-    result.uniq(&:song_hotttnesss)
+    result = Echowrap.playlist_basic(genre: genre_name,
+                                     results: 13,
+                                     limit: true,
+                                     type: 'genre-radio',
+                                     bucket: ["id:spotify", :tracks])
+    # result = Echowrap.song_search(style: genre_name,
+    #                               results: 100,
+    #                               bucket: ["id:spotify-WW",
+    #                                       :song_hotttnesss,
+    #                                       :audio_summary, :tracks])
+    filter_song_search_results(result)
+  end
+
+  def filter_song_search_results(result)
+binding.pry # double check filter methods
+    result.uniq!(&:song_hotttnesss) # remove duplicates
+    result.keep_if { |song| song.tracks.present? } # make sure track is present
+binding.pry
   end
 end
