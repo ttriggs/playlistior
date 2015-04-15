@@ -85,7 +85,7 @@ binding.pry # errorzzzz???
   end
 
   def get_full_tracklist
-    build_taste_profile
+    # build_taste_profile
     genres.each_with_object(all_playlists = []) do |genre, all|
       all_playlists += songs_by_genre(genre.name)
     end
@@ -125,12 +125,6 @@ binding.pry # check response
     }
   end
 
-  def build_taste_profile
-    result = Echowrap.taste_profile_create(name: name, type: 'song')
-    id = result.id || result.to_hash[:status][:id]
-    self.update_attributes(taste_id: id)
-binding.pry  if id.nil? # add taste_id to playlist
-  end
 
   def songs_by_genre(genre_name)
     result = Echowrap.playlist_basic(genre: genre_name,
@@ -150,3 +144,12 @@ binding.pry  if id.nil? # add taste_id to playlist
     # result.keep_if { |song| song.tracks.present? } # make sure track is present
   end
 end
+
+
+
+#   def build_taste_profile
+#     result = Echowrap.taste_profile_create(name: name, type: 'song')
+#     id = result.id || result.to_hash[:status][:id]
+#     self.update_attributes(taste_id: id)
+# binding.pry  if id.nil? # add taste_id to playlist
+#   end
