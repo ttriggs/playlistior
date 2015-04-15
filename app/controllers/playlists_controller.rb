@@ -12,17 +12,10 @@ class PlaylistsController < ApplicationController
     playlist.build_spotify_playlist
 
     if playlist.save
-      playlist.record_styles_for_playlist
-      playlist.add_tracks
       flash[:notice] = "Playlist opened"
     else
       flash[:error] = "Failed to create playlist"
     end
-  end
-
-  def failure(message="")
-    flash[:alert] = "Unable to create playlist. #{message}"
-    redirect_to root_path
   end
 
   private
