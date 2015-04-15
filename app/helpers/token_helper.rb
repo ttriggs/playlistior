@@ -20,7 +20,11 @@ module TokenHelper
   end
 
   def refresh_token_if_needed
-    get_refresh_token if need_token_refresh?
+    if session[:token]
+      get_refresh_token if need_token_refresh?
+    else
+      setup_new_tokens
+    end
   end
 
   def need_token_refresh?
@@ -77,5 +81,4 @@ module TokenHelper
   def redirect_uri
     CGI.escape("http://localhost:3000/auth/spotify/callback")
   end
-
 end

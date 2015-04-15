@@ -1,6 +1,6 @@
 class SessionsController < ApplicationController
   before_action :authenticate_user!, except: [:new, :create]
-  before_action :refresh_token_if_needed
+  before_action :refresh_token_if_needed, except: [:new, :create]
 
   def new
     redirect_to spotify_auth_url
@@ -35,7 +35,7 @@ class SessionsController < ApplicationController
   def fetch_or_build_user(user_data)
     user = User.find_or_initialize_by(spotify_id: user_data["id"] )
     user.email = user_data["email"]
-    user.name  = user_data["display_name"] || email
+    user.name  = user_data["display_name"] || user.email
     user.image = get_image(user_data["images"])
     user.country = user_data["country"]
     user.spotify_link = user_data["href"]

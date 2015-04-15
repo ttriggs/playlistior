@@ -16,12 +16,13 @@ class Playlist < ActiveRecord::Base
       genre = Genre.find_by(name: genre_name)
       styles.find_or_create_by(playlist: self, genre: genre ) if genre
     end
+binding.pry if genres.empty? # genres?
   end
 
   def build_spotify_playlist
     if fresh_playlist?
-      new_playlist = fetch_playlist
-      self.name        = new_playlist["name"]
+      self.name        = "Playlistior: #{seed_artist}"
+      new_playlist     = fetch_playlist
       self.spotify_id  = new_playlist["id"]
       self.link        = new_playlist["href"]
       self.user        = user
@@ -32,12 +33,26 @@ class Playlist < ActiveRecord::Base
     end
   end
 
+  def create_empty_playlist
+    params = { json: true,
+               body: { name: name,
+                      "public" => false }.to_json,
+               headers: {"Authorization" => "Bearer #{create_token}",
+               "Content-Type" => "application/json"}
+             }
+    HTTParty.post("#{user.spotify_link}/playlists", params)
+  end
+
   def fresh_playlist?
     tracks.none?
   end
 
   def fetch_playlist
-    response = create_empty_playlist
+    handle_response { create_empty_playlist }
+  end
+
+  def handle_response(&block)
+    response = block.call
     if response["error"].present?
 binding.pry # errorzzzz???
       failure(response["error"]["message"])
@@ -51,16 +66,6 @@ binding.pry # errorzzzz???
     redirect_to root_path
   end
 
-  def create_empty_playlist
-    params = { json: true,
-               body: { name: "Playlistior: #{seed_artist}",
-                      "public" => false }.to_json,
-               headers: {"Authorization" => "Bearer #{create_token}",
-               "Content-Type" => "application/json"}
-             }
-    HTTParty.post("#{user.spotify_link}/playlists", params)
-  end
-
   def add_tracks
     ordered_tracklist = Camelot.new(get_full_tracklist).order_tracks
     # Track.save_tracks(self, ordered_tracklist)
@@ -70,7 +75,6 @@ binding.pry # errorzzzz???
                "Content-Type" => "application/json"}
              }
     url = "#{user.spotify_link}/playlists/#{spotify_id}/tracks"
-
     HTTParty.post(url, params)
   end
 
@@ -80,35 +84,69 @@ binding.pry # errorzzzz???
     end
   end
 
-
-  def add_tracks_to_playlist
+  def get_full_tracklist
+    build_taste_profile
+    genres.each_with_object(all_playlists = []) do |genre, all|
+      all_playlists += songs_by_genre(genre.name)
+    end
+    all_songs = uniquify_songs(all_playlists)
+binding.pry
+    formatted_songs_data = format_playlist_data(all_songs)
+    update_taste_profile_with_tracks(formatted_songs_data)
+    # get_all_track_data
 binding.pry
   end
 
-  def get_full_tracklist
-    genres.each_with_object([]) do |genre, array|
-      array << songs_by_genre(genre.name)
+  def update_taste_profile_with_tracks(formatted_songs_data)
+binding.pry if formatted_songs_data.nil?  #ready????
+    response = Echowrap.taste_profile_update(id: taste_id,
+                                  data: formatted_songs_data.to_json )
+    self.update_attributes(taste_ticket: response.ticket)
+binding.pry # check response
+  end
+
+  def format_playlist_data(all_songs)
+    all_songs.each_with_object(data=[]) do |song, data|
+      data << song_to_data_hash(song)
     end
+  end
+
+  def song_to_data_hash(song)
+    { item: {
+              # song_id: song.tracks.first.id,
+              # song_name: song.title,
+              track_id: song.tracks.first.foreign_id,
+              item_keyvalues: { spotify_track_id: song.tracks.first.foreign_id }
+              # favorite: false
+              # banned: false
+              # play_count: 0
+              # skip_count: 0
+            }
+    }
+  end
+
+  def build_taste_profile
+    result = Echowrap.taste_profile_create(name: name, type: 'song')
+    id = result.id || result.to_hash[:status][:id]
+    self.update_attributes(taste_id: id)
+binding.pry  if id.nil? # add taste_id to playlist
   end
 
   def songs_by_genre(genre_name)
     result = Echowrap.playlist_basic(genre: genre_name,
-                                     results: 13,
+                                     results: 100,
                                      limit: true,
                                      type: 'genre-radio',
-                                     bucket: ["id:spotify", :tracks])
-    # result = Echowrap.song_search(style: genre_name,
-    #                               results: 100,
-    #                               bucket: ["id:spotify-WW",
-    #                                       :song_hotttnesss,
-    #                                       :audio_summary, :tracks])
-    filter_song_search_results(result)
+                                     bucket: ["id:spotify",
+                                              :song_type,
+                                              :tracks
+                                              ]
+                                    )
   end
 
-  def filter_song_search_results(result)
-binding.pry # double check filter methods
-    result.uniq!(&:song_hotttnesss) # remove duplicates
-    result.keep_if { |song| song.tracks.present? } # make sure track is present
-binding.pry
+  def uniquify_songs(all_songs)
+    all_songs.uniq! {|song| song.tracks.first.id }
+    # result.uniq!(&:song_hotttnesss) # remove duplicates
+    # result.keep_if { |song| song.tracks.present? } # make sure track is present
   end
 end

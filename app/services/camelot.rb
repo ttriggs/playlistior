@@ -1,6 +1,6 @@
 class Camelot
   def initialize(full_tracklist)
-    @full_tracklist = full_tracklist.flatten
+    @full_tracklist = full_tracklist
     @en_keys  = { 0 => "C",
                   1 => "Db",
                   2 => "D",

@@ -31,6 +31,8 @@ ActiveRecord::Schema.define(version: 20150414144005) do
     t.string   "link",                      null: false
     t.string   "seed_artist"
     t.string   "create_token", default: ""
+    t.string   "taste_id",     default: ""
+    t.string   "taste_ticket", default: ""
     t.datetime "created_at"
     t.datetime "updated_at"
   end
