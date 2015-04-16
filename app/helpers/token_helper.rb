@@ -79,6 +79,6 @@ module TokenHelper
   end
 
   def redirect_uri
-    CGI.escape("http://localhost:3000/auth/spotify/callback")
+    CGI.escape("https://playlistior.herokuapp.com/auth/spotify/callback")
   end
 end
