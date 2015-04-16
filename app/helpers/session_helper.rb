@@ -8,7 +8,7 @@ module SessionHelper
   end
 
   def user_signed_in?
-    current_user && session[:token]["number"]
+    current_user && !need_token_refresh?
   end
 
   def current_user

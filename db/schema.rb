@@ -11,28 +11,43 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150414144005) do
+ActiveRecord::Schema.define(version: 20150415220247) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "genres", force: :cascade do |t|
-    t.string   "name",       null: false
-    t.string   "popularity", null: false
-    t.string   "group",      null: false
+  create_table "assignments", force: :cascade do |t|
+    t.integer  "track_id",    null: false
+    t.integer  "playlist_id", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
+  add_index "assignments", ["track_id", "playlist_id"], name: "index_assignments_on_track_id_and_playlist_id", unique: true, using: :btree
+
+  create_table "genres", force: :cascade do |t|
+    t.integer  "group_id",   null: false
+    t.string   "name",       null: false
+    t.string   "popularity", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "groups", force: :cascade do |t|
+    t.string "name", null: false
+  end
+
   create_table "playlists", force: :cascade do |t|
-    t.string   "name",                      null: false
-    t.integer  "user_id",                   null: false
-    t.string   "spotify_id",                null: false
-    t.string   "link",                      null: false
+    t.string   "name",                       null: false
+    t.integer  "user_id",                    null: false
+    t.string   "spotify_id",                 null: false
+    t.string   "link",                       null: false
     t.string   "seed_artist"
-    t.string   "create_token", default: ""
-    t.string   "taste_id",     default: ""
-    t.string   "taste_ticket", default: ""
+    t.integer  "assignment_id"
+    t.string   "snapshot_id"
+    t.string   "create_token",  default: ""
+    t.string   "taste_id",      default: ""
+    t.string   "taste_ticket",  default: ""
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -47,8 +62,18 @@ ActiveRecord::Schema.define(version: 20150414144005) do
   add_index "styles", ["genre_id", "playlist_id"], name: "index_styles_on_genre_id_and_playlist_id", unique: true, using: :btree
 
   create_table "tracks", force: :cascade do |t|
-    t.integer  "playlist_id", null: false
-    t.string   "uri",         null: false
+    t.integer  "group_id",       null: false
+    t.string   "artist_name",    null: false
+    t.string   "echonest_id",    null: false
+    t.string   "spotify_id",     null: false
+    t.string   "title",          null: false
+    t.integer  "key"
+    t.integer  "mode"
+    t.float    "energy"
+    t.float    "liveness"
+    t.float    "tempo"
+    t.integer  "time_signature"
+    t.float    "danceability"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

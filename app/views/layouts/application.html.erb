@@ -16,7 +16,7 @@
 
     <section class="top-bar-section">
       <ul class="right">
-        <%- if current_user -%>
+        <%- if user_signed_in? -%>
           <li><%= link_to 'Sign Out', session_path, method: :delete %></li>
         <%- else -%>
           <li><%= link_to 'Log In with Spotify', new_session_path %></li>

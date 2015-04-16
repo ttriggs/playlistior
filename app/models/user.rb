@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-  has_many :playlists, dependent: :destroy
+  has_many :playlists
 
   validates :spotify_id, uniqueness: { case_sensitive: false}
 

@@ -13,7 +13,7 @@ class Camelot
                   9 => "A",
                   10 => "Bb",
                   11 => "B" } # echonest-specific key naming
-    @camelot = { ["B", 1] => 1,
+    @circle = { ["B", 1] => 1,
                  ["Ab", 0] => 1,
                  ["F#", 1] => 2,
                  ["Eb", 0] => 2,
@@ -41,10 +41,11 @@ class Camelot
 
   def order_tracks
     tracklist = [take_random(@full_tracklist)]
+
     until tracklist.length == Playlist::SONGS_LIMIT
-      last_song_params  = get_key_and_mode(tracklist.last)
+      last_song_params = get_key_and_mode(tracklist.last)
       neighbors_params = get_neighbor_params(last_song_params)
-      tracklist << get_next_neighbor_song(neighbors_params)
+      tracklist << get_next_song(neighbors_params)
     end
     tracklist
   end
@@ -52,15 +53,18 @@ class Camelot
   def get_neighbor_params(params_array)
     key, mode = params_array
     key = @en_keys[key]
-    zone  = @camelot[[key, mode]]
-    close_zones = @camelot.select {|k, v| v == zone }
-    near_zones = @camelot.select {|k, v| v.between?(zone - 1, zone +1) && k[1] == mode}
+    zone  = @circle[[key, mode]]
+binding.pry if zone.nil?
+    close_zones = @circle.select {|_key, circle_zone| circle_zone == zone }
+    near_zones = @circle.select do |key, circle_zone|
+      circle_zone.between?(zone - 1, zone +1) && key[1] == mode
+    end
     all_zones = close_zones.merge(near_zones).keys
     all_zones.map! {|key, mode| [@en_keys.key(key), mode] }
   end
 
   def get_key_and_mode(track)
-    track.audio_summary.to_hash.values_at(:key, :mode)
+    track.audio_summary.to_hash.values_at("key", "mode")
   end
 
   def take_random(array)
@@ -75,15 +79,20 @@ class Camelot
     end
   end
 
-  def get_next_neighbor_song(neighbors_params)
-    index = -1
+  def get_next_song(neighbors_params)
+    index = get_next_song_index(neighbors_params)
+    @full_tracklist.delete_at(index)
+  end
+
+  def get_next_song_index(neighbors_params)
+    index = -1 # take last if no match
     neighbors_params.shuffle.each do |song_params|
-      next if index > -1
       @full_tracklist.find do |song|
         index = get_index_of_next_song(song_params) || index
       end
+      return index if index > -1
     end
-    next_song = @full_tracklist.delete_at(index)
+    index
   end
 end
 

@@ -1,6 +1,6 @@
 class PlaylistsController < ApplicationController
   before_action :authenticate_user!
-  before_action :refresh_token_if_needed
+  before_action :refresh_token_if_needed, except: [:show]
 
   def index
   end
@@ -17,8 +17,14 @@ class PlaylistsController < ApplicationController
       flash[:notice] = "Playlist opened"
     else
       flash[:error] = "Failed to create playlist"
+      render :root
     end
     redirect_to @playlist
+  end
+
+
+  def show
+    @playlist = Playlist.find(params[:id])
   end
 
   private
