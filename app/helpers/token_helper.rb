@@ -2,6 +2,7 @@ module TokenHelper
 
   def setup_new_tokens
     code = params[:code]
+binding.pry if code.nil?
     params =  { body: { grant_type: "authorization_code",
                         code: code,
                         redirect_uri: redirect_uri },
@@ -29,7 +30,7 @@ binding.pry if tokens["error"] # WHYYYYYY!?
   end
 
   def need_token_refresh?
-    if session[:token]
+    if session[:token]["refresh"]
       expires    = session[:token]["expires"]
       token_created = session[:token]["created_at"]
       seconds_diff  = (Time.now - Time.parse(token_created)).to_i
@@ -76,7 +77,7 @@ binding.pry if tokens["error"] # WHYYYYYY!?
   end
 
   def scope
-    CGI.escape("user-read-email user-read-private playlist-modify-public playlist-read-public")
+    CGI.escape("user-read-email user-read-private playlist-modify-private playlist-read-private")
   end
 
   def redirect_uri

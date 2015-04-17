@@ -7,6 +7,8 @@ class Playlist < ActiveRecord::Base
 
   belongs_to :user
 
+  validates :seed_artist, presence: true
+
   def get_music_styles
     response = Echowrap.artist_search(results: 1,
                                       limit: true,

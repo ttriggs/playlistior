@@ -31,7 +31,13 @@
     </div>
   <%- end -%>
 
-  <%= yield %>
+  <div class="row">
+    <div class="large-12 columns">
+
+    <%= yield %>
+
+    </div>
+  </div>
 
   <%= javascript_include_tag 'application' %>
   <%= yield :extra_footer %>

@@ -2,7 +2,9 @@
 
 <% if user_signed_in? %>
   Signed in as <%= current_user.name %>
-  <%= image_tag(current_user.image_link) %>
+  <div id="user-image">
+    <%= image_tag current_user.image_link  %>
+  </div>
 
   <div class="row">
     <%= form_tag(playlists_path, method: 'post') do %>
@@ -14,6 +16,9 @@
       </div>
     <% end %>
   </div>
+
 <% else %>
+
   Sign in with spotify to get started...
+
 <% end %>

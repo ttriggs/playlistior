@@ -9,7 +9,7 @@ class User < ActiveRecord::Base
   end
 
   def default_image
-    asset_path( 'default_images/profile_default.png' )
+    'default_images/profile_default.png'
   end
 
 end

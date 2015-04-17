@@ -44,9 +44,7 @@ binding.pry unless user.valid?
   end
 
   def get_image(images)
-    if images.nil?
-      "asset_path( 'default_images/profile_default.png' )"
-    else
+    unless images.empty?
       images.first["url"]
     end
   end
