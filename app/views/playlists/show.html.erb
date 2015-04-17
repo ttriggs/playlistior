@@ -1,12 +1,15 @@
 
-
-your playlist:
-inspired by <%= @playlist.seed_artist %>
-built by Playlistior
+<div class="row">
+  your playlist:
+  inspired by <%= @playlist.seed_artist %>
+  built by Playlistior
+</div>
 <%# binding.pry %>
 <!-- <iframe src="https://embed.spotify.com/?uri=3TYcBfCMyC1TAygvk0c0Hj&view=coverart" frameborder="0" allowtransparency="true"></iframe>
 https://play.spotify.com/user/12183247335/playlist/3TYcBfCMyC1TAygvk0c0Hj
 <iframe src="https://embed.spotify.com/?uri=spotify%3Auser%3A12183247335%3Aplaylist%3A3TYcBfCMyC1TAygvk0c0Hj" width="300" height="380" frameborder="0" allowtransparency="true"></iframe>
 
  -->
+ <div class="row">
  <iframe src=<%= @playlist.spotify_embed %> frameborder="0" allowtransparency="true" width="300" height="380"></iframe>
+</div>
