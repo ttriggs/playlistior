@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150415220247) do
+ActiveRecord::Schema.define(version: 20150416203439) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -83,7 +83,7 @@ ActiveRecord::Schema.define(version: 20150415220247) do
     t.string   "email",        default: ""
     t.string   "spotify_id",                    null: false
     t.string   "spotify_link", default: ""
-    t.string   "image",        default: ""
+    t.string   "image"
     t.string   "country",      default: ""
     t.string   "role",         default: "user"
     t.datetime "created_at"

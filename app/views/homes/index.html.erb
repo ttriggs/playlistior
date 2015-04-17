@@ -2,7 +2,7 @@
 
 <% if user_signed_in? %>
   Signed in as <%= current_user.name %>
-  <%= image_tag(current_user.image) %>
+  <%= image_tag(current_user.image_link) %>
 
   <div class="row">
     <%= form_tag(playlists_path, method: 'post') do %>

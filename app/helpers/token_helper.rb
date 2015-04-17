@@ -8,6 +8,7 @@ module TokenHelper
                headers: { "Authorization" => "Basic #{encoded_id_and_secret}"}
               }
     tokens = post_for_new_token(params)
+binding.pry if tokens["error"] # WHYYYYYY!?
     add_token_to_session(tokens)
   end
 
@@ -75,11 +76,10 @@ module TokenHelper
   end
 
   def scope
-    CGI.escape("user-read-email user-read-private playlist-modify-private playlist-read-private")
+    CGI.escape("user-read-email user-read-private playlist-modify-public playlist-read-public")
   end
 
   def redirect_uri
-    # CGI.escape("https://playlistior.herokuapp.com/auth/spotify/callback")
-    CGI.escape("http://localhost:3000/auth/spotify/callback")
+    ENV['SPOTIFY_CALLBACK_URI']
   end
 end

@@ -10,6 +10,7 @@ class SessionsController < ApplicationController
     # handle error cases...
     setup_new_tokens
     user = fetch_or_build_user(get_user_data)
+binding.pry unless user.valid?
     if user.save
       session[:user_id] = user.id
       flash[:info] = "Signed in successfully."
@@ -43,8 +44,8 @@ class SessionsController < ApplicationController
   end
 
   def get_image(images)
-    if images.empty?
-      Rails.root.join("app/assets/images/default_images/profile_default.png")
+    if images.nil?
+      "asset_path( 'default_images/profile_default.png' )"
     else
       images.first["url"]
     end
