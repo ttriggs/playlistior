@@ -9,38 +9,49 @@ class PlaylistsController < ApplicationController
   def create
     @playlist = Playlist.find_or_initialize_by(user: current_user,
                                                seed_artist: params[:playlist])
-    validate_playlist
-
-    response = @playlist.build_spotify_playlist
-
-    if response["snapshot_id"]
+    if @playlist.valid? # either old playlist or they actually entered a seed artist
+      response = @playlist.build_spotify_playlist
       @playlist.snapshot_id = response["snapshot_id"]
       @playlist.save!
       flash[:notice] = "Playlist opened"
       redirect_to @playlist
-    else
-      flash[:error] = "Failed to create playlist"
-      flash[:error] += response
+    else # nil user or seed artist
+      flash[:error] = @playlist.errors.full_messages
       @playlist.destroy
       render "homes/index"
     end
   end
 
+
   def show
     @playlist = Playlist.find(params[:id])
   end
+end
+  # def validated_playlist?
+  #   if !@playlist.valid?
+  #     @response = @playlist.errors.full_messages
+  #   else
+  #     true
+  #   end
+  # end
 
-  def validate_playlist
-    # binding.pry
-    if !@playlist.valid?
-      flash[:error] = @playlist.errors.full_messages
-      redirect_to root_path
-    end
-  end
-
-  private
+  # private
 
   # def playlist_params
   #   params.require(:playlist).permit(:seed_artist)
   # end
-end
+#     if @playlist.valid?
+#       response = @playlist.build_spotify_playlist
+#     else
+#       flash[:error] = @playlist.errors.full_messages
+#     end
+# binding.pry
+#     if response["snapshot_id"]
+#       @playlist.snapshot_id = response["snapshot_id"]
+#       @playlist.save!
+#       flash[:notice] = "Playlist opened"
+#       redirect_to @playlist
+#     else
+#       @playlist.destroy
+#       render "homes/index"
+#     end
