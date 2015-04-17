@@ -1,0 +1,21 @@
+
+
+<h3 id="your-playlists">Your Playlistiors:</h3>
+
+<% @playlists.where(user_id: current_user.id).each do |playlist| %>
+  <ul>
+    <li>
+      <%= link_to playlist.seed_artist, playlist %>
+    </li>
+  </ul>
+<% end %>
+
+<h3 id="their-playlists">Their Playlistiors:</h3>
+
+<% @playlists.where.not(user_id: current_user.id).each do |playlist| %>
+  <ul>
+    <li>
+      <%= link_to playlist.seed_artist, playlist %>
+    </li>
+  </ul>
+<% end %>

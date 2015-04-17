@@ -3,12 +3,14 @@ class PlaylistsController < ApplicationController
   before_action :refresh_token_if_needed, except: [:show]
 
   def index
+    @playlists = Playlist.all
   end
 
   def create
-    @playlist = Playlist.find_or_initialize_by(seed_artist: params[:playlist])
+    @playlist = Playlist.find_or_initialize_by(user: current_user,
+                                               seed_artist: params[:playlist])
     validate_playlist
-    # @playlist.create_token = session[:token]["number"]
+
     response = @playlist.build_spotify_playlist
 
     if response["snapshot_id"]
@@ -18,20 +20,21 @@ class PlaylistsController < ApplicationController
       redirect_to @playlist
     else
       flash[:error] = "Failed to create playlist"
+      flash[:error] += response
+      @playlist.destroy
       render "homes/index"
     end
   end
-
 
   def show
     @playlist = Playlist.find(params[:id])
   end
 
   def validate_playlist
-    binding.pry
+    # binding.pry
     if !@playlist.valid?
       flash[:error] = @playlist.errors.full_messages
-      render "homes/index"
+      redirect_to root_path
     end
   end
 
