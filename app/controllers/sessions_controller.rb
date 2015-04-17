@@ -7,16 +7,16 @@ class SessionsController < ApplicationController
   end
 
   def create
-    # handle error cases...
     setup_new_tokens
-    user = fetch_or_build_user(get_user_data)
-binding.pry unless user.valid?
+    user = User.fetch_or_build_user(session)
+binding.pry if !user.valid?
     if user.save
       session[:user_id] = user.id
       flash[:info] = "Signed in successfully."
       redirect_to root_path
     else
-      failure
+      flash[:alert] = "Unable to sign in."
+      redirect_to root_path
     end
   end
 
@@ -26,28 +26,21 @@ binding.pry unless user.valid?
     redirect_to root_path
   end
 
-  def failure
-    flash[:alert] = "Unable to sign in."
-    redirect_to root_path
-  end
-
   private
 
-  def fetch_or_build_user(user_data)
-    user = User.find_or_initialize_by(spotify_id: user_data["id"] )
-    user.email = user_data["email"]
-    user.name  = user_data["display_name"] || user.email
-    user.image = get_image(user_data["images"])
-    user.country = user_data["country"]
-    user.spotify_link = user_data["href"]
-    user.token = session[:token]["number"]
+  # def fetch_or_build_user(user_data)
+  #   user = User.find_or_initialize_by(spotify_id: user_data["id"] )
+  #   user.email = user_data["email"]
+  #   user.name  = user_data["display_name"] || user.email
+  #   user.image = get_image(user_data["images"])
+  #   user.country = user_data["country"]
+  #   user.spotify_link = user_data["href"]
+  #   user
+  # end
 
-    user
-  end
-
-  def get_image(images)
-    unless images.empty?
-      images.first["url"]
-    end
-  end
+  # def get_image(images)
+  #   unless images.empty?
+  #     images.first["url"]
+  #   end
+  # end
 end
