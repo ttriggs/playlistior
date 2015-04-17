@@ -16,20 +16,19 @@
 
     <section class="top-bar-section">
       <ul class="right">
-        <%- if user_signed_in? -%>
+        <% if user_signed_in? -%>
+          <li><%= link_to 'Browse Playlists', playlists_path %></li>
           <li><%= link_to 'Sign Out', session_path, method: :delete %></li>
-        <%- else -%>
-          <li><%= link_to 'Log In with Spotify', new_session_path %></li>
-        <%- end -%>
+        <% end %>
       </ul>
     </section>
   </nav>
 
-  <%- flash.each do |key, value| -%>
+  <% flash.each do |key, value| -%>
     <div class="flash flash-<%= key %>">
       <%= value %>
     </div>
-  <%- end -%>
+  <% end %>
 
   <div class="row">
     <div class="large-12 columns">
