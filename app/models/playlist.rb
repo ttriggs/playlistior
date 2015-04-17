@@ -139,8 +139,6 @@ binding.pry if unique_songs.nil? # NILL???
 
   def uniquify_songs(all_songs)
     all_songs.uniq {|song| song.tracks.first.id }
-    # result.uniq!(&:song_hotttnesss) # remove duplicates
-    # result.keep_if { |song| song.tracks.present? } # make sure track is present
   end
 
   def handle_response(&block)
@@ -148,58 +146,8 @@ binding.pry if unique_songs.nil? # NILL???
     if response["error"].present?
 binding.pry # errorzzzz???
       [ response["error"]["message"] ]
-      # failure(response["error"]["message"])
     else
       response
     end
   end
 end
-
-  # def failure(message="")
-  #   flash[:alert] = "Unable to create playlist. #{message}"
-  #   redirect_to root_path
-  # end
-
-  # def batch_in_hash(batch_songs_data)
-  #   batch_songs_data.each_with_object(data = {}) do |song|
-  #     hashed = { song["id"] => song["audio_summary"] }
-  #     data.merge!(hashed)
-  #   end
-  # end
-
-#   def update_taste_profile_with_tracks(formatted_songs_data)
-# binding.pry if formatted_songs_data.nil?  #ready????
-#     response = Echowrap.taste_profile_update(id: taste_id,
-#                                   data: formatted_songs_data.to_json )
-#     self.update_attributes(taste_ticket: response.ticket)
-# binding.pry # check response
-#   end
-
-
-  # def song_to_data_hash(song)
-  #   { item: {
-  #             # song_id: song.tracks.first.id,
-  #             # song_name: song.title,
-  #             track_id: song.tracks.first.foreign_id,
-  #             item_keyvalues: { spotify_track_id: song.tracks.first.foreign_id }
-  #             # favorite: false
-  #             # banned: false
-  #             # play_count: 0
-  #             # skip_count: 0
-  #           }
-  #   }
-  # end
-
-  # def format_playlist_data(all_songs)
-  #   all_songs.each_with_object(data=[]) do |song, data|
-  #     data << song_to_data_hash(song)
-  #   end
-  # end
-
-
-#   def build_taste_profile
-#     result = Echowrap.taste_profile_create(name: name, type: 'song')
-#     id = result.id || result.to_hash[:status][:id]
-#     self.update_attributes(taste_id: id)
-# binding.pry  if id.nil? # add taste_id to playlist
-#   end
