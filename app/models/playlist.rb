@@ -24,25 +24,28 @@ binding.pry if genres.empty? # genres wuhh??
 
   def build_spotify_playlist
     if fresh_playlist?
-      self.name        = "Playlistior: #{seed_artist}"
-      new_playlist     = fetch_playlist
-      self.spotify_id  = new_playlist["id"]
-      self.user        = user
-      self.link        = new_playlist["href"]
-      self.seed_artist = seed_artist
-      self.save! # to have playlist id ready for genre/style linking
-      get_music_styles
-      add_tracks
+      self.name = "Playlistior: #{seed_artist}"
+      self.user = user
+      response  = make_new_playlist # how: get error to view from here??
+      if response["id"] # if didn't fail...
+        self.spotify_id  = response["id"]
+        self.link        = response["href"]
+        self.seed_artist = seed_artist
+        self.save! # to have playlist id ready for genre/style linking
+        get_music_styles
+        add_tracks
+      else
+        response
+      end
     end
   end
 
-  def spotify_embed
-    "https://embed.spotify.com/?uri=spotify:user:#{user.spotify_id}:playlist:#{spotify_id}"
+  def make_new_playlist
+    handle_response { create_empty_playlist }
   end
 
   def create_empty_playlist
-binding.pry # check token
-    token = session[:token]["number"]
+    token = user.session_token
     params = { json: true,
                body: { name: name,
                       "public" => false }.to_json,
@@ -53,35 +56,19 @@ binding.pry # check token
   end
 
   def fresh_playlist?
-    tracks.none?
-  end
-
-  def fetch_playlist
-    handle_response { create_empty_playlist }
-  end
-
-  def handle_response(&block)
-    response = block.call
-    if response["error"].present?
-binding.pry # errorzzzz???
-      failure(response["error"]["message"])
-    else
-      response
-    end
-  end
-
-  def failure(message="")
-    flash[:alert] = "Unable to create playlist. #{message}"
-    redirect_to root_path
+    snapshot_id.nil?
   end
 
   def add_tracks
-    token = session[:token]["number"]
     ordered_tracklist = Camelot.new(get_full_tracklist).order_tracks
     # Track.save_tracks(get_full_tracklist, genres.first.group_id)
     uri_array = build_uri_array(ordered_tracklist)
+    post_tracks_to_spotify(uri_array)
+  end
+
+  def post_tracks_to_spotify(uri_array)
     params = { body: { "uris"=> uri_array }.to_json,
-               headers: {"Authorization" => "Bearer #{token}",
+               headers: {"Authorization" => "Bearer #{user.session_token}",
                "Content-Type" => "application/json"}
              }
     url = "#{user.spotify_link}/playlists/#{spotify_id}/tracks"
@@ -99,13 +86,12 @@ binding.pry # errorzzzz???
       all_playlists += songs_by_genre(genre.name)
     end
     unique_songs = uniquify_songs(all_playlists)
-binding.pry if unique_songs.nil? #NILL???
-    get_audio_summaries(unique_songs)
+binding.pry if unique_songs.nil? # NILL???
+    stitch_in_audio_summaries(unique_songs)
   end
 
-  def get_audio_summaries(unique_songs)
+  def stitch_in_audio_summaries(unique_songs)
     key = ENV['ECHONEST_API_KEY']
-
     base_url = "http://developer.echonest.com/api/v4/song/profile?"
     unique_songs.each_slice(20).with_object(complete_songs = []) do |song_batch|
       url = "#{base_url}api_key=#{key}&format=json&"
@@ -127,7 +113,6 @@ binding.pry if unique_songs.nil? #NILL???
     end
   end
 
-
   def songs_to_track_id_string(unique_songs)
     unique_songs.map do |song|
       "track_id=" + song.tracks.first.foreign_id
@@ -146,12 +131,34 @@ binding.pry if unique_songs.nil? #NILL???
                                     )
   end
 
+  def spotify_embed
+    "https://embed.spotify.com/?uri=spotify:user:#{user.spotify_id}:playlist:#{spotify_id}"
+  end
+
+  private
+
   def uniquify_songs(all_songs)
     all_songs.uniq {|song| song.tracks.first.id }
     # result.uniq!(&:song_hotttnesss) # remove duplicates
     # result.keep_if { |song| song.tracks.present? } # make sure track is present
   end
+
+  def handle_response(&block)
+    response = block.call
+    if response["error"].present?
+binding.pry # errorzzzz???
+      [ response["error"]["message"] ]
+      # failure(response["error"]["message"])
+    else
+      response
+    end
+  end
 end
+
+  # def failure(message="")
+  #   flash[:alert] = "Unable to create playlist. #{message}"
+  #   redirect_to root_path
+  # end
 
   # def batch_in_hash(batch_songs_data)
   #   batch_songs_data.each_with_object(data = {}) do |song|
