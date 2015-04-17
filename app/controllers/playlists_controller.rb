@@ -8,7 +8,7 @@ class PlaylistsController < ApplicationController
   def create
     @playlist = Playlist.find_or_initialize_by(seed_artist: params[:playlist])
     validate_playlist
-    @playlist.create_token = session[:token]["number"]
+    # @playlist.create_token = session[:token]["number"]
     response = @playlist.build_spotify_playlist
 
     if response["snapshot_id"]

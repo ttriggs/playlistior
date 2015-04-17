@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150416203439) do
+ActiveRecord::Schema.define(version: 20150417014503) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,7 +45,6 @@ ActiveRecord::Schema.define(version: 20150416203439) do
     t.string   "seed_artist"
     t.integer  "assignment_id"
     t.string   "snapshot_id"
-    t.string   "create_token",  default: ""
     t.string   "taste_id",      default: ""
     t.string   "taste_ticket",  default: ""
     t.datetime "created_at"

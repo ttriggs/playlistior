@@ -41,10 +41,12 @@ binding.pry if genres.empty? # genres wuhh??
   end
 
   def create_empty_playlist
+binding.pry # check token
+    token = session[:token]["number"]
     params = { json: true,
                body: { name: name,
                       "public" => false }.to_json,
-               headers: {"Authorization" => "Bearer #{create_token}",
+               headers: {"Authorization" => "Bearer #{token}",
                "Content-Type" => "application/json"}
              }
     HTTParty.post("#{user.spotify_link}/playlists", params)
@@ -74,12 +76,12 @@ binding.pry # errorzzzz???
   end
 
   def add_tracks
-    # full_tracklist = get_full_tracklist
+    token = session[:token]["number"]
     ordered_tracklist = Camelot.new(get_full_tracklist).order_tracks
     # Track.save_tracks(get_full_tracklist, genres.first.group_id)
     uri_array = build_uri_array(ordered_tracklist)
     params = { body: { "uris"=> uri_array }.to_json,
-               headers: {"Authorization" => "Bearer #{create_token}",
+               headers: {"Authorization" => "Bearer #{token}",
                "Content-Type" => "application/json"}
              }
     url = "#{user.spotify_link}/playlists/#{spotify_id}/tracks"

@@ -40,6 +40,8 @@ binding.pry unless user.valid?
     user.image = get_image(user_data["images"])
     user.country = user_data["country"]
     user.spotify_link = user_data["href"]
+    user.token = session[:token]["number"]
+
     user
   end
 
