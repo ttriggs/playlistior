@@ -1,5 +1,7 @@
 class Track < ActiveRecord::Base
   belongs_to :group
+  has_many :playlists
+  has_many :assignments
 
   def self.save_tracks(tracklist, group_id)
 
