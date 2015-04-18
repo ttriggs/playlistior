@@ -15,3 +15,13 @@
  *= require foundation_and_overrides
 
  */
+
+/* ***************************************************
+ *               OPTION ONe :: SCROLL LIST         *
+ *****************************************************/
+.top-bar-section .has-dropdown.not-click:hover>.dropdown.scroll-list{
+  height: 300px !important;
+  /* Forced to use !important to overwrite Foundation styles */
+  overflow: scroll;
+}
+
