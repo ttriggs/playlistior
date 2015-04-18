@@ -1,5 +1,7 @@
 
-
-<%= binding.pry %>
-<h1 class="show-title"><%= genre.name.titleize %></h1>
-
+<h1 class="show-title"><%= @genre.name.titleize %></h1>
+<ul>
+  <% @genre.playlists.each do |playlist| %>
+    <li><%= link_to playlist.name.titleize, playlist_path(playlist) %> </li>
+  <% end %>
+</ul>

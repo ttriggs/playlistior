@@ -1,56 +1,18 @@
 
 <div class="row">
   your playlist:
-  inspired by <%= @playlist.seed_artist %>
+  inspired by <%= @playlist.seed_artist.titleize %>
   built by Playlistior
 </div>
  <div class="row">
  <iframe src=<%= @playlist.spotify_embed %> frameborder="0" allowtransparency="true" width="300" height="380"></iframe>
 </div>
 
-<ul>
-  <li class="has-dropdown">
-    <a href="#">By Genre</a>
-    <ul class="dropdown scroll-list">
-    <% all_genres_in_use.each do |genre| %>
-      <li> <%= link_to genre.name.titleize, genre_path(genre) %> </li>
-    <% end %>
-    </ul>
-  </li>
+<a href="#" class="button" data-dropdown="hover1" data-options="is_hover:true; hover_timeout:5000">Search by Genre &raquo;</a>
+<ul id="hover1" class="medium f-dropdown" data-dropdown-content>
+  <% all_genres_in_use.each do |genre| %>
+    <% color = genre.group.rgb.tr('()','').gsub(/ /,", ") %>
+    <li> <%= link_to genre.name.titleize, genre_path(genre), { style: "background-color:rgba(#{color}, 0.4)" , class: "css-class" } %> </li>
+  <% end %>
 </ul>
 
-<!--
-
-<div class="contain-to-grid sticky">
-  <nav class="top-bar" data-topbar role="navigation">
-    <ul class="title-area">
-      <li class="name"></li>
-      <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
-    </ul>
-
-    <section class="top-bar-section">
-      <ul class="right">
-
-
-         <li class="has-dropdown">
-          <a href="#">Option One Scroll List</a>
-          <ul class="dropdown scroll-list">
-            <li><a href="#">First Link in Option One</a></li>
-            <li><a href="#">Second Link in Option One</a></li>
-            <li><a href="#">Third Link in Option One</a></li>
-            <li><a href="#">Fourth Link in Option One</a></li>
-            <li><a href="#">Fifth Link in Option One</a></li>
-            <li><a href="#">Sixth Link in Option One</a></li>
-            <li><a href="#">Seventh Link in Option One</a></li>
-            <li><a href="#">Eighth Link in Option One</a></li>
-            <li><a href="#">Ninth Link in Option One</a></li>
-            <li><a href="#">Tenth Link in Option One</a></li>
-          </ul>
-        </li>
-
-      </ul>
-    </section>
-  </nav>
-</div>
-<div>
- -->
