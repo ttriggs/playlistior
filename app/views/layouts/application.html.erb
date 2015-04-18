@@ -7,11 +7,12 @@
 </head>
 <body>
 
-  <nav class="top-bar">
+  <nav class="top-bar"  data-topbar>
     <ul class="title-area">
       <li class="name">
         <h1><a href="/">Playlistior</a></h1>
       </li>
+      <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
     </ul>
 
     <section class="top-bar-section">
@@ -19,6 +20,8 @@
         <% if user_signed_in? -%>
           <li><%= link_to 'Browse Playlists', playlists_path %></li>
           <li><%= link_to 'Sign Out', session_path, method: :delete %></li>
+        <% else %>
+          <li><%= link_to 'Sign In', new_session_path %></li>
         <% end %>
       </ul>
     </section>
@@ -42,3 +45,4 @@
   <%= yield :extra_footer %>
 </body>
 </html>
+
