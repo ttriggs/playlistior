@@ -38,6 +38,15 @@
 
     <%= yield %>
 
+  <a href="#" class="button" data-dropdown="hover1" data-options="is_hover:true; hover_timeout:5000">Search by Genre &raquo;</a>
+  <ul id="hover1" class="medium f-dropdown" data-dropdown-content>
+    <% all_genres_in_use.sort_by(&:group_id).each do |genre| %>
+      <% color = genre.group.rgb.tr('()','').gsub(/ /,", ") %>
+      <li> <%= link_to genre.name.titleize, genre_path(genre), { style: "background-color:rgba(#{color}, 0.4)" , class: "css-class" } %> </li>
+    <% end %>
+  </ul>
+
+
     </div>
   </div>
 
