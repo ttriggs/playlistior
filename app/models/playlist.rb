@@ -150,4 +150,9 @@ binding.pry # errorzzzz???
       response
     end
   end
+
+  def self.get_genres_in_use
+    Playlist.all
+  end
+
 end
