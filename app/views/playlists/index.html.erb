@@ -5,7 +5,7 @@
 <% @playlists.where(user_id: current_user.id).each do |playlist| %>
   <ul>
     <li>
-      <%= link_to playlist.seed_artist, playlist %>
+      <%= link_to playlist.seed_artist.titleize, playlist %>
     </li>
   </ul>
 <% end %>
@@ -15,7 +15,7 @@
 <% @playlists.where.not(user_id: current_user.id).each do |playlist| %>
   <ul>
     <li>
-      <%= link_to playlist.seed_artist, playlist %>
+      <%= link_to playlist.seed_artist.titleize, playlist %>
     </li>
   </ul>
 <% end %>
