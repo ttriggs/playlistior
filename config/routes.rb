@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   get "/auth/failure", to: "sessions#failure"
 
   resources :playlists, only: [:show, :index, :create]
+  resources :genres, only: [:show]
   resources :users, only: [:show]
 
   resource :session, only: [:new, :create, :destroy] do
