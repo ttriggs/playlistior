@@ -7,18 +7,20 @@ class PlaylistsController < ApplicationController
   end
 
   def create
-    @playlist = Playlist.find_or_initialize_by(user: current_user,
-                                               seed_artist: params[:playlist])
-    if @playlist.valid? # either old playlist or they actually entered a seed artist
-      response = @playlist.build_spotify_playlist
-      @playlist.snapshot_id = response["snapshot_id"]
-      @playlist.save!
-      flash[:notice] = "Playlist opened"
-      redirect_to @playlist
-    else # nil user or seed artist
-      flash[:error] = @playlist.errors.full_messages
-      @playlist.destroy
+      binding.pry
+    seed_artist = params[:playlist]
+    adventurous = params[:adventurous] || false
+    response = Playlist.fetch_or_build_playlist(seed_artist,
+                                                adventurous,
+                                                current_user)
+    if response[:errors]
+      flash[:error] = response[:errors]
       render "homes/index"
+    else
+      @playlist = response[:playlist]
+      @playlist.snapshot_id = response[:snapshot_id]
+      @playlist.save!
+      redirect_to @playlist
     end
   end
 
