@@ -29,6 +29,9 @@ ul#hover1.small.f-dropdown.open.f-open-dropdown {
   height: 200px !important;
   /* Forced to use !important to overwrite Foundation styles */
   overflow: scroll;
+  -webkit-box-shadow: 1px 10px 53px -18px rgba(0,0,0,1);
+  -moz-box-shadow: 1px 10px 53px -18px rgba(0,0,0,1);
+  box-shadow: 1px 10px 53px -18px rgba(0,0,0,1);
 }
 
 
