@@ -1,0 +1,15 @@
+
+  <div class="row">
+    <%= form_tag(playlists_path, method: 'post') do %>
+      <div class="large-8 small-8 columns" >
+        <%= text_field_tag :playlist, params[:playlist], placeholder: "Enter seed artist to begin" %>
+      </div>
+      <div class="large-2 small-3 columns left">
+        <%= label :adventurous, "Adventurous" %>
+        <%= check_box_tag :adventurous, params[:adventurous], false  %>
+      </div>
+      <div class="large-2 small-3 columns left">
+          <%= submit_tag "Create Playlist", class: "alert button" %>
+      </div>
+    <% end %>
+  </div>

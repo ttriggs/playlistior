@@ -1,10 +1,19 @@
 
 <div class="row">
-  your playlist:
-  inspired by <%= @playlist.seed_artist.titleize %>
-  built by Playlistior
-</div>
- <div class="row">
- <iframe src=<%= @playlist.spotify_embed %> frameborder="0" allowtransparency="true" width="300" height="380"></iframe>
-</div>
+  <div class="large-12 columns">
 
+    Inspired by <%= @playlist.seed_artist.titleize %>
+    <br>
+    built by Playlistior
+    <br>
+   <iframe src=<%= @playlist.spotify_embed %> frameborder="0" allowtransparency="true" width="300" height="380"></iframe>
+
+    <% if @playlist.owner?(current_user)  %>
+      <%= form_tag(playlists_path, method: 'post') do %>
+        <%= hidden_field :playlist, params[:playlist], value: @playlist.seed_artist %>
+        <%= submit_tag "Extend", class: "alert button" %>
+      <% end %>
+    <% end %>
+
+  </div>
+</div>

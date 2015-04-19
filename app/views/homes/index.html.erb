@@ -8,7 +8,9 @@
 
   <br>
 
-  <div class="row">
+<%= render partial: 'playlists/playlist_create' %>
+
+<!--   <div class="row">
     <%= form_tag(playlists_path, method: 'post') do %>
       <div class="large-8 small-8 columns" >
         <%= text_field_tag :playlist, params[:playlist], placeholder: "Enter seed artist to begin" %>
@@ -18,7 +20,7 @@
       </div>
     <% end %>
   </div>
-
+ -->
 <% else %>
   <div class="spotify-login button success radius"><%= link_to 'Log In with Spotify', new_session_path %></div>
 
