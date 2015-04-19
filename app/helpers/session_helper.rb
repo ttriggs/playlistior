@@ -18,10 +18,4 @@ module SessionHelper
       @user = User.find(session[:user_id])
     end
   end
-
-  # def get_user_data
-  #   access_token = session[:token][:number]
-  #   params = { headers: { "Authorization" => "Bearer #{access_token}"} }
-  #   HTTParty.get("https://api.spotify.com/v1/me", params)
-  # end
 end

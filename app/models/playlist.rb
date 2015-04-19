@@ -48,7 +48,6 @@ class Playlist < ActiveRecord::Base
       genre = Genre.find_by(name: genre_name)
       styles.find_or_create_by(playlist: self, genre: genre ) if genre
     end
-binding.pry if genres.empty? # genres wuhh??
   end
 
   def add_tracks(location="append")

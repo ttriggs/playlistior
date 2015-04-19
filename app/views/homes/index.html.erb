@@ -5,25 +5,10 @@
   <div id="user-image">
     <%= image_tag current_user.image_link  %>
   </div>
-
   <br>
-
-<%= render partial: 'playlists/playlist_create' %>
-
-<!--   <div class="row">
-    <%= form_tag(playlists_path, method: 'post') do %>
-      <div class="large-8 small-8 columns" >
-        <%= text_field_tag :playlist, params[:playlist], placeholder: "Enter seed artist to begin" %>
-      </div>
-      <div class="large-4 small-3 columns">
-        <%= submit_tag "Create Playlist", class: "alert button" %>
-      </div>
-    <% end %>
-  </div>
- -->
+  <%= render partial: 'playlists/playlist_create' %>
 <% else %>
   <div class="spotify-login button success radius"><%= link_to 'Log In with Spotify', new_session_path %></div>
 
-  Sign in with spotify to get started...
-
+    Sign in with spotify to get started...
 <% end %>

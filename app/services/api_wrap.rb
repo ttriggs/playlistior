@@ -35,7 +35,8 @@ class ApiWrap
                          results: 1,
                          sort: 'song_hotttnesss-desc',
                          limit: true,
-                         bucket: ["id:spotify", :audio_summary, :tracks])
+                         bucket: ["id:spotify", :audio_summary, :tracks]
+                        )
   end
 
   def self.make_new_playlist(current_user)
@@ -48,7 +49,6 @@ class ApiWrap
              }
     response = HTTParty.post("#{current_user.spotify_link}/playlists", params)
     if response["error"].present?
-binding.pry # errorzzzz???
       { errors: response["error"]["message"] }
     else
       response

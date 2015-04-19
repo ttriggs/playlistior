@@ -2,14 +2,12 @@ module TokenHelper
 
   def setup_new_tokens
     code = params[:code]
-binding.pry if code.nil?
     params =  { body: { grant_type: "authorization_code",
                         code: code,
                         redirect_uri: redirect_uri },
                headers: { "Authorization" => "Basic #{encoded_id_and_secret}"}
               }
     tokens = post_for_new_token(params)
-binding.pry if tokens["error"] # WHYYYYYY!?
     add_token_to_session(tokens)
   end
 
