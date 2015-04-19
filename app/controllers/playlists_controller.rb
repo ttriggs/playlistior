@@ -7,7 +7,6 @@ class PlaylistsController < ApplicationController
   end
 
   def create
-      binding.pry
     seed_artist = params[:playlist]
     adventurous = params[:adventurous] || false
     response = Playlist.fetch_or_build_playlist(seed_artist,
