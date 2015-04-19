@@ -25,3 +25,10 @@
   overflow: scroll;
 }
 
+ul#hover1.small.f-dropdown.open.f-open-dropdown {
+  height: 200px !important;
+  /* Forced to use !important to overwrite Foundation styles */
+  overflow: scroll;
+}
+
+
