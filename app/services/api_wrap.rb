@@ -39,10 +39,10 @@ class ApiWrap
                         )
   end
 
-  def self.make_new_playlist(current_user)
+  def self.make_new_playlist(playlist, current_user)
     token = current_user.session_token
     params = { json: true,
-               body: { name: name,
+               body: { name: playlist.name,
                       "public" => false }.to_json,
                headers: {"Authorization" => "Bearer #{token}",
                "Content-Type" => "application/json"}

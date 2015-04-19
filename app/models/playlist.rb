@@ -21,7 +21,7 @@ class Playlist < ActiveRecord::Base
     if playlist.fresh_playlist?
       playlist.name = "Playlistior: #{artist_name}"
       playlist.user = current_user
-      response  = ApiWrap.make_new_playlist(current_user)
+      response  = ApiWrap.make_new_playlist(playlist, current_user)
       if !response[:errors]
         playlist.link         = response["href"]
         playlist.spotify_id   = response["id"]
