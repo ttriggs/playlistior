@@ -1,35 +1,41 @@
 
 
-<h3 id="your-playlists">Your Playlistiors:</h3>
+<div class="large-6 columns">
+  <h3 id="your-playlists">Your Playlistiors:</h3>
 
-<% @playlists.where(user_id: current_user.id).each do |playlist| %>
-  <ul>
-    <li>
-      <%= link_to playlist.seed_artist.titleize, playlist %>
-    </li>
-  </ul>
-<% end %>
-
-<% followed_playlists = all_playlists_following %>
-<% if followed_playlists.any? %>
-  <h3 id="followed-playlists">Followed Playlists:</h3>
-  <% followed_playlists.each do |playlist| %>
+  <% @playlists.where(user_id: current_user.id).each do |playlist| %>
     <ul>
       <li>
         <%= link_to playlist.seed_artist.titleize, playlist %>
       </li>
     </ul>
   <% end %>
-<% end %>
 
-<h3 id="their-playlists">Their Playlistiors:</h3>
+  <% followed_playlists = all_playlists_following %>
+  <% if followed_playlists.any? %>
+    <h3 id="followed-playlists">Followed Playlists:</h3>
+    <% followed_playlists.each do |playlist| %>
+      <ul>
+        <li>
+          <%= link_to playlist.seed_artist.titleize, playlist %>
+        </li>
+      </ul>
+    <% end %>
+  <% end %>
 
-<% @playlists.where.not(user_id: current_user.id).each do |playlist| %>
-  <ul>
-    <li>
-      <%= link_to playlist.seed_artist.titleize, playlist %>
-    </li>
-  </ul>
-<% end %>
+  <h3 id="their-playlists">Their Playlistiors:</h3>
 
-<%= render partial: 'genres/genre_dropdown' %>
+  <% @playlists.where.not(user_id: current_user.id).each do |playlist| %>
+    <ul>
+      <li>
+        <%= link_to playlist.seed_artist.titleize, playlist %>
+      </li>
+    </ul>
+  <% end %>
+</div>
+
+<div class="large-6 columns">
+    <%= render partial: 'playlists/playlist_create' %>
+  <br>
+    <%= render partial: 'genres/genre_dropdown' %>
+</div>

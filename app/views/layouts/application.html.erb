@@ -39,14 +39,30 @@
 
       <%= yield %>
 
-      <br>
-      Powered by:
-      <br>
-      the<a href="http://www.echonest.com/"> Echonest </a>API
-      <br>
-      And by the<a href="https://developer.spotify.com/"> Spotify </a>API
     </div>
   </div>
+  <footer class="row">
+  <div class="large-12 columns"><hr/>
+    <div class="row">
+
+      <div class="large-4 columns">
+        <ul class="inline-list">
+          <li class="left">A Launch Academy Production.</li>
+        </ul>
+      </div>
+      <div class="large-8 columns left">
+        <ul class="inline-list">
+          <li>Powered by:</li>
+          <li>the<a href="http://www.echonest.com/"> Echonest </a>API</li>
+          <li>And by the<a href="https://developer.spotify.com/"> Spotify </a>API</li>
+          <li>Created By:</li>
+          <li><a href="https://github.com/ttriggs">Tyler Triggs,</a></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+  </footer>
 
   <%= javascript_include_tag 'application' %>
   <%= yield :extra_footer %>
