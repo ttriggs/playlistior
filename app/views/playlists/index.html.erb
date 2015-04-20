@@ -10,14 +10,16 @@
   </ul>
 <% end %>
 
-<h3 id="followed-playlists">Followed Playlists:</h3>
-
-<% all_playlists_following.each do |playlist| %>
-  <ul>
-    <li>
-      <%= link_to playlist.seed_artist.titleize, playlist %>
-    </li>
-  </ul>
+<% followed_playlists = all_playlists_following %>
+<% if followed_playlists.any? %>
+  <h3 id="followed-playlists">Followed Playlists:</h3>
+  <% followed_playlists.each do |playlist| %>
+    <ul>
+      <li>
+        <%= link_to playlist.seed_artist.titleize, playlist %>
+      </li>
+    </ul>
+  <% end %>
 <% end %>
 
 <h3 id="their-playlists">Their Playlistiors:</h3>
