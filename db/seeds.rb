@@ -11,6 +11,9 @@ File.open(ifile).readlines.each do |line|
                           group: group )
   print "+"
 end
+# initialize catch-all group for genres not in my seed file:
+Group.find_or_create_by(rgb: "(100, 100, 100)")
+Genre.find_or_create_by(name: "melancholia")
 puts ""
 
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150419185731) do
+ActiveRecord::Schema.define(version: 20150420013447) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,15 +26,15 @@ ActiveRecord::Schema.define(version: 20150419185731) do
   add_index "assignments", ["track_id", "playlist_id"], name: "index_assignments_on_track_id_and_playlist_id", unique: true, using: :btree
 
   create_table "genres", force: :cascade do |t|
-    t.integer  "group_id",   null: false
-    t.string   "name",       null: false
-    t.string   "popularity", null: false
+    t.integer  "group_id",   default: 16,   null: false
+    t.string   "name",                      null: false
+    t.string   "popularity", default: "20", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "groups", force: :cascade do |t|
-    t.string "rgb", null: false
+    t.string "rgb", default: "(100, 100, 100)", null: false
   end
 
   create_table "playlists", force: :cascade do |t|
