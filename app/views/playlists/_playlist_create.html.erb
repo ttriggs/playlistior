@@ -5,12 +5,22 @@
         <%= text_field_tag :playlist, params[:playlist], placeholder: "Enter seed artist to begin" %>
       </div>
       <div class="two mobile-one columns">
-        <%= submit_tag "Create Playlist", class: "alert button expand postfix" %>
+        <ul id="inline-popups">
+          <%= submit_tag "Create Playlist", class: "alert button expand postfix playlist-popup", "data-effect" => "mfp-3d-unfold" %>
+       </ul>
       </div>
       <div class="two mobile-one columns">
           <%= label :adventurous, "Adventurous" %>
-          <%= check_box_tag :adventurous, params[:adventurous], false  %>
+          <%= check_box_tag :adventurous, params[:adventurous], false   %>
       </div>
     <% end %>
   </div>
+
+<!-- Camelot Popup -->
+<div id="camelot-popup" class="white-popup mfp-with-anim mfp-hide">
+  <ul>
+    <p><h2>Playlistior, Activate!</h2></p>
+    <p>Now using a Harmonic Mixing algorithm to optimize play order...</p>
+  </ul>
+</div>
 
