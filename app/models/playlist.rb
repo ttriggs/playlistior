@@ -4,6 +4,7 @@ class Playlist < ActiveRecord::Base
   has_many :styles, dependent: :destroy
   has_many :tracks, through: :assignments
   has_many :assignments, dependent: :destroy
+  has_many :follows
 
   belongs_to :user
 
@@ -81,15 +82,15 @@ class Playlist < ActiveRecord::Base
   end
 
   def min_tempo
-    ((tempo || 85) - 15).abs
+    (tempo - 15).abs
   end
 
   def min_familiarity
-    ((familiarity || 0.3 ) - 0.12).abs
+    (familiarity - 0.1).abs
   end
 
   def min_danceability
-    ((danceability || 0.2 ) - 0.12).abs
+    (danceability - 0.12).abs
   end
 
 

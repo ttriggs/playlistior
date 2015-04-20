@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
   has_many :playlists
+  has_many :follows
 
   validates :spotify_id, uniqueness: { case_sensitive: false}
   validates :name, presence: true

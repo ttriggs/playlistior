@@ -10,6 +10,16 @@
   </ul>
 <% end %>
 
+<h3 id="followed-playlists">Followed Playlists:</h3>
+
+<% all_playlists_following.each do |playlist| %>
+  <ul>
+    <li>
+      <%= link_to playlist.seed_artist.titleize, playlist %>
+    </li>
+  </ul>
+<% end %>
+
 <h3 id="their-playlists">Their Playlistiors:</h3>
 
 <% @playlists.where.not(user_id: current_user.id).each do |playlist| %>

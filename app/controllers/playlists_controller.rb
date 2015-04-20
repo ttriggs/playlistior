@@ -26,7 +26,7 @@ class PlaylistsController < ApplicationController
   def destroy
     @playlist = Playlist.find(params[:id])
     if @playlist.owner?(current_user)
-      ApiWrap.unfollow_playlist(@playlist)
+      ApiWrap.unfollow_playlist(@playlist, current_user)
       @playlist.destroy
       flash[:success] = "Playlist Deleted"
       redirect_to playlists_path

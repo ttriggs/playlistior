@@ -96,7 +96,7 @@ class ApiWrap
     token        = playlist.user.session_token
     spotify_id   = playlist.spotify_id
     spotify_link = playlist.user.spotify_link
-    params = { body: { "uris"=> uri_array }.to_json,
+    params = { body: { "uris" => uri_array }.to_json,
                headers: {"Authorization" => "Bearer #{token}",
                "Content-Type" => "application/json"}
              }
@@ -107,18 +107,35 @@ class ApiWrap
     HTTParty.post(url, params)
   end
 
-  def self.unfollow_playlist(playlist)
+  def self.unfollow_playlist(playlist, user)
+    token       = user.session_token
+    owner_id    = user.spotify_id
     playlist_id = playlist.spotify_id
-    owner_id = playlist.user.spotify_id
-    token = playlist.user.session_token
-    url = "https://api.spotify.com/v1/users/#{owner_id}/playlists/#{playlist_id}/followers"
+    url = playlist_follow_url(owner_id, playlist_id)
     params = {
                headers: { "Authorization" => "Bearer #{token}" }
              }
     HTTParty.delete(url, params)
   end
 
+  def self.follow_playlist(playlist, user)
+    token       = user.session_token
+    owner_id    = playlist.user.spotify_id
+    playlist_id = playlist.spotify_id
+    url = playlist_follow_url(owner_id, playlist_id)
+    params = { body: { "public" => false },
+               headers: { "Authorization" => "Bearer #{token}",
+                          "Content-Type" => "application/json"}
+             }
+    response = HTTParty.put(url, params)
+  end
+
+
 private
+
+  def self.playlist_follow_url(owner_id, playlist_id)
+    "https://api.spotify.com/v1/users/#{owner_id}/playlists/#{playlist_id}/followers"
+  end
 
   def self.add_audio_summary_data(song_batch, audio_summaries)
     audio_summaries.each_with_object([]) do |summary, array|
