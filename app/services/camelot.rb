@@ -63,6 +63,7 @@ class Camelot
   end
 
   def get_key_and_mode(track)
+    binding.pry if track.nil?
     track.audio_summary.to_hash.values_at("key", "mode")
   end
 
