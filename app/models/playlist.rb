@@ -46,7 +46,7 @@ class Playlist < ActiveRecord::Base
   end
 
   def record_music_styles(genres_array)
-    genres_array.take(2).each do |genre_name|
+    genres_array.each do |genre_name|
       genre = Genre.find_or_create_by(name: genre_name)
       styles.find_or_create_by(playlist: self, genre: genre ) if genre
     end
@@ -61,6 +61,7 @@ class Playlist < ActiveRecord::Base
 
   def get_full_tracklist
     genres.each_with_object(all_playlists = []) do |genre, all|
+      next if all_playlists.length > 200
       all_playlists += ApiWrap.songs_by_genre(self, genre.name)
     end
     unique_songs = uniquify_songs(all_playlists)
@@ -102,7 +103,7 @@ class Playlist < ActiveRecord::Base
 
   def uniquify_songs(all_songs)
     all_songs.uniq {|song| song.tracks.first.id }
-    all_songs.uniq(&:artist_name)
+    # all_songs.uniq(&:artist_name)
   end
 end
 

@@ -28,7 +28,7 @@ class User < ActiveRecord::Base
   end
 
   def in_db?
-    name.nil?
+    !name.nil?
   end
 
   def image_link
