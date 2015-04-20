@@ -41,7 +41,6 @@ class Camelot
 
   def order_tracks
     tracklist = [take_random(@full_tracklist)]
-
     until tracklist.length == Playlist::SONGS_LIMIT
       last_song_params = get_key_and_mode(tracklist.last)
       neighbors_params = get_neighbor_params(last_song_params)
