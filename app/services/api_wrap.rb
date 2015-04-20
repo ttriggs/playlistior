@@ -106,6 +106,18 @@ class ApiWrap
     end
     HTTParty.post(url, params)
   end
+
+  def self.unfollow_playlist(playlist)
+    playlist_id = playlist.spotify_id
+    owner_id = playlist.user.spotify_id
+    token = playlist.user.session_token
+    url = "https://api.spotify.com/v1/users/#{owner_id}/playlists/#{playlist_id}/followers"
+    params = {
+               headers: { "Authorization" => "Bearer #{token}" }
+             }
+    HTTParty.delete(url, params)
+  end
+
 private
 
   def self.add_audio_summary_data(song_batch, audio_summaries)
