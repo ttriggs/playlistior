@@ -23,6 +23,17 @@ class PlaylistsController < ApplicationController
     end
   end
 
+  def destroy
+    @playlist = Playlist.find(params[:id])
+    if @playlist.owner?(current_user)
+      @playlist.destroy
+      flash[:success] = "Playlist Deleted"
+      redirect_to playlists_path
+    else
+      redirect_to @playlist
+    end
+  end
+
   def show
     @playlist = Playlist.find(params[:id])
   end
