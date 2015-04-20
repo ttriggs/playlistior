@@ -7,6 +7,14 @@
     built by Playlistior
     <br>
    <iframe src=<%= @playlist.spotify_embed %> frameborder="0" allowtransparency="true" width="300" height="380"></iframe>
+
+    <% number_followers = number_of_followers(@playlist) %>
+    <% if number_followers > 0 %>
+      <div class="number-followers">
+        <%= pluralize(number_followers, "Follower") %>
+      </div>
+    <% end %>
+
     <% if @playlist.owner?(current_user)  %>
       <%= form_tag(playlists_path, method: 'post') do %>
         <%= hidden_field :playlist, params[:playlist], value: @playlist.seed_artist %>

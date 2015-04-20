@@ -10,4 +10,8 @@ module FollowHelper
       playlists << Playlist.find(follow.playlist_id)
     end
   end
+
+  def number_of_followers(playlist)
+    Follow.where(playlist_id: playlist.id).count
+  end
 end
