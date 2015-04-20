@@ -38,6 +38,7 @@ class Playlist < ActiveRecord::Base
         response
       end
     else
+      playlist.record_music_styles(genres)
       result = playlist.add_tracks("append") # prepend playlist with 30 new songs
       { playlist: playlist, snapshot_id: result["snapshot_id"] }
     end
@@ -45,7 +46,7 @@ class Playlist < ActiveRecord::Base
 
   def record_music_styles(genres_array)
     genres_array.take(2).each do |genre_name|
-      genre = Genre.find_by(name: genre_name)
+      genre = Genre.find_or_create_by(name: genre_name)
       styles.find_or_create_by(playlist: self, genre: genre ) if genre
     end
   end
@@ -62,7 +63,6 @@ class Playlist < ActiveRecord::Base
       all_playlists += ApiWrap.songs_by_genre(self, genre.name)
     end
     unique_songs = uniquify_songs(all_playlists)
-binding.pry if unique_songs.nil? # NILL???
     ApiWrap.stitch_in_audio_summaries(unique_songs)
   end
 
@@ -85,11 +85,11 @@ binding.pry if unique_songs.nil? # NILL???
   end
 
   def min_familiarity
-    ((familiarity || 0.3 ) - 0.15).abs
+    ((familiarity || 0.3 ) - 0.12).abs
   end
 
   def min_danceability
-    ((danceability || 0.2 ) - 0.15).abs
+    ((danceability || 0.2 ) - 0.12).abs
   end
 
 

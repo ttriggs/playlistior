@@ -54,7 +54,6 @@ class Camelot
     key, mode = params_array
     key = @en_keys[key]
     zone  = @circle[[key, mode]]
-binding.pry if zone.nil?
     close_zones = @circle.select {|_key, circle_zone| circle_zone == zone }
     near_zones = @circle.select do |key, circle_zone|
       circle_zone.between?(zone - 1, zone +1) && key[1] == mode
