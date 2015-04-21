@@ -20,6 +20,8 @@ html {
   font-size: 18px;
 }
 
+/* Title Bar */
+
 .top-bar-section .has-dropdown.not-click:hover>.dropdown.scroll-list{
   height: 300px !important;
   /* Forced to use !important to overwrite Foundation styles */
@@ -34,10 +36,6 @@ ul#hover1.small.f-dropdown.open.f-open-dropdown {
   -moz-box-shadow: 1px 10px 53px -18px rgba(0,0,0,1);
   box-shadow: 1px 10px 53px -18px rgba(0,0,0,1);
 }
-
-
-
-/* Title Bar */
 
 $title-color: #F0DC05;
 
@@ -174,6 +172,39 @@ ul#hover1.small.f-dropdown.open.f-open-dropdown {
   border: none;
 }
 
+/* Playlist popup */
+
+.white-popup {
+  position: relative;
+  background: #a0a0a0;
+  padding: 25px;
+  width:auto;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+ul.popup-text {
+  color: #000;
+  text-align: center;
+}
+
+h2#popup-title {
+  color: #000;
+}
+
+p#popup-small-text {
+  font-size: 0.9em;
+}
+
+p#popup-medium-text {
+  font-size: 1em;
+}
+
+#hm-link {
+  color: #0003A3;
+  text-decoration: underline;
+}
+
 /** Playlist show */
 
 .playlist-show {
@@ -240,17 +271,6 @@ ul#hover1.small.f-dropdown.open.f-open-dropdown {
 }
 
 
-
-/* text-based popup styling */
-.white-popup {
-  position: relative;
-  background: #F0F0F0;
-  padding: 25px;
-  width:auto;
-  max-width: 400px;
-  margin: 0 auto;
-}
-
 /* ====== 3d unfold ====== */
 .mfp-3d-unfold {
   .mfp-content {
@@ -297,14 +317,8 @@ ul#hover1.small.f-dropdown.open.f-open-dropdown {
 
 // typeahead:
 // http://jsfiddle.net/Fresh/1hrk0qso/
-
 span.twitter-typeahead {
   width: 100%;
-}
-
-@font-face {
-  font-family:"Prociono";
-  src: url("../font/Prociono-Regular-webfont.ttf");
 }
 
 .container {
@@ -315,6 +329,7 @@ span.twitter-typeahead {
 
 .tt-dropdown-menu, .gist {
   text-align: left;
+  color: #000;
 }
 
 .typeahead, .tt-query, .tt-hint {
@@ -328,10 +343,10 @@ span.twitter-typeahead {
   width: 396px;
 }
 .typeahead {
-  background-color: #FFFFFF;
+  background-color: #FAFAFA;
 }
 .typeahead:focus {
-  border: 2px solid #0097CF;
+  border: 2px solid #B0B0B0;
 }
 .tt-query {
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
@@ -340,7 +355,7 @@ span.twitter-typeahead {
   color: #999999;
 }
 .tt-dropdown-menu {
-  background-color: #FFFFFF;
+  background-color: #FAFAFA;
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 2px 2px 6px 6px;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
@@ -354,7 +369,7 @@ span.twitter-typeahead {
   padding: 3px 20px;
 }
 .tt-suggestion.tt-cursor {
-  background-color: #0097CF;
+  background-color: #B0B0B0;
   color: #FFFFFF;
 }
 .tt-suggestion p {

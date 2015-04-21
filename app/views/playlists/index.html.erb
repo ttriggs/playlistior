@@ -14,22 +14,24 @@
   <% followed_playlists = all_playlists_following %>
   <% if followed_playlists.any? %>
     <h3 id="followed-playlists">Followed Playlists:</h3>
-    <% followed_playlists.each do |playlist| %>
-      <ul class="playlists-list">
+    <ul class="playlists-list">
+      <% followed_playlists.each do |playlist| %>
         <li>
           <%= link_to playlist.seed_artist.titleize, playlist %>
         </li>
-      </ul>
-    <% end %>
+      <% end %>
+    </ul>
   <% end %>
 
-  <h3 id="their-playlists">Their Playlistiors</h3>
-
-  <% @playlists.where.not(user_id: current_user.id).each do |playlist| %>
-    <ul>
-      <li>
-        <%= link_to playlist.seed_artist.titleize, playlist %>
-      </li>
+  <% their_playlists = get_their_playlists %>
+  <% if their_playlists.any? %>
+    <h3 id="their-playlists">Their Playlistiors</h3>
+    <ul class="playlists-list">
+      <% their_playlists.each do |playlist| %>
+        <li>
+          <%= link_to playlist.seed_artist.titleize, playlist %>
+        </li>
+      <% end %>
     </ul>
   <% end %>
 </div>
