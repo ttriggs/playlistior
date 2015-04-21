@@ -109,10 +109,6 @@ hr {
 .footer, .footer ul, .footer li, .footer em {
   font-size: 0.75rem !important;
 
-  .attributions {
-
-  }
-
   li.left-production {
     margin-left: 3.25em;
   }
@@ -137,7 +133,6 @@ hr {
 
 
 /** Public Home Page */
-
 .playlistior-heading {
   @include title-font;
   font-size: 3rem !important;
@@ -171,6 +166,15 @@ hr {
 
   a {
     color: #fff !important;
+  }
+  h3 {
+    @media screen {
+      text-align: center;
+      margin-left: 1.7rem;
+    }
+  }
+  .spotify-login {
+    margin-right: 1.7rem;
   }
 }
 
