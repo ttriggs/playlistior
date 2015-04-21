@@ -25,7 +25,7 @@ var artists = new Bloodhound({
     datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
     queryTokenizer: Bloodhound.tokenizers.whitespace,
     prefetch: {
-        url: 'js/artists.json',
+        url: 'assets/js/artists.json',
         filter: function (artists) {
             return $.map(artists, function (artist) {
                 return {
