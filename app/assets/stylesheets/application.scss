@@ -27,6 +27,9 @@ html {
   /* Forced to use !important to overwrite Foundation styles */
   overflow: scroll;
 }
+.top-bar .toggle-topbar.menu-icon a::before {
+  padding-left: 1000px
+}
 
 ul#hover1.small.f-dropdown.open.f-open-dropdown {
   height: 200px !important;
