@@ -106,13 +106,17 @@ hr {
   background: #a33;
 }
 
-.footer, .footer ul, .footer li {
+.footer, .footer ul, .footer li, .footer em {
   font-size: 0.75rem !important;
 
   .attributions {
 
   }
+  li.left-production {
+    margin-left: 3.25em;
+  }
 }
+
 
 /** Public Home Page */
 
