@@ -17,9 +17,13 @@
  */
 
 html {
-  font-size: 18px;
+  font-size: 1.3em;
 }
 
+body {
+  font-family: "Avenir Next", "Helvetica Neue", Helvetica, Arial;
+  font-weight: 100;
+}
 /* Title Bar */
 
 .top-bar-section .has-dropdown.not-click:hover>.dropdown.scroll-list{
@@ -27,9 +31,7 @@ html {
   /* Forced to use !important to overwrite Foundation styles */
   overflow: scroll;
 }
-.top-bar .toggle-topbar.menu-icon a::before {
-  padding-left: 1000px
-}
+
 
 ul#hover1.small.f-dropdown.open.f-open-dropdown {
   height: 200px !important;
@@ -40,10 +42,15 @@ ul#hover1.small.f-dropdown.open.f-open-dropdown {
   box-shadow: 1px 10px 53px -18px rgba(0,0,0,1);
 }
 
+.top-bar-section > ul > li > a {
+  transition: all 0.3s ease;
+}
+
 $title-color: #F0DC05;
 
 @mixin title-font {
   font-family: 'Great Vibes', cursive;
+
   color: lighten($title-color, 15%) !important;
   text-shadow: darken($title-color, 10%) 1px 1px 5px;
   transition: all 0.5s linear !important;
@@ -118,6 +125,7 @@ hr {
 
 .playlistior-summary {
   text-align: center;
+  font-weight: 50;
 }
 
 .splash-image {
