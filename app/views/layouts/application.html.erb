@@ -4,6 +4,7 @@
   <title>Playlistior</title>
   <%= stylesheet_link_tag 'application', media: 'all' %>
   <link href='https://fonts.googleapis.com/css?family=Great+Vibes' rel='stylesheet' type='text/css'>
+  <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48 64x64 110x110 114x114" type="image/vnd.microsoft.icon">
   <%= csrf_meta_tags %>
 </head>
 <body>
@@ -52,9 +53,29 @@
   <div class="footer large-12 columns"><hr/>
     <div class="row">
       <div class="large-3 columns">
-        <ul class="inline-list">
-          <li class="left-production"><em>A Tyler Triggs Production</em></li>
-        </ul>
+        <div class="left-production"><em>A Tyler Triggs Production</em></div>
+          <ul class="icon-list">
+            <li id="icon-li">
+              <div id="link-icon">
+                <%= link_to image_tag("/assets/images/github-icon.png"), "https://github.com/ttriggs/playlistior", target: "_blank" %>
+              </div>
+            </li id="icon-li">
+            <li>
+              <div id="link-icon">
+              <%= link_to image_tag("/assets/images/linkedin-icon.png"), "https://www.linkedin.com/in/tylertriggs", target: "_blank"%>
+              </div>
+            </li>
+            <li>
+              <div id="link-icon">
+                <%= link_to image_tag("/assets/images/wordpress-icon.png"), "https://tylertriggs.wordpress.com/", target: "_blank"%>
+              </div>
+            </li>
+            <li>
+              <div id="link-icon">
+                <%= link_to image_tag("/assets/images/twitter-icon.png"), "https://twitter.com/triggstyler", target: "_blank"%>
+              </div>
+            </li>
+          </ul>
       </div>
       <div class="large-3 columns right attributions">
         <div><strong>Created by</strong> <a href="https://github.com/ttriggs">Tyler Triggs</a></div>
@@ -70,4 +91,3 @@
   <%= yield :extra_footer %>
 </body>
 </html>
-
