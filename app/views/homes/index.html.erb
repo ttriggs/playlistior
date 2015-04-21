@@ -1,14 +1,17 @@
 
 
 <% if user_signed_in? %>
-  Signed in as <%= current_user.name %>
-  <div id="user-image">
-    <%= image_tag current_user.image_link  %>
-  </div>
-  <br>
   <%= render partial: 'playlists/playlist_create' %>
 <% else %>
-  <div class="spotify-login button success radius"><%= link_to 'Log In with Spotify', new_session_path %></div>
-
-    Sign in with spotify to get started...
+  <h2 class="playlistior-heading"><a href="#">Playlistior</a></h2>
+  <p class="playlistior-summary">Music discovery playlist generator for Spotify</p>
+  <div class="splash-image">
+  </div>
+  <div class="splash-overlay">
+    <div class="splash-overlay-backdrop"></div>
+    <div class="splash-overlay-container">
+      <h3>Sign in with Spotify to get started</h3>
+      <div class="spotify-login button radius right"><%= link_to 'Sign In with Spotify', new_session_path %></div>
+    </div>
+  </div>
 <% end %>

@@ -1,21 +1,21 @@
 
 
 <div class="large-6 columns">
-  <h3 id="your-playlists">Your Playlistiors:</h3>
+  <h3 id="your-playlists">Your Playlistiors</h3>
 
-  <% @playlists.where(user_id: current_user.id).each do |playlist| %>
-    <ul>
-      <li>
-        <%= link_to playlist.seed_artist.titleize, playlist %>
-      </li>
-    </ul>
-  <% end %>
+  <ul class="playlists-list">
+    <% @playlists.where(user_id: current_user.id).each do |playlist| %>
+        <li>
+          <%= link_to playlist.seed_artist.titleize, playlist %>
+        </li>
+    <% end %>
+  </ul>
 
   <% followed_playlists = all_playlists_following %>
   <% if followed_playlists.any? %>
     <h3 id="followed-playlists">Followed Playlists:</h3>
     <% followed_playlists.each do |playlist| %>
-      <ul>
+      <ul class="playlists-list">
         <li>
           <%= link_to playlist.seed_artist.titleize, playlist %>
         </li>
@@ -23,7 +23,7 @@
     <% end %>
   <% end %>
 
-  <h3 id="their-playlists">Their Playlistiors:</h3>
+  <h3 id="their-playlists">Their Playlistiors</h3>
 
   <% @playlists.where.not(user_id: current_user.id).each do |playlist| %>
     <ul>
@@ -36,7 +36,4 @@
 
 <div class="large-6 columns">
     <%= render partial: 'playlists/playlist_create' %>
-  <br>
-    <%= render partial: 'genres/genre_dropdown' %>
 </div>
-

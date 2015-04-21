@@ -1,12 +1,12 @@
 
-<div class="row">
+<div class="row playlist-show">
   <div class="large-12 columns">
+    <h3 class="playlist-header">Inspired by <%= @playlist.seed_artist.titleize %></h3>
+    <small class="playlist-attribution">built by Playlistior</small>
+    <br>
 
-    Inspired by <%= @playlist.seed_artist.titleize %>
+    <iframe class="spotify-widget" src=<%= @playlist.spotify_embed %> frameborder="0" allowtransparency="true" width="300" height="380"></iframe>
     <br>
-    built by Playlistior
-    <br>
-   <iframe src=<%= @playlist.spotify_embed %> frameborder="0" allowtransparency="true" width="300" height="380"></iframe>
 
     <% number_followers = number_of_followers(@playlist) %>
     <% if number_followers > 0 %>
@@ -18,16 +18,16 @@
     <% if @playlist.owner?(current_user)  %>
       <%= form_tag(playlists_path, method: 'post') do %>
         <%= hidden_field :playlist, params[:playlist], value: @playlist.seed_artist %>
-        <%= submit_tag "Extend", class: "success button playlist-popup" %>
+        <%= submit_tag "Extend", class: "success button playlist-button playlist-popup" %>
       <% end %>
       <%= link_to 'Delete', playlist_path(@playlist), method: :delete,
-                                                      class: "alert button",
+                                                      class: "alert button playlist-button",
                                                       data: { confirm: "Are you sure?" } %>
     <% elsif !followed?(@playlist) %>
       <%= render partial: 'follows/follow_create' %>
     <% elsif followed?(@playlist) %>
       <%= link_to 'Unfollow', follow_path(@playlist), method: :delete,
-                                                      class: "success button"%>
+                                                      class: "alert button full-playlist-button"%>
     <% end %>
   </div>
 </div>
