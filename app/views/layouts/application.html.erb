@@ -20,10 +20,14 @@
       <ul class="right">
         <% if user_signed_in? -%>
           <li class="signed-in-as"><span>Signed in as <%= current_user.name %></span><img class="user-thumbnail" src="<%= current_user.image_link%>" /></li>
+          <li class="divider"></li>
+
           <li>
             <%= render partial: 'genres/genre_dropdown' %>
           </li>
+          <li class="divider"></li>
           <li><%= link_to 'Browse Playlists', playlists_path %></li>
+          <li class="divider"></li>
           <li><%= link_to 'Sign Out', session_path, method: :delete %></li>
         <% else %>
           <li><%= link_to 'Sign In', new_session_path %></li>
