@@ -14,12 +14,40 @@
 //= require jquery_ujs
 //= require foundation
 //= require_tree .
+//= require twitter/typeahead
+//= require twitter/typeahead/bloodhound
+
 
 $(function(){ $(document).foundation(); });
 
+// Instantiate the Bloodhound suggestion engine
+var artists = new Bloodhound({
+    datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+    queryTokenizer: Bloodhound.tokenizers.whitespace,
+    prefetch: {
+        url: 'js/artists.json',
+        filter: function (artists) {
+            return $.map(artists, function (artist) {
+                return {
+                    name: artist
+                };
+            });
+        }
+    }
+});
 
-// Inline popups
+// Initialize the Bloodhound suggestion engine
+artists.initialize();
+
+// Instantiate the Typeahead UI
+$('.typeahead').typeahead(null, {
+    displayKey: 'name',
+    source: artists.ttAdapter()
+});
+
+
 $(document).ready(function() {
+// Inline popups
   $(".playlist-popup").on("click", function(e){
     $(this).magnificPopup({
       items: {
@@ -37,3 +65,4 @@ $(document).ready(function() {
     }).magnificPopup('open');
   });
 });
+

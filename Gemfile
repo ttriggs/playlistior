@@ -62,3 +62,5 @@ gem 'carrierwave'
 gem 'mini_magick'
 
 gem 'coveralls', group: :test, require: false
+
+gem 'twitter-typeahead-rails'

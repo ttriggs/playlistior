@@ -2,7 +2,7 @@
   <div class="row collapse">
     <%= form_tag(playlists_path, method: 'post') do %>
       <div class="eight mobile-three columns">
-        <%= text_field_tag :playlist, params[:playlist], placeholder: "Enter seed artist to begin" %>
+        <%= text_field_tag :playlist, params[:playlist], placeholder: "Enter seed artist to begin", class: "typeahead" %>
       </div>
       <div class="two mobile-one columns">
         <ul id="inline-popups">
