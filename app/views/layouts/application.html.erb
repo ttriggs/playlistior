@@ -3,6 +3,7 @@
 <head>
   <title>Playlistior</title>
   <%= stylesheet_link_tag 'application', media: 'all' %>
+  <link href='http://fonts.googleapis.com/css?family=Great+Vibes|Pinyon+Script' rel='stylesheet' type='text/css'>
   <%= csrf_meta_tags %>
 </head>
 <body>
@@ -10,7 +11,7 @@
   <nav class="top-bar"  data-topbar>
     <ul class="title-area">
       <li class="name">
-        <h1><a href="/">Playlistior</a></h1>
+        <h1 class="playlistior-title"><a href="/">Playlistior</a></h1>
       </li>
       <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
     </ul>
@@ -18,6 +19,10 @@
     <section class="top-bar-section">
       <ul class="right">
         <% if user_signed_in? -%>
+          <li class="signed-in-as"><span>Signed in as <%= current_user.name %></span><img class="user-thumbnail" src="<%= current_user.image_link%>" /></li>
+          <li>
+            <%= render partial: 'genres/genre_dropdown' %>
+          </li>
           <li><%= link_to 'Browse Playlists', playlists_path %></li>
           <li><%= link_to 'Sign Out', session_path, method: :delete %></li>
         <% else %>
@@ -33,7 +38,7 @@
     </div>
   <% end %>
 
-  <div class="row">
+  <div class="content row">
     <div class="large-12 columns">
 
       <%= yield %>
@@ -41,22 +46,17 @@
     </div>
   </div>
   <footer class="row">
-  <div class="large-12 columns"><hr/>
+  <div class="footer large-12 columns"><hr/>
     <div class="row">
-
-      <div class="large-4 columns">
+      <div class="large-3 columns">
         <ul class="inline-list">
-          <li class="left">A Launch Academy Production.</li>
+          <li class="left"><em>A Launch Academy Production</em></li>
         </ul>
       </div>
-      <div class="large-8 columns left">
-        <ul class="inline-list">
-          <li>Powered by:</li>
-          <li>the<a href="http://www.echonest.com/"> Echonest </a>API</li>
-          <li>And by the<a href="https://developer.spotify.com/"> Spotify </a>API</li>
-          <li>Created By:</li>
-          <li><a href="https://github.com/ttriggs">Tyler Triggs,</a></li>
-        </ul>
+      <div class="large-3 columns right attributions">
+          <div><strong>Created by</strong> <a href="https://github.com/ttriggs">Tyler Triggs</a></div>
+          <div><strong>Powered by</strong> the<a href="http://www.echonest.com/"> Echonest </a>API<br>
+          And by the<a href="https://developer.spotify.com/"> Spotify </a>API</div>
       </div>
 
     </div>

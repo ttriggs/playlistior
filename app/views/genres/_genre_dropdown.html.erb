@@ -1,12 +1,7 @@
-
-  <div class="row">
-    <div class="large-12 columns">
-      <a href="#" class="button scroll-dropdown" data-dropdown="hover1" data-options="is_hover:true; hover_timeout:5000">Search by Genre &raquo;</a>
-      <ul id="hover1" class="small f-dropdown " data-dropdown-content>
-        <% all_genres_in_use.sort_by(&:group_id).each do |genre| %>
-          <% color = genre.group_color %>
-          <li> <%= link_to genre.name.titleize, genre_path(genre), { style: "background-color:rgba(#{color}, 0.7)" , class: "css-class" } %> </li>
-        <% end %>
-      </ul>
-    </div>
-  </div>
+<a href="#" class="scroll-dropdown" data-dropdown="hover1" data-options="is_hover:true; hover_timeout:500">Search by Genre</a>
+<ul id="hover1" class="small f-dropdown" data-dropdown-content>
+  <% all_genres_in_use.sort_by(&:group_id).each do |genre| %>
+    <% color = genre.group_color %>
+    <li> <%= link_to genre.name.titleize, genre_path(genre), { style: "background-color:rgba(#{color}, 0.7)" , class: "css-class" } %> </li>
+  <% end %>
+</ul>

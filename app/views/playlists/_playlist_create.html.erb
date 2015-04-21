@@ -1,20 +1,22 @@
 
   <div class="row collapse">
+    <h3 class="center">Create a playlist</h3>
     <%= form_tag(playlists_path, method: 'post') do %>
-      <div class="eight mobile-three columns">
+      <div class="large-12 columns">
         <%= text_field_tag :playlist, params[:playlist], placeholder: "Enter seed artist to begin", class: "typeahead" %>
       </div>
       <div class="two mobile-one columns">
-        <ul id="inline-popups">
-          <%= submit_tag "Create Playlist", class: "alert button expand postfix playlist-popup", "data-effect" => "mfp-3d-unfold" %>
-       </ul>
+          <%= label :adventurous, "Adventurous?" %>
+          <%= check_box_tag :adventurous, params[:adventurous], false  %>
       </div>
       <div class="two mobile-one columns">
-          <%= label :adventurous, "Adventurous" %>
-          <%= check_box_tag :adventurous, params[:adventurous], false   %>
+        <%= submit_tag "Create Playlist", class: "button expand postfix playlist-popup", "data-effect" => "mfp-3d-unfold" %>
       </div>
     <% end %>
   </div>
+
+
+
 
 <!-- Camelot Popup -->
 <div id="camelot-popup" class="white-popup mfp-with-anim mfp-hide">

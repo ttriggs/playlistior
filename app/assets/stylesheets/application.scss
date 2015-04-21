@@ -16,9 +16,10 @@
 
  */
 
-/* ***************************************************
- *               OPTION ONe :: SCROLL LIST         *
- *****************************************************/
+html {
+  font-size: 18px;
+}
+
 .top-bar-section .has-dropdown.not-click:hover>.dropdown.scroll-list{
   height: 300px !important;
   /* Forced to use !important to overwrite Foundation styles */
@@ -36,23 +37,221 @@ ul#hover1.small.f-dropdown.open.f-open-dropdown {
 
 
 
+/* Title Bar */
+
+$title-color: #F0DC05;
+
+@mixin title-font {
+  font-family: 'Great Vibes', cursive;
+  color: lighten($title-color, 15%) !important;
+  text-shadow: darken($title-color, 10%) 1px 1px 5px;
+  transition: all 0.5s linear !important;
+}
+
+.playlistior-title {
+  padding: 0.1rem 2rem;
+
+  a {
+    @include title-font;
+
+    font-size: 2rem !important;
+
+    &:hover {
+      color: $title-color !important;
+      text-shadow: darken($title-color, 25%) 1px 1px 0px;
+    }
+  }
+}
+
+/** Body */
+
+.content {
+  margin-top: 1rem;
+}
+
+.center {
+  text-align: center;
+}
+
+label {
+  display: inline-block;
+}
+
+hr {
+  border-color: $title-color;
+}
+
+.flash {
+  width: 100%;
+  padding-left: 20px;
+}
+
+.flash-notice {
+  background: #33a;
+}
+
+.flash-info {
+  background: #3a3;
+}
+
+.flash-alert, .flash-error {
+  background: #a33;
+}
+
+.footer, .footer ul, .footer li {
+  font-size: 0.75rem !important;
+
+  .attributions {
+
+  }
+}
+
+/** Public Home Page */
+
+.playlistior-heading {
+  @include title-font;
+  font-size: 3rem !important;
+  text-align: center;
+  margin: 0 !important;
+}
+
+.playlistior-summary {
+  text-align: center;
+}
+
+.splash-image {
+  float: left;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  min-height: 400px;
+  max-width: 100%;
+  background: url(blurredlights.jpg) right bottom;
+  border-radius: 0.25rem;
+  padding: 0.5rem 1rem;
+}
+
+.splash-overlay {
+  position: absolute;
+  bottom: 0;
+  right: 2rem;
+  padding: 0.5rem;
+  text-shadow: darken($title-color, 20%) 1px 1px 0px;
+
+  a {
+    color: #fff !important;
+  }
+}
+
+ul li.signed-in-as {
+  font-size: 0.75rem;
+  padding: 0 0.9375rem;
+  line-height: 2.8125rem;
+  background: #222222;
+}
+
+.user-thumbnail {
+  margin-left: 1rem;
+  max-width: 100%;
+  width: 2rem;
+  height: 2rem;
+  box-shadow: #fff 0 0 1px;
+}
+
+.f-dropdown {
+  list-style: none;
+
+  li {
+    float: none !important;
+    display: block;
+  }
+}
+
+ul#hover1.small.f-dropdown.open.f-open-dropdown {
+  height: auto !important;
+  max-height: 270px;
+  background: #000;
+  border: none;
+}
+
+/** Playlist show */
+
+.playlist-show {
+  form {
+    display: inline-block;
+  }
+}
+
+.playlist-header {
+  padding-bottom: 0rem;
+  margin-bottom: 0rem;
+}
+
+.playlist-attribution {
+  font-weight: italic;
+  position: relative;
+  top: -10px;
+}
+
+.playlist-button {
+  width: 140px;
+  border-radius: 0.25rem !important;
+  margin-right: 1rem;
+}
+
+.full-playlist-button {
+  width: 300px;
+}
+
+.spotify-widget {
+  box-shadow: #000 1px 1px 3px;
+}
+
+/** Playlists index */
+
+.playlists-list {
+  list-style: none;
+  margin-left: 0;
+
+  li {
+    background: #444;
+    border-left: #000 1px solid;
+    border-right: #000 1px solid;
+    border-bottom: #000 1px solid;
+
+    transition: all 0.5s ease;
+
+    &:first-child {
+      border-top: #000 1px solid;
+    }
+
+    &:hover {
+      background: #666;
+    }
+
+    a {
+      padding: 0.25rem;
+      width: 100%;
+      height: 100%;
+      display: inline-block;
+      color: #fff !important;
+    }
+  }
+}
+
+
 
 /* text-based popup styling */
 .white-popup {
   position: relative;
-  background: #FFF;
+  background: #F0F0F0;
   padding: 25px;
   width:auto;
   max-width: 400px;
   margin: 0 auto;
 }
 
-
-/*
-
-====== 3d unfold ======
-
-*/
+/* ====== 3d unfold ====== */
 .mfp-3d-unfold {
   .mfp-content {
     perspective: 2000px;
@@ -85,7 +284,6 @@ ul#hover1.small.f-dropdown.open.f-open-dropdown {
 
   /* animate out */
   &.mfp-removing {
-
     .mfp-with-anim {
       transform: rotateY(60deg);
       opacity: 0;
@@ -99,116 +297,69 @@ ul#hover1.small.f-dropdown.open.f-open-dropdown {
 
 // typeahead:
 // http://jsfiddle.net/Fresh/1hrk0qso/
-@font-face {
-    font-family:"Prociono";
-    src: url("../font/Prociono-Regular-webfont.ttf");
-}
-html {
-    overflow-y: scroll;
-}
-.container {
-    margin: 0 auto;
-    max-width: 750px;
-    text-align: center;
-}
-.tt-dropdown-menu, .gist {
-    text-align: left;
-}
-html {
-    color: #333333;
-    font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 18px;
-    line-height: 1.2;
-}
-.title, .example-name {
-    font-family: Prociono;
-}
-p {
-    margin: 0 0 10px;
-}
-.title {
-    font-size: 64px;
-    margin: 20px 0 0;
-}
-.example {
-    padding: 30px 0;
-}
-.example-name {
-    font-size: 32px;
-    margin: 20px 0;
-}
-.demo {
-    margin: 50px 0;
-    position: relative;
-}
-.typeahead, .tt-query, .tt-hint {
-    border: 2px solid #CCCCCC;
-    border-radius: 8px 8px 8px 8px;
-    font-size: 24px;
-    height: 30px;
-    line-height: 30px;
-    outline: medium none;
-    padding: 8px 12px;
-    width: 396px;
-}
-.typeahead {
-    background-color: #FFFFFF;
-}
-.typeahead:focus {
-    border: 2px solid #0097CF;
-}
-.tt-query {
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
-}
-.tt-hint {
-    color: #999999;
-}
-.tt-dropdown-menu {
-    background-color: #FFFFFF;
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    border-radius: 8px 8px 8px 8px;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-    margin-top: -15px;
-    padding: 0;
-    width: 422px;
-}
-.tt-suggestion {
-    font-size: 18px;
-    line-height: 24px;
-    padding: 3px 20px;
-}
-.tt-suggestion.tt-cursor {
-    background-color: #0097CF;
-    color: #FFFFFF;
-}
-.tt-suggestion p {
-    margin: 0;
-}
-.gist {
-    font-size: 14px;
-}
-.example-twitter-oss .tt-suggestion {
-    padding: 8px 20px;
-}
-.example-twitter-oss .tt-suggestion + .tt-suggestion {
-    border-top: 1px solid #CCCCCC;
-}
-.example-twitter-oss .repo-language {
-    float: right;
-    font-style: italic;
-}
-.example-twitter-oss .repo-name {
-    font-weight: bold;
-}
-.example-twitter-oss .repo-description {
-    font-size: 14px;
-}
-.example-sports .league-name {
-    border-bottom: 1px solid #CCCCCC;
-    margin: 0 20px 5px;
-    padding: 3px 0;
-}
-.example-arabic .tt-dropdown-menu {
-    text-align: right;
+
+span.twitter-typeahead {
+  width: 100%;
 }
 
+@font-face {
+  font-family:"Prociono";
+  src: url("../font/Prociono-Regular-webfont.ttf");
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 750px;
+  text-align: center;
+}
+
+.tt-dropdown-menu, .gist {
+  text-align: left;
+}
+
+.typeahead, .tt-query, .tt-hint {
+  border: 2px solid #CCCCCC;
+  border-radius: 8px 8px 8px 8px;
+  font-size: 24px;
+  height: 30px;
+  line-height: 30px;
+  outline: medium none;
+  padding: 8px 12px;
+  width: 396px;
+}
+.typeahead {
+  background-color: #FFFFFF;
+}
+.typeahead:focus {
+  border: 2px solid #0097CF;
+}
+.tt-query {
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+}
+.tt-hint {
+  color: #999999;
+}
+.tt-dropdown-menu {
+  background-color: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 2px 2px 6px 6px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  margin-top: -15px;
+  padding: 0;
+  width: 100%;
+}
+.tt-suggestion {
+  font-size: 18px;
+  line-height: 24px;
+  padding: 3px 20px;
+}
+.tt-suggestion.tt-cursor {
+  background-color: #0097CF;
+  color: #FFFFFF;
+}
+.tt-suggestion p {
+  margin: 0;
+}
+.gist {
+  font-size: 14px;
+}

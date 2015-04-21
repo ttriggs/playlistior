@@ -36,7 +36,7 @@ class User < ActiveRecord::Base
   end
 
   def default_image
-    'default_images/profile_default.png'
+    '/images/profile_default.png'
   end
 
   def get_image(images)
