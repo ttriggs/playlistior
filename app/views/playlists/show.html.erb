@@ -18,7 +18,7 @@
     <% if @playlist.owner?(current_user)  %>
       <%= form_tag(playlists_path, method: 'post') do %>
         <%= hidden_field :playlist, params[:playlist], value: @playlist.seed_artist %>
-        <%= submit_tag "Extend", class: "success button" %>
+        <%= submit_tag "Extend", class: "success button playlist-popup" %>
       <% end %>
       <%= link_to 'Delete', playlist_path(@playlist), method: :delete,
                                                       class: "alert button",
