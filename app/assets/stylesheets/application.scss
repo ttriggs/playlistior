@@ -174,7 +174,9 @@ hr {
     }
   }
   .spotify-login {
-    margin-right: 1.7rem;
+    @media screen and (max-width: 40rem) {
+      margin-right: 1.7rem;
+    }
   }
 }
 
