@@ -41,12 +41,18 @@ class Camelot
 
   def order_tracks
     tracklist = [take_random(@full_tracklist)]
-    until tracklist.length == Playlist::SONGS_LIMIT
+    until hit_song_limit?(tracklist)
       last_song_params = get_key_and_mode(tracklist.last)
       neighbors_params = get_neighbor_params(last_song_params)
       tracklist << get_next_song(neighbors_params)
     end
     tracklist
+  end
+
+  def hit_song_limit?(tracklist)
+    tracklist.length == Playlist::SONGS_LIMIT ||
+      tracklist.length == @full_tracklist.length ||
+       @full_tracklist.empty?
   end
 
   def get_neighbor_params(params_array)
@@ -62,7 +68,6 @@ class Camelot
   end
 
   def get_key_and_mode(track)
-    binding.pry if track.nil?
     track.audio_summary.to_hash.values_at("key", "mode")
   end
 

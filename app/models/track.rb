@@ -4,11 +4,9 @@ class Track < ActiveRecord::Base
   has_many :assignments
 
   def self.save_tracks(tracklist, group_id)
-binding.pry
     tracklist.each_with_index do |song, i|  # REMOVE FIRST
       save_track(song, group_id) if i == 0
     end
-    binding.pry # implement save
   end
 
   def self.save_track(song, group_id)

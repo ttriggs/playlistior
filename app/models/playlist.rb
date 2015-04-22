@@ -33,15 +33,13 @@ class Playlist < ActiveRecord::Base
         playlist.danceability = playlist_params[:danceability]
         playlist.save! # need playlist id ready for genre/style linking
         playlist.record_music_styles(genres)
-        result = playlist.add_tracks("prepend")
-        { playlist: playlist, snapshot_id: result["snapshot_id"] }
+        playlist.add_tracks("prepend")
       else
         response
       end
     else
       playlist.record_music_styles(genres)
-      result = playlist.add_tracks("append") # prepend playlist with 30 new songs
-      { playlist: playlist, snapshot_id: result["snapshot_id"] }
+      playlist.add_tracks("append") # prepend playlist with 30 new songs
     end
   end
 
@@ -52,11 +50,25 @@ class Playlist < ActiveRecord::Base
     end
   end
 
+  def handle_add_tracks_response(response)
+    if response["snapshot_id"]
+      { playlist: self, snapshot_id: response["snapshot_id"] }
+    else
+      { errors: "Sorry could not create playlist for this artist" }
+    end
+  end
+
   def add_tracks(location="append")
-    ordered_tracklist = Camelot.new(get_full_tracklist).order_tracks
-    # Track.save_tracks(get_full_tracklist, genres.first.group_id)
-    uri_array = build_uri_array(ordered_tracklist)
-    ApiWrap.post_tracks_to_spotify(self, uri_array, location)
+    full_tracklist = get_full_tracklist
+    if !full_tracklist.empty?
+      ordered_tracklist = Camelot.new(full_tracklist).order_tracks
+      # Track.save_tracks(get_full_tracklist, genres.first.group_id)
+      uri_array = build_uri_array(ordered_tracklist)
+      response = ApiWrap.post_tracks_to_spotify(self, uri_array, location)
+      handle_add_tracks_response(response)
+    else
+      { errors: "Sorry no tracks found for this artist"}
+    end
   end
 
   def get_full_tracklist
