@@ -2,6 +2,6 @@
 <ul id="hover1" class="small f-dropdown" data-dropdown-content>
   <% all_genres_in_use.sort_by(&:group_id).each do |genre| %>
     <% color = genre.group_color %>
-    <li> <%= link_to genre.name.titleize, genre_path(genre), { style: "background-color:rgba(#{color}, 0.7)" , class: "css-class" } %> </li>
+    <li> <%= link_to genre.name.titleize, genre_path(genre), { style: "background-color:rgba(#{color}, 0.7)"} %> </li>
   <% end %>
 </ul>

@@ -24,8 +24,8 @@ body {
   font-family: "Avenir Next", "Helvetica Neue", Helvetica, Arial;
   font-weight: 100;
 }
-/* Title Bar */
 
+/* Title Bar */
 .top-bar-section .has-dropdown.not-click:hover>.dropdown.scroll-list{
   height: 300px !important;
   /* Forced to use !important to overwrite Foundation styles */
@@ -70,6 +70,22 @@ $title-color: #F0DC05;
     }
   }
 }
+
+/* kill genre dropdown in topbar on small screens */
+a.scroll-dropdown {
+    @media screen and (max-width: 60rem) {
+      display: none !important;
+  }
+}
+// /* add genre dropdown below create playlist on small screens */
+// a.small-scroll-dropdown {
+//     @media screen and (max-width: 60rem) {
+//       display: none !important;
+//   }
+// }
+
+
+
 
 /** Body */
 
@@ -132,8 +148,8 @@ hr {
 
   a img:hover {
     opacity: 0.6;
-    transition: all 0.5s ease;
-    box-shadow: 0px 0px 79px -12px rgba(240,220,5,1);
+    transition: all 0.3s ease;
+    box-shadow: 0px 0px 40px -12px rgba(240,220,5,1);
   }
 }
 
