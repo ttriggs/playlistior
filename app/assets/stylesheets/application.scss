@@ -34,14 +34,30 @@ body {
   overflow: scroll;
 }
 
-
-ul#hover1.small.f-dropdown.open.f-open-dropdown {
-  height: 200px !important;
+/* genre drop down menu */
+ul#hover-topbar.small.f-dropdown.open.f-open-dropdown {
+  background: #000;
+  border: none;
+  height: 220px !important;
   /* Forced to use !important to overwrite Foundation styles */
   overflow: scroll;
   -webkit-box-shadow: 1px 10px 53px -18px rgba(0,0,0,1);
   -moz-box-shadow: 1px 10px 53px -18px rgba(0,0,0,1);
   box-shadow: 1px 10px 53px -18px rgba(0,0,0,1);
+}
+
+ul#hover-media.small.f-dropdown.open.f-open-dropdown {
+  background: #000;
+  border: none;
+  height: 220px !important;
+  /* Forced to use !important to overwrite Foundation styles */
+  overflow: scroll;
+  -webkit-box-shadow: 1px 10px 53px -18px rgba(0,0,0,1);
+  -moz-box-shadow: 1px 10px 53px -18px rgba(0,0,0,1);
+  box-shadow: 1px 10px 53px -18px rgba(0,0,0,1);
+  li a {
+    color: #FFF
+  }
 }
 
 .top-bar-section > ul > li > a {
@@ -76,20 +92,17 @@ p#menu {
 }
 
 /* kill genre dropdown in topbar on small screens */
-a.scroll-dropdown {
-    @media screen and (max-width: 70rem) {
-      display: none !important;
+a.top-bar-scroll-dropdown {
+  @media screen and (max-width: 70rem) {
+    display: none !important;
   }
 }
-// /* add genre dropdown below create playlist on small screens */
-// a.small-scroll-dropdown {
-//     @media screen and (max-width: 60rem) {
-//       display: none !important;
-//   }
-// }
-
-
-
+/* add genre dropdown below create playlist on small screens */
+a.media-scroll-dropdown {
+  @media screen and (min-width: 70rem) {
+    display: none !important;
+  }
+}
 
 /** Body */
 
@@ -250,12 +263,6 @@ ul li.signed-in-as {
   }
 }
 
-ul#hover1.small.f-dropdown.open.f-open-dropdown {
-  height: auto !important;
-  max-height: 270px;
-  background: #000;
-  border: none;
-}
 
 /* Playlist popup */
 
