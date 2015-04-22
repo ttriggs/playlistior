@@ -12,7 +12,7 @@ class SessionsController < ApplicationController
     if user.save
       session[:user_id] = user.id
       flash[:info] = "Signed in successfully."
-      redirect_to root_path
+      redirect_to playlists_path
     else
       flash[:alert] = "Unable to sign in."
       redirect_to root_path

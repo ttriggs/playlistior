@@ -16,6 +16,7 @@
 
  */
 $title-color: #F0DC05;
+$spotify-green: #94BF24;
 
 html {
   font-size: 1.3em;
@@ -63,7 +64,7 @@ p#menu {
 }
 
 .playlistior-title {
-  padding: 0.1rem 2rem;
+  padding: 0.2rem 0rem;
 
   a {
     @include title-font;
@@ -210,6 +211,9 @@ hr {
     }
   }
   .spotify-login {
+    padding-left: 1.3rem;
+    padding-right: 1.3rem;
+    background-color: $spotify-green;
     @media screen and (max-width: 40rem) {
       margin-right: 1rem;
     }

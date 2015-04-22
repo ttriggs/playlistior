@@ -1,5 +1,5 @@
 class PlaylistsController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: [:show]
   before_action :refresh_token_if_needed, except: [:show]
 
   def index
