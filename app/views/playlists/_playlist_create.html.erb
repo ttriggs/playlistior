@@ -3,7 +3,7 @@
     <h3 class="center">Create a playlist</h3>
     <%= form_tag(playlists_path, method: 'post') do %>
       <div class="large-12 columns">
-        <%= text_field_tag :playlist, params[:playlist], placeholder: "Enter seed artist to begin", class: "typeahead" %>
+        <%= text_field_tag :playlist, params[:playlist], placeholder: "Enter artist to begin (Radiohead, Yelle, Rihanna, Zero 7)", class: "typeahead" %>
       </div>
       <div class="two mobile-one columns">
           <%= label :adventurous, "Adventurous?" %>

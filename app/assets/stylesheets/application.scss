@@ -57,7 +57,6 @@ p#menu {
 
 @mixin title-font {
   font-family: 'Great Vibes', cursive;
-
   color: lighten($title-color, 15%) !important;
   text-shadow: darken($title-color, 10%) 1px 1px 5px;
   transition: all 0.5s linear !important;
@@ -68,9 +67,7 @@ p#menu {
 
   a {
     @include title-font;
-
     font-size: 2rem !important;
-
     &:hover {
       color: $title-color !important;
       text-shadow: darken($title-color, 25%) 1px 1px 0px;
@@ -214,6 +211,11 @@ hr {
     padding-left: 1.3rem;
     padding-right: 1.3rem;
     background-color: $spotify-green;
+    background: -moz-linear-gradient(212deg, rgb(148, 191, 36) 22%, rgb(114, 147, 0) 71%);
+    background: -webkit-linear-gradient(212deg, rgb(148, 191, 36) 22%, rgb(114, 147, 0) 71%);
+    background: -o-linear-gradient(212deg, rgb(148, 191, 36) 22%, rgb(114, 147, 0) 71%);
+    background: -ms-linear-gradient(212deg, rgb(148, 191, 36) 22%, rgb(114, 147, 0) 71%);
+    background: linear-gradient(122deg, rgb(148, 191, 36) 22%, rgb(114, 147, 0) 71%);
     @media screen and (max-width: 40rem) {
       margin-right: 1rem;
     }
