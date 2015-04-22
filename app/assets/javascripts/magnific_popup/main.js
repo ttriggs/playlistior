@@ -267,8 +267,6 @@ MagnificPopup.prototype = {
       _wrapClasses += ' mfp-align-top';
     }
 
-
-
     if(mfp.fixedContentPos) {
       mfp.wrap.css({
         overflow: mfp.st.overflowY,

@@ -54,7 +54,10 @@ class Playlist < ActiveRecord::Base
     if response["snapshot_id"]
       { playlist: self, snapshot_id: response["snapshot_id"] }
     else
-      { errors: "Sorry could not create playlist for this artist" }
+      {
+        errors: "Sorry could not create playlist for this artist",
+        playlist: self
+       }
     end
   end
 
@@ -67,7 +70,10 @@ class Playlist < ActiveRecord::Base
       response = ApiWrap.post_tracks_to_spotify(self, uri_array, location)
       handle_add_tracks_response(response)
     else
-      { errors: "Sorry no tracks found for this artist"}
+      {
+        errors: "Sorry no tracks found for this artist",
+        playlist: self
+      }
     end
   end
 

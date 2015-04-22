@@ -14,6 +14,8 @@ class PlaylistsController < ApplicationController
                                                 current_user)
     if response[:errors]
       flash[:error] = response[:errors]
+      playlist = response[:playlist]
+      playlist.destroy if playlist
       render "homes/index"
     else
       @playlist = response[:playlist]
