@@ -16,7 +16,7 @@
       <li class="name">
         <h1 class="playlistior-title"><a href="/">Playlistior</a></h1>
       </li>
-      <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+      <li class="toggle-topbar menu-icon"><a href="#"><span><p id="menu">Menu</p></span></a></li>
     </ul>
 
     <section class="top-bar-section">
@@ -51,17 +51,18 @@
 
     </div>
   </div>
+
   <footer class="row">
-  <div class="footer large-12 columns"><hr/>
-    <div class="row">
-      <div class="large-3 columns">
-        <div class="left-production"><em>A Tyler Triggs Production</em></div>
+    <div class="footer large-12 columns"><hr/>
+      <div class="row">
+        <div class="large-3 columns">
+          <div class="left-production"><em>A Tyler Triggs Production</em></div>
           <ul class="icon-list">
             <li id="icon-li">
               <div id="link-icon">
                 <%= link_to image_tag("/assets/images/github-icon.png"), "https://github.com/ttriggs/playlistior", target: "_blank" %>
               </div>
-            </li id="icon-li">
+            </li>
             <li>
               <div id="link-icon">
               <%= link_to image_tag("/assets/images/linkedin-icon.png"), "https://www.linkedin.com/in/tylertriggs", target: "_blank"%>
@@ -78,15 +79,21 @@
               </div>
             </li>
           </ul>
-      </div>
-      <div class="large-3 columns right attributions">
-        <div><strong>Created by</strong> <a href="https://github.com/ttriggs">Tyler Triggs</a></div>
-        <div><strong>Powered by</strong> the<a href="http://www.echonest.com/"> Echonest </a>API<br>
-        <strong>And by</strong> the<a href="https://developer.spotify.com/"> Spotify </a>API</div>
-      </div>
+        </div>
+        <div class="large-3 columns right attributions">
+          <div>
+            <strong>Created by</strong> <a href="https://github.com/ttriggs">Tyler Triggs</a>
+          </div>
+          <div>
+            <strong>Powered by</strong> the<a href="http://www.echonest.com/"> Echonest </a>API
+          </div>
+          <div>
+            <strong>And by</strong> the<a href="https://developer.spotify.com/"> Spotify </a>API
+          </div>
+        </div>
 
+      </div>
     </div>
-  </div>
   </footer>
 
   <%= javascript_include_tag 'application' %>

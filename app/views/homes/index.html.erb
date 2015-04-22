@@ -4,14 +4,14 @@
   <%= render partial: 'playlists/playlist_create' %>
 <% else %>
   <h2 class="playlistior-heading"><a href="#">Playlistior</a></h2>
-  <p class="playlistior-summary">Music discovery playlist generator for Spotify</p>
+  <p class="playlistior-summary">The <em> Superior </em> music playlist generator for Spotify</p>
   <div class="splash-image">
   </div>
   <div class="splash-overlay">
     <div class="splash-overlay-backdrop"></div>
     <div class="splash-overlay-container">
-      <h3>Sign in with Spotify to get started</h3>
-      <div class="spotify-login button radius right"><%= link_to 'Sign In with Spotify', new_session_path %></div>
+<!--       <h3>Sign in with Spotify to get started</h3> -->
+      <div class="spotify-login button radius right"><%= link_to 'Sign in with Spotify to begin', new_session_path %></div>
     </div>
   </div>
 <% end %>
