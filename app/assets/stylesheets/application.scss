@@ -285,15 +285,21 @@ ul.popup-text {
 }
 
 h2#popup-title {
-  color: #000;
+  @include title-font;
 }
 
-p#popup-small-text {
-  font-size: 0.9em;
+p#popup-large-text {
+  font-size: 2em;
+  font-weight: 400;
+  margin-top: -20px;
 }
 
 p#popup-medium-text {
   font-size: 1em;
+}
+
+p#popup-small-text {
+  font-size: 0.9em;
 }
 
 #hm-link {
@@ -331,7 +337,11 @@ p#popup-medium-text {
 }
 
 .spotify-widget {
-  box-shadow: #000 1px 1px 3px;
+  box-shadow: #222 1px 1px 4px;
+}
+
+.highchart {
+  box-shadow: #222 2px 2px 3px;
 }
 
 /** Playlists index */
