@@ -59,7 +59,7 @@ ActiveRecord::Schema.define(version: 20150423170001) do
     t.integer  "tempo",         default: 0
     t.float    "danceability",  default: 0.0
     t.text     "uri_array",     default: "[]"
-    t.integer  "follows_cache"
+    t.integer  "follows_cache", default: 0
   end
 
   create_table "styles", force: :cascade do |t|
