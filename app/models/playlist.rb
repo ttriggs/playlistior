@@ -20,7 +20,7 @@ class Playlist < ActiveRecord::Base
     playlist_params = response[:params]
     playlist = Playlist.find_or_initialize_by(user: current_user,
                                               seed_artist: seed_artist)
-    playlist.setup_uri_array_if_needed
+    playlist.setup_uri_array_if_needed(current_user)
     if playlist.fresh_playlist?
       playlist.name = "Playlistior: #{artist_name}"
       playlist.user = current_user
