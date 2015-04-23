@@ -16,6 +16,6 @@ module PlaylistHelper
   end
 
   def get_their_playlists
-    Playlist.where.not(user_id: current_user.id)
+    Playlist.where.not(user_id: current_user.id).order(follows_cache: :desc).take(30)
   end
 end
