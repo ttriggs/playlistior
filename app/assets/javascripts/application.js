@@ -64,5 +64,23 @@ $(document).ready(function() {
       midClick: true // allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source.
     }).magnificPopup('open');
   });
+
+  $(".extend-popup").on("click", function(e){
+    $(this).magnificPopup({
+      items: {
+        src: '#extend-popup',
+        type: 'inline'
+      },
+      removalDelay: 400, //delay removal by X to allow out-animation
+      callbacks: {
+
+        beforeOpen: function() {
+           this.st.mainClass = this.st.el.attr('data-effect');
+        }
+      },
+      midClick: true // allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source.
+    }).magnificPopup('open');
+  });
 });
+
 
