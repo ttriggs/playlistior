@@ -1,6 +1,6 @@
 class Playlist < ActiveRecord::Base
   SONGS_LIMIT = 50
-  before_destroy :destroy_assignments
+  before_destroy :destroy_assignments, :destroy_follows
   has_many :genres, through: :styles
   has_many :styles, dependent: :destroy
   has_many :tracks, through: :assignments
@@ -158,6 +158,9 @@ class Playlist < ActiveRecord::Base
     Assignment.where(playlist_id: id).destroy_all
   end
 
+  def destroy_follows
+    Follow.where(playlist_id: id).destroy_all
+  end
 end
 
 
