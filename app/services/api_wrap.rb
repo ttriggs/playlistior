@@ -55,7 +55,8 @@ class ApiWrap
     end
   end
 
-  def self.stitch_in_audio_summaries(unique_songs)
+  def self.stitch_in_audio_summaries(all_playlists)
+    unique_songs = uniquify_songs(all_playlists)
     key = ENV['ECHONEST_API_KEY']
     base_url = song_profile_url
     unique_songs.each_slice(20).with_object(complete_songs = []) do |song_batch|
@@ -70,7 +71,6 @@ class ApiWrap
     end
   end
 
-
   def self.songs_to_track_id_string(unique_songs)
     unique_songs.map do |song|
       "track_id=" + song.tracks.first.foreign_id
@@ -84,15 +84,29 @@ class ApiWrap
                              min_tempo: playlist.min_tempo,
                              min_danceability: playlist.min_danceability,
                              artist_min_familiarity: playlist.min_familiarity,
+                             song_type: "christmas:false",
                              type: 'genre-radio',
                              bucket: ["id:spotify",
                                      :song_type,
                                      :tracks
                                      ]
-                           )
+                            )
   end
 
-  def self.post_tracks_to_spotify(playlist, uri_array, location)
+  def self.get_playlist_tracks(playlist)
+    token        = playlist.user.session_token
+    spotify_id   = playlist.spotify_id
+    spotify_link = playlist.user.spotify_link
+    params = {
+               headers: {"Authorization" => "Bearer #{token}"}
+             }
+    url = "#{spotify_link}/playlists/#{spotify_id}/tracks"
+    HTTParty.get(url, params)
+  end
+
+  def self.post_tracks_to_spotify(playlist, tracklist, location)
+    uri_array    = build_uri_array(tracklist)
+    playlist.save_uri_array(uri_array, location)
     token        = playlist.user.session_token
     spotify_id   = playlist.spotify_id
     spotify_link = playlist.user.spotify_link
@@ -105,6 +119,18 @@ class ApiWrap
       url.concat("?position=0")
     end
     HTTParty.post(url, params)
+  end
+
+  def self.build_uri_array(tracklist)
+    tracklist.map(&:spotify_id)
+  end
+
+  def self.get_new_tracklist(playlist)
+    playlist.genres.each_with_object(all_playlists = []) do |genre|
+      next if all_playlists.length > 200
+      all_playlists += songs_by_genre(playlist, genre.name)
+    end
+    stitch_in_audio_summaries(all_playlists)
   end
 
   def self.unfollow_playlist(playlist, user)
@@ -132,6 +158,10 @@ class ApiWrap
 
 
 private
+  def self.uniquify_songs(all_songs)
+    all_songs.uniq {|song| song.tracks.first.id }
+    # all_songs.uniq(&:artist_name)
+  end
 
   def self.playlist_follow_url(owner_id, playlist_id)
     "https://api.spotify.com/v1/users/#{owner_id}/playlists/#{playlist_id}/followers"

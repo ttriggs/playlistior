@@ -1,6 +1,7 @@
 class Camelot
-  def initialize(full_tracklist)
-    @full_tracklist = full_tracklist
+  def initialize(uris, tracks)
+    @uris = uris
+    @full_tracklist = get_array_of_new_tracks(tracks)
     @en_keys  = { 0 => "C",
                   1 => "Db",
                   2 => "D",
@@ -39,6 +40,14 @@ class Camelot
                  ["Db", 0] => 12 }
   end
 
+  def get_array_of_new_tracks(tracks)
+    tracks.each_with_object(new_tracks = []) do |track|
+      unless @uris.include?(track.spotify_id.to_s)
+        new_tracks << track
+      end
+    end
+  end
+
   def order_tracks
     tracklist = [take_random(@full_tracklist)]
     until hit_song_limit?(tracklist)
@@ -68,7 +77,7 @@ class Camelot
   end
 
   def get_key_and_mode(track)
-    track.audio_summary.to_hash.values_at("key", "mode")
+    [track.key, track.mode]
   end
 
   def take_random(array)
@@ -78,8 +87,8 @@ class Camelot
   def get_index_of_next_song(song_params)
     key, mode = song_params
     @full_tracklist.find_index do |song|
-      song.audio_summary.key == key &&
-      song.audio_summary.mode == mode
+      song.key == key &&
+      song.mode == mode
     end
   end
 

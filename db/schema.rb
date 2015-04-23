@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150420023746) do
+ActiveRecord::Schema.define(version: 20150423025336) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -58,6 +58,7 @@ ActiveRecord::Schema.define(version: 20150420023746) do
     t.float    "familiarity",   default: 0.0
     t.integer  "tempo",         default: 0
     t.float    "danceability",  default: 0.0
+    t.text     "uri_array",     default: "[]"
   end
 
   create_table "styles", force: :cascade do |t|
@@ -70,7 +71,6 @@ ActiveRecord::Schema.define(version: 20150420023746) do
   add_index "styles", ["genre_id", "playlist_id"], name: "index_styles_on_genre_id_and_playlist_id", unique: true, using: :btree
 
   create_table "tracks", force: :cascade do |t|
-    t.integer  "group_id",       null: false
     t.string   "artist_name",    null: false
     t.string   "echonest_id",    null: false
     t.string   "spotify_id",     null: false
