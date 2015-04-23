@@ -8,6 +8,7 @@ class FollowsController < ApplicationController
                                           playlist_id: playlist.id)
     # ApiWrap.follow_playlist(playlist, current_user)
     if follow.save!
+      playlist.increment_followers_cache
       flash[:notice] = "Playlist followed on Playlistior"
     else
       flash[:notice] = "Failed to follow playlist"
@@ -20,6 +21,7 @@ class FollowsController < ApplicationController
     follow = Follow.find_by(user_id: current_user.id,
                             playlist_id: playlist.id)
     if follow
+      playlist.decrement_followers_cache
       follow.destroy
       flash[:notice] = "Unfollowed playlist"
     end

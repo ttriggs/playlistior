@@ -134,6 +134,16 @@ class Playlist < ActiveRecord::Base
     "https://embed.spotify.com/?uri=spotify:user:#{user.spotify_id}:playlist:#{spotify_id}"
   end
 
+  def increment_followers_cache
+    self.follows_cache += 1
+    self.save!
+  end
+
+  def decrement_followers_cache
+    self.follows_cache -= 1
+    self.save!
+  end
+
   private
 
   def uris_from_tracklist_response(response)
