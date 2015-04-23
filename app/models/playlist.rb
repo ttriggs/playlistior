@@ -1,9 +1,10 @@
 class Playlist < ActiveRecord::Base
-  SONGS_LIMIT = 30
+  SONGS_LIMIT = 50
+  before_destroy :destroy_assignments
   has_many :genres, through: :styles
   has_many :styles, dependent: :destroy
   has_many :tracks, through: :assignments
-  has_many :assignments, dependent: :destroy
+  has_many :assignments
   has_many :follows
 
   belongs_to :user
@@ -19,6 +20,7 @@ class Playlist < ActiveRecord::Base
     playlist_params = response[:params]
     playlist = Playlist.find_or_initialize_by(user: current_user,
                                               seed_artist: seed_artist)
+    playlist.setup_uri_array_if_needed
     if playlist.fresh_playlist?
       playlist.name = "Playlistior: #{artist_name}"
       playlist.user = current_user
@@ -50,24 +52,22 @@ class Playlist < ActiveRecord::Base
     end
   end
 
-  def handle_add_tracks_response(response)
-    if response["snapshot_id"]
-      { playlist: self, snapshot_id: response["snapshot_id"] }
-    else
-      {
-        errors: "Sorry could not create playlist for this artist",
-        playlist: self
-       }
+  def setup_uri_array_if_needed
+    if has_snapshot? && has_no_tracks?
+      response = ApiWrap.get_playlist_tracks(self)
+      self.uri_array = uris_from_tracklist_response(response)
+      self.save!
     end
   end
 
-  def add_tracks(location="append")
-    full_tracklist = get_full_tracklist
-    if !full_tracklist.empty?
-      ordered_tracklist = Camelot.new(full_tracklist).order_tracks
-      # Track.save_tracks(get_full_tracklist, genres.first.group_id)
-      uri_array = build_uri_array(ordered_tracklist)
-      response = ApiWrap.post_tracks_to_spotify(self, uri_array, location)
+  def add_tracks(location)
+    if location == "prepend" # on fresh "create"
+      new_tracklist = ApiWrap.get_new_tracklist(self)
+      save_tracks(new_tracklist)
+    end
+    if tracks.any?
+      ordered_tracklist = Camelot.new(uri_array, tracks).order_tracks
+      response = ApiWrap.post_tracks_to_spotify(self, ordered_tracklist, location)
       handle_add_tracks_response(response)
     else
       {
@@ -77,18 +77,36 @@ class Playlist < ActiveRecord::Base
     end
   end
 
-  def get_full_tracklist
-    genres.each_with_object(all_playlists = []) do |genre, all|
-      next if all_playlists.length > 200
-      all_playlists += ApiWrap.songs_by_genre(self, genre.name)
+  def save_uri_array(uris, location)
+    playlist_uris = get_uri_array
+    if location == "append"
+      self.uri_array = (playlist_uris += uris).to_s
+    else
+      self.uri_array = (uris += playlist_uris).to_s
     end
-    unique_songs = uniquify_songs(all_playlists)
-    ApiWrap.stitch_in_audio_summaries(unique_songs)
+    self.save!
   end
 
-  def build_uri_array(tracklist)
-    tracklist.map do |song|
-      song.tracks.first.foreign_id
+  def get_uri_array
+    uri_array.gsub(/\"/,"").tr("[]","").split(", ")
+  end
+
+  def save_tracks(tracks)
+    tracks.each do |track|
+      track = Track.find_or_build_track(track)
+      self.tracks += [track]
+    end
+  end
+
+  def handle_add_tracks_response(response)
+    if response["snapshot_id"]
+      self.snapshot_id = response["snapshot_id"]
+      { playlist: self }
+    else
+      {
+        errors: "Sorry could not create playlist for this artist",
+        playlist: self
+       }
     end
   end
 
@@ -97,7 +115,7 @@ class Playlist < ActiveRecord::Base
   end
 
   def fresh_playlist?
-    snapshot_id.nil?
+    snapshot_id.nil? || has_no_tracks?
   end
 
   def min_tempo
@@ -112,17 +130,34 @@ class Playlist < ActiveRecord::Base
     (danceability - 0.12).abs
   end
 
-
   def spotify_embed
     "https://embed.spotify.com/?uri=spotify:user:#{user.spotify_id}:playlist:#{spotify_id}"
   end
 
   private
 
-  def uniquify_songs(all_songs)
-    all_songs.uniq {|song| song.tracks.first.id }
-    # all_songs.uniq(&:artist_name)
+  def uris_from_tracklist_response(response)
+    response["items"].map do |track|
+      track["track"]["uri"]
+    end.to_s
   end
+
+  def has_snapshot?
+    !snapshot_id.nil?
+  end
+
+  def has_tracks?
+    tracks.length > 0
+  end
+
+  def has_no_tracks?
+    !has_tracks?
+  end
+
+  def destroy_assignments
+    Assignment.where(playlist_id: id).destroy_all
+  end
+
 end
 
 

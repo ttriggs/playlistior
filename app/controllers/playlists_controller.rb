@@ -19,8 +19,8 @@ class PlaylistsController < ApplicationController
       render "homes/index"
     else
       @playlist = response[:playlist]
-      @playlist.snapshot_id = response[:snapshot_id]
       @playlist.save!
+      flash[:success] = "Playlist created (updates may appear first in Spotify app :)"
       redirect_to @playlist
     end
   end
@@ -39,5 +39,6 @@ class PlaylistsController < ApplicationController
 
   def show
     @playlist = Playlist.find(params[:id])
+    @playlist.setup_uri_array_if_needed
   end
 end

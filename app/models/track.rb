@@ -1,24 +1,28 @@
 class Track < ActiveRecord::Base
-  belongs_to :group
   has_many :playlists, through: :assignments
   has_many :assignments
 
-  def self.save_tracks(tracklist, group_id)
-    tracklist.each_with_index do |song, i|  # REMOVE FIRST
-      save_track(song, group_id) if i == 0
+  def self.find_or_build_track(song)
+    echonest_id = song.id
+    track = Track.find_or_initialize_by(echonest_id: echonest_id)
+    if track.fresh?
+      track.title       = song.title
+      track.spotify_id  = song.tracks.first.foreign_id
+      track.artist_name = song.artist_name
+      summary  = song.audio_summary.to_hash
+      track.key = summary["key"]
+      track.mode  = summary["mode"]
+      track.tempo  = summary["tempo"]
+      track.energy  = summary["energy"]
+      track.liveness  = summary["liveness"]
+      track.danceability = summary["danceability"]
+      track.time_signature = summary["time_signature"]
+      track.save!
     end
+    track
   end
 
-  def self.save_track(song, group_id)
-    track = Track.new
-    track.title = song.title
-    track.artist_name = song.artist_name
-    track.spotify_id  = song.tracks.first.foreign_id
-    track.echonest_id = song.id
-    track.group_id    = group_id
-    if !track.save!
-      binding.pry # WTF?
-    end
+  def fresh?
+    title.nil? && key.nil?
   end
-
 end
