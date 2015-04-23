@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150423025336) do
+ActiveRecord::Schema.define(version: 20150423170001) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -59,6 +59,7 @@ ActiveRecord::Schema.define(version: 20150423025336) do
     t.integer  "tempo",         default: 0
     t.float    "danceability",  default: 0.0
     t.text     "uri_array",     default: "[]"
+    t.integer  "follows_cache"
   end
 
   create_table "styles", force: :cascade do |t|
