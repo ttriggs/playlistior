@@ -93,8 +93,8 @@ class ApiWrap
                             )
   end
 
-  def self.get_playlist_tracks(playlist)
-    token        = playlist.user.session_token
+  def self.get_playlist_tracks(playlist, current_user)
+    token        = current_user.session_token
     spotify_id   = playlist.spotify_id
     spotify_link = playlist.user.spotify_link
     params = {
