@@ -39,6 +39,6 @@ class PlaylistsController < ApplicationController
 
   def show
     @playlist = Playlist.find(params[:id])
-    @playlist.setup_uri_array_if_needed
+    @playlist.setup_uri_array_if_needed(current_user)
   end
 end

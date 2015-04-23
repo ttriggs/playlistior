@@ -52,9 +52,9 @@ class Playlist < ActiveRecord::Base
     end
   end
 
-  def setup_uri_array_if_needed
+  def setup_uri_array_if_needed(current_user)
     if has_snapshot? && has_no_tracks?
-      response = ApiWrap.get_playlist_tracks(self)
+      response = ApiWrap.get_playlist_tracks(self, current_user)
       self.uri_array = uris_from_tracklist_response(response)
       self.save!
     end
