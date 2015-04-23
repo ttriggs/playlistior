@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby "2.1.5"
+ruby '2.1.5'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.0'
@@ -44,7 +44,7 @@ group :development, :test do
   gem 'spring'
 end
 
-gem "rails-erd", group: [:development]
+gem 'rails-erd', group: [:development]
 
 gem 'rspec-rails', group: [:development, :test]
 gem 'capybara', group: [:development, :test]
@@ -52,7 +52,7 @@ gem 'launchy', group: [:development, :test]
 gem 'factory_girl', group: [:development, :test]
 gem 'valid_attribute', group: [:development, :test]
 gem 'shoulda-matchers', group: [:development, :test], require: false
-gem 'foundation-rails', "5.5.1.0"
+gem 'foundation-rails', '5.5.1.0'
 gem 'echowrap'
 gem 'httparty'
 gem 'rails_12factor', group: :production
