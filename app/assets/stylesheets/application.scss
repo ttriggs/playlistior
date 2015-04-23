@@ -222,18 +222,23 @@ hr {
   .spotify-login {
     padding-left: 1.3rem;
     padding-right: 1.3rem;
-    background-color: $spotify-green;
+    background-color: $spotify-green !important;
     background: -moz-linear-gradient(212deg, rgb(148, 191, 36) 22%, rgb(114, 147, 0) 71%);
     background: -webkit-linear-gradient(212deg, rgb(148, 191, 36) 22%, rgb(114, 147, 0) 71%);
     background: -o-linear-gradient(212deg, rgb(148, 191, 36) 22%, rgb(114, 147, 0) 71%);
     background: -ms-linear-gradient(212deg, rgb(148, 191, 36) 22%, rgb(114, 147, 0) 71%);
     background: linear-gradient(122deg, rgb(148, 191, 36) 22%, rgb(114, 147, 0) 71%);
+    transition: all 1s ease;
+
     @media screen and (max-width: 40rem) {
       margin-right: 1rem;
     }
     @media screen and (max-width: 35rem) {
       margin-right: 0;
       margin-left: 1.5rem;
+    }
+    &:hover {
+      background: #648200 !important;
     }
   }
 }
