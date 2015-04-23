@@ -7,7 +7,11 @@ module FollowHelper
   def all_playlists_following
     follows = Follow.where(user_id: current_user.id)
     follows.each_with_object([]) do |follow, playlists|
-      playlists << Playlist.find(follow.playlist_id)
+      if Playlist.exists?(follow.playlist_id)
+        playlists << Playlist.find(follow.playlist_id)
+      else
+        Follow.where(playlist_id: follow.playlist_id).destroy_all
+      end
     end
   end
 
