@@ -14,13 +14,21 @@ end
 # initialize catch-all group for genres not in my seed file:
 Group.find_or_create_by(rgb: "(100, 100, 100)")
 Genre.find_or_create_by(name: "melancholia")
-puts ""
 
 #add follows to playlists created before follows_cache migration:
 Playlist.all.each do |playlist|
   if playlist.follows_cache == 0
     playlist.follows_cache = Follow.where(playlist_id: playlist.id).count
     playlist.save!
-    puts "pf+"
+    print "pf+"
   end
 end
+
+# record tracks for old playlists
+Playlist.all.each do |playlist|
+  playlist.setup_tracks_if_needed
+  playlist.save!
+  puts "pt+"
+end
+
+puts ""
