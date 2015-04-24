@@ -1,44 +1,43 @@
 class Api::V1::PlaylistsController < ApplicationController
-  # before_action :authenticate_user!
-  # before_action :refresh_token_if_needed, except: [:show]
 
-  # def index
-  #   @playlists = Playlist.all
-  # end
+  def show
+    playlist = Playlist.find(params[:id])
+    @playlist_data = get_playlist_json(playlist)
 
-  # def create
-  #   seed_artist = params[:playlist]
-  #   adventurous = params[:adventurous] || false
-  #   response = Playlist.fetch_or_build_playlist(seed_artist,
-  #                                               adventurous,
-  #                                               current_user)
-  #   if response[:errors]
-  #     flash[:error] = response[:errors]
-  #     playlist = response[:playlist]
-  #     playlist.destroy if playlist
-  #     render "homes/index"
-  #   else
-  #     @playlist = response[:playlist]
-  #     @playlist.save!
-  #     flash[:success] = "Playlist created (updates may appear first in Spotify app :)"
-  #     redirect_to @playlist
-  #   end
-  # end
+    render json: @playlist_data, callback: params[:callback]
+  end
 
-  # def destroy
-  #   @playlist = Playlist.find(params[:id])
-  #   if @playlist.owner?(current_user)
-  #     ApiWrap.unfollow_playlist(@playlist, current_user)
-  #     @playlist.destroy
-  #     flash[:success] = "Playlist Deleted"
-  #     redirect_to playlists_path
-  #   else
-  #     redirect_to @playlist
-  #   end
-  # end
+  private
 
-  # def show
-  #   @playlist = Playlist.find(params[:id])
-  #   @playlist.setup_uri_array_if_needed(current_user)
-  # end
+  def get_playlist_json(playlist)
+    playlist.setup_uri_array_if_needed(current_user)
+    playlist.setup_tracks_if_needed
+    active_tracks = playlist.active_tracks_in_order
+    @major_series = []
+    @minor_series = []
+    active_tracks.each.with_index(1) do |track, order|
+      circle_zone = Camelot.get_circle_zone(track)
+      energy = (track.energy * 100_000).to_i
+      if track.key == 1
+        @major_series << [order, circle_zone, energy]
+      else
+        @minor_series << [order, circle_zone, energy]
+      end
+    end
+    create_chart_json(@major_series, @minor_series)
+  end
+
+  def create_chart_json(major_series, minor_series)
+    {
+      chart: {
+              type: 'bubble',
+              zoomType: 'xy'
+             },
+             title: { text: 'Highcharts Bubbles' },
+            series: [
+              { data: major_series },
+              { data: minor_series }
+                    ]
+    }
+  end
 end

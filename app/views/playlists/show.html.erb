@@ -1,4 +1,3 @@
-
 <div class="row playlist-show">
   <div class="large-5 columns">
     <h3 class="playlist-header">Inspired by <%= @playlist.seed_artist.titleize %></h3>
@@ -33,12 +32,24 @@
 
 
   </div>
+  <!-- build playlist api url for highcharts json get -->
+  <% playlist_api_url = api_v1_playlist_path(@playlist) + ".jsonp?callback=?" %>
+  <%= javascript_tag do %>
+    window.playlist_api_url = '<%= j playlist_api_url %>';
+  <% end %>
+
   <div class="large-7 columns">
-    <h3 class="playlist-header">Your harmonic playlist visualized</h3>
+    <h3 class="playlist-header">This harmonic playlist visualized</h3>
     <small class="playlist-attribution">powered by <a href="http://www.highcharts.com/">Highcharts</a></small>
 
     <div class="highchart" id="chart-container" style="height: 400px; min-width: 310px; max-width: 600px; margin: 0 0"></div>
   </div>
 </div>
 
+
 <%= render partial: 'playlists/extend_popup' %>
+
+<%= content_for :extra_footer do %>
+  <%= javascript_include_tag  "charts/charts_dark_theme" %>
+  <%= javascript_include_tag  "charts/charts" %>
+<% end %>

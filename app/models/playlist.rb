@@ -53,17 +53,24 @@ class Playlist < ActiveRecord::Base
   end
 
   def setup_uri_array_if_needed(current_user)
-    if has_snapshot? && has_no_tracks?
+    if needs_new_uri_array?
       response = ApiWrap.get_playlist_tracks(self, current_user)
       self.uri_array = uris_from_tracklist_response(response)
       self.save!
     end
   end
 
+  def setup_tracks_if_needed
+    if has_snapshot? && has_no_tracks?
+      setup_new_tracklist
+    end
+  end
+
   def add_tracks(location)
     if location == "prepend" # on fresh "create"
-      new_tracklist = ApiWrap.get_new_tracklist(self)
-      save_tracks(new_tracklist)
+      new_tracklist = setup_new_tracklist
+      # new_tracklist = ApiWrap.get_new_tracklist(self)
+      # save_tracks(new_tracklist)
     end
     if tracks.any?
       ordered_tracklist = Camelot.new(uri_array, tracks).order_tracks
@@ -75,6 +82,11 @@ class Playlist < ActiveRecord::Base
         playlist: self
       }
     end
+  end
+
+  def setup_new_tracklist
+    new_tracklist = ApiWrap.get_new_tracklist(self)
+    save_tracks(new_tracklist)
   end
 
   def save_uri_array(uris, location)
@@ -96,6 +108,7 @@ class Playlist < ActiveRecord::Base
       track = Track.find_or_build_track(track)
       self.tracks += [track]
     end
+    tracks
   end
 
   def handle_add_tracks_response(response)
@@ -108,6 +121,13 @@ class Playlist < ActiveRecord::Base
         playlist: self
        }
     end
+  end
+
+  def active_tracks_in_order
+    get_uri_array.each_with_object(active_tracks = []) do |spotify_id|
+      active_tracks += tracks.where(spotify_id: spotify_id)
+    end
+    active_tracks
   end
 
   def owner?(current_user)
@@ -145,6 +165,10 @@ class Playlist < ActiveRecord::Base
   end
 
   private
+
+  def needs_new_uri_array?
+    has_snapshot? && has_no_tracks? || get_uri_array.empty?
+  end
 
   def uris_from_tracklist_response(response)
     response["items"].map do |track|
