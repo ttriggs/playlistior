@@ -6,5 +6,4 @@ class ApplicationController < ActionController::Base
   include TokenHelper
   include PlaylistHelper
 
-  config.middleware.use ActionDispatch::Flash
 end
