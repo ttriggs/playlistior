@@ -70,7 +70,6 @@ p#menu {
   }
 }
 
-
 @mixin title-font {
   font-family: 'Great Vibes', cursive;
   color: lighten($title-color, 15%) !important;
@@ -267,7 +266,6 @@ ul li.signed-in-as {
   }
 }
 
-
 /* Playlist popup */
 
 .white-popup {
@@ -335,7 +333,6 @@ p#popup-medium-text {
 }
 
 /** Playlists index */
-
 .playlists-list {
   list-style: none;
   margin-left: 0;
@@ -365,7 +362,6 @@ p#popup-medium-text {
     }
   }
 }
-
 
 /* ====== 3d unfold ====== */
 .mfp-3d-unfold {
@@ -410,8 +406,7 @@ p#popup-medium-text {
   }
 }
 
-
-// typeahead:
+// twitter-typeahead:
 // http://jsfiddle.net/Fresh/1hrk0qso/
 span.twitter-typeahead {
   width: 100%;
