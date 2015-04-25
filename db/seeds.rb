@@ -31,4 +31,11 @@ Playlist.all.each do |playlist|
   puts "pt+"
 end
 
+# record tracks for old playlists
+Playlist.all.each do |playlist|
+  playlist.seed_artist = playlist.seed_artist.titleize
+  playlist.save!
+  puts "pSA+ "
+end
+
 puts ""
