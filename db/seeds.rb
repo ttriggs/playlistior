@@ -29,6 +29,7 @@ Playlist.all.each do |playlist|
   playlist.setup_tracks_if_needed
   playlist.save!
   puts "pt+"
+  do_sleep
 end
 
 # record tracks for old playlists
@@ -39,3 +40,11 @@ Playlist.all.each do |playlist|
 end
 
 puts ""
+
+def do_sleep
+  puts "sleeping."
+  (1..5).each do
+    print "."
+  end
+  puts ""
+end
