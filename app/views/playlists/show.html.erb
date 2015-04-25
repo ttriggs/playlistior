@@ -28,9 +28,6 @@
       <%= link_to 'Unfollow', follow_path(@playlist), method: :delete,
                                                       class: "alert button full-playlist-button"%>
     <% end %>
-
-
-
   </div>
   <!-- build playlist api url for highcharts json get -->
   <% playlist_api_url = api_v1_playlist_path(@playlist) + ".jsonp?callback=?" %>
@@ -50,6 +47,10 @@
 <%= render partial: 'playlists/extend_popup' %>
 
 <%= content_for :extra_footer do %>
-  <%= javascript_include_tag  "charts/charts_dark_theme" %>
-  <%= javascript_include_tag  "charts/charts" %>
+  <%= javascript_include_tag "http://code.highcharts.com/highcharts.js" %>
+  <%= javascript_include_tag "http://code.highcharts.com/highcharts-more.js" %>
+  <%= javascript_include_tag "http://code.highcharts.com/modules/exporting.js" %>
+  <%= javascript_include_tag "charts/charts_dark_theme" %>
+  <%= javascript_include_tag "charts/charts" %>
 <% end %>
+
