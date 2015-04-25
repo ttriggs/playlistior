@@ -24,7 +24,7 @@ Playlist.all.each do |playlist|
   end
 end
 
-# record tracks for old playlists
+puts ">>>  record tracks for old playlists"
 Playlist.all.each do |playlist|
   if playlist.has_no_tracks?
     playlist.setup_new_tracklist
@@ -33,9 +33,10 @@ Playlist.all.each do |playlist|
       sleep 1
       print "."
     end
+  else
+    puts ">>>  no need to update tracks"
   end
   puts "pt+"
-  puts ""
 end
 
 # record tracks for old playlists

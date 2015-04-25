@@ -175,6 +175,10 @@ class Playlist < ActiveRecord::Base
     !has_tracks?
   end
 
+  def has_tracks?
+    tracks.length > 0
+  end
+
   private
 
   def needs_new_uri_array?
@@ -190,10 +194,6 @@ class Playlist < ActiveRecord::Base
 
   def has_snapshot?
     !snapshot_id.nil?
-  end
-
-  def has_tracks?
-    tracks.length > 0
   end
 
   def destroy_assignments
