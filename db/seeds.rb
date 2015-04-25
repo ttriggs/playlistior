@@ -28,8 +28,8 @@ end
 Playlist.all.each do |playlist|
   if playlist.has_no_tracks?
     playlist.setup_new_tracklist
-    puts "sleeping."
-    (1..20).each do
+    print "sleeping."
+    (1..40).each do
       sleep 1
       print "."
     end
