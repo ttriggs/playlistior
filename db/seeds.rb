@@ -26,10 +26,16 @@ end
 
 # record tracks for old playlists
 Playlist.all.each do |playlist|
-  playlist.setup_tracks_if_needed
-  playlist.save!
+  if playlist.has_no_tracks?
+    playlist.setup_new_tracklist
+    puts "sleeping."
+    (1..20).each do
+      sleep 1
+      print "."
+    end
+  end
   puts "pt+"
-  do_sleep
+  puts ""
 end
 
 # record tracks for old playlists
@@ -41,10 +47,3 @@ end
 
 puts ""
 
-def do_sleep
-  puts "sleeping."
-  (1..20).each do
-    print "."
-  end
-  puts ""
-end
