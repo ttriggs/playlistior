@@ -1,0 +1,1 @@
+$.getJSON(playlist_api_url,function(t){$(function(){$("#chart-container").highcharts(t)})});
