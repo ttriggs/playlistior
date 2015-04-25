@@ -7,11 +7,13 @@ class PlaylistsController < ApplicationController
   end
 
   def create
-    seed_artist = params[:playlist]
+    seed_artist = get_seed_artist(params)
+    location = get_location_from_params(params)
     adventurous = params[:adventurous] || false
     response = Playlist.fetch_or_build_playlist(seed_artist,
                                                 adventurous,
-                                                current_user)
+                                                current_user,
+                                                location)
     if response[:errors]
       flash[:error] = response[:errors]
       playlist = response[:playlist]
@@ -20,6 +22,7 @@ class PlaylistsController < ApplicationController
     else
       @playlist = response[:playlist]
       @playlist.save!
+      @playlist.clear_cached_charts_json
       flash[:success] = "Playlist created (updates may appear first in Spotify app :)"
       redirect_to @playlist
     end
@@ -40,5 +43,23 @@ class PlaylistsController < ApplicationController
   def show
     @playlist = Playlist.find(params[:id])
     @playlist.setup_uri_array_if_needed(current_user)
+  end
+
+  private
+
+  def get_seed_artist(params)
+    if params[:playlist].class == Array
+      params[:playlist].first.titleize
+    else
+      params[:playlist].titleize
+    end
+  end
+
+  def get_location_from_params(params)
+    if params[:commit] == "Create Playlist"
+      "prepend"
+    else
+      "append"
+    end
   end
 end
