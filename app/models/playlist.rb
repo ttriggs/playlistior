@@ -171,6 +171,10 @@ class Playlist < ActiveRecord::Base
     self.save!
   end
 
+  def has_no_tracks?
+    !has_tracks?
+  end
+
   private
 
   def needs_new_uri_array?
@@ -190,10 +194,6 @@ class Playlist < ActiveRecord::Base
 
   def has_tracks?
     tracks.length > 0
-  end
-
-  def has_no_tracks?
-    !has_tracks?
   end
 
   def destroy_assignments
