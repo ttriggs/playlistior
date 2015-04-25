@@ -18376,6 +18376,30 @@ $.magnificPopup.registerModule(IFRAME_NS, {
 
 
  _checkInstance(); }));
+// Instantiate the Bloodhound suggestion engine
+var artists = new Bloodhound({
+    datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+    queryTokenizer: Bloodhound.tokenizers.whitespace,
+    prefetch: {
+        url: 'assets/js/artists.json',
+        filter: function (artists) {
+            return $.map(artists, function (artist) {
+                return {
+                    name: artist
+                };
+            });
+        }
+    }
+});
+
+// Initialize the Bloodhound suggestion engine
+artists.initialize();
+
+// Instantiate the Typeahead UI
+$('.typeahead').typeahead(null, {
+    displayKey: 'name',
+    source: artists.ttAdapter()
+});
 /*!
  * typeahead.js 0.10.5
  * https://github.com/twitter/typeahead.js
@@ -20912,30 +20936,6 @@ $.magnificPopup.registerModule(IFRAME_NS, {
 
 $(function(){ $(document).foundation(); });
 
-// Instantiate the Bloodhound suggestion engine
-var artists = new Bloodhound({
-    datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
-    queryTokenizer: Bloodhound.tokenizers.whitespace,
-    prefetch: {
-        url: 'assets/js/artists.json',
-        filter: function (artists) {
-            return $.map(artists, function (artist) {
-                return {
-                    name: artist
-                };
-            });
-        }
-    }
-});
-
-// Initialize the Bloodhound suggestion engine
-artists.initialize();
-
-// Instantiate the Typeahead UI
-$('.typeahead').typeahead(null, {
-    displayKey: 'name',
-    source: artists.ttAdapter()
-});
 
 
 $(document).ready(function() {
