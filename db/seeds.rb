@@ -43,7 +43,7 @@ puts ""
 
 def do_sleep
   puts "sleeping."
-  (1..5).each do
+  (1..20).each do
     print "."
   end
   puts ""
