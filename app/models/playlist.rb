@@ -1,5 +1,5 @@
 class Playlist < ActiveRecord::Base
-  SONGS_LIMIT = 50
+  SONGS_LIMIT = 30
   CHARTS_CACHES = [:energy_json_cache, :liveness_json_cache, :tempo_json_cache, :danceability_json_cache]
   before_destroy :destroy_assignments, :destroy_follows
   has_many :genres, through: :styles
