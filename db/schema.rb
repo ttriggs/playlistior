@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150423170001) do
+ActiveRecord::Schema.define(version: 20150425151343) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,21 +45,25 @@ ActiveRecord::Schema.define(version: 20150423170001) do
   end
 
   create_table "playlists", force: :cascade do |t|
-    t.string   "name",                          null: false
-    t.integer  "user_id",                       null: false
-    t.string   "spotify_id",                    null: false
-    t.string   "link",                          null: false
+    t.string   "name",                                    null: false
+    t.integer  "user_id",                                 null: false
+    t.string   "spotify_id",                              null: false
+    t.string   "link",                                    null: false
     t.string   "seed_artist"
     t.integer  "assignment_id"
     t.string   "snapshot_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "adventurous",   default: false
-    t.float    "familiarity",   default: 0.0
-    t.integer  "tempo",         default: 0
-    t.float    "danceability",  default: 0.0
-    t.text     "uri_array",     default: "[]"
-    t.integer  "follows_cache", default: 0
+    t.boolean  "adventurous",             default: false
+    t.float    "familiarity",             default: 0.0
+    t.integer  "tempo",                   default: 0
+    t.float    "danceability",            default: 0.0
+    t.text     "uri_array",               default: "[]"
+    t.integer  "follows_cache",           default: 0
+    t.text     "energy_json_cache"
+    t.text     "liveness_json_cache"
+    t.text     "tempo_json_cache"
+    t.text     "danceability_json_cache"
   end
 
   create_table "styles", force: :cascade do |t|

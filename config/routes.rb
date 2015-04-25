@@ -9,12 +9,13 @@ Rails.application.routes.draw do
   resources :follows, only: [:create, :destroy]
   resources :users, only: [:show]
 
+  namespace :api do
+    namespace :v1 do
+      resources :playlists, only: [:show]
+    end
+  end
+
   resource :session, only: [:new, :create, :destroy] do
     get "failure", on: :member
   end
-
-  # namespace :admin do
-  #   resources :users, only: [:index, :destroy]
-  #   resources :playlists, only: [:destroy]
-  # end
 end

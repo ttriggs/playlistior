@@ -1,5 +1,4 @@
 
-
 <% if user_signed_in? %>
   <%= render partial: 'playlists/playlist_create' %>
 <% else %>
@@ -10,8 +9,9 @@
   <div class="splash-overlay">
     <div class="splash-overlay-backdrop"></div>
     <div class="splash-overlay-container">
-<!--       <h3>Sign in with Spotify to get started</h3> -->
-      <div class="spotify-login button radius right"><%= link_to 'Sign in with Spotify to begin', new_session_path %></div>
+      <div class="spotify-login button radius right waves-effect waves-light">
+        <%= link_to 'Sign in with Spotify to begin', new_session_path %>
+      </div>
     </div>
   </div>
 <% end %>

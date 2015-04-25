@@ -1,5 +1,6 @@
 class Playlist < ActiveRecord::Base
   SONGS_LIMIT = 50
+  CHARTS_CACHES = [:energy_json_cache, :liveness_json_cache, :tempo_json_cache, :danceability_json_cache]
   before_destroy :destroy_assignments, :destroy_follows
   has_many :genres, through: :styles
   has_many :styles, dependent: :destroy
@@ -12,16 +13,16 @@ class Playlist < ActiveRecord::Base
   validates :seed_artist, presence: true
   validates :user, presence: true
 
-  def self.fetch_or_build_playlist(seed_artist, adventurous, current_user)
+  def self.fetch_or_build_playlist(seed_artist, adventurous, current_user, location)
     response = ApiWrap.get_artist_info(seed_artist)
     return response if response[:errors]
     genres          = response[:genres]
-    artist_name     = response[:artist_name]
     playlist_params = response[:params]
     playlist = Playlist.find_or_initialize_by(user: current_user,
                                               seed_artist: seed_artist)
     playlist.setup_uri_array_if_needed(current_user)
     if playlist.fresh_playlist?
+      artist_name   = seed_artist
       playlist.name = "Playlistior: #{artist_name}"
       playlist.user = current_user
       response  = ApiWrap.make_new_playlist(playlist, current_user)
@@ -35,13 +36,13 @@ class Playlist < ActiveRecord::Base
         playlist.danceability = playlist_params[:danceability]
         playlist.save! # need playlist id ready for genre/style linking
         playlist.record_music_styles(genres)
-        playlist.add_tracks("prepend")
+        playlist.add_tracks(location)
       else
         response
       end
     else
       playlist.record_music_styles(genres)
-      playlist.add_tracks("append") # prepend playlist with 30 new songs
+      playlist.add_tracks(location) # prepend playlist with 30 new songs
     end
   end
 
@@ -53,18 +54,21 @@ class Playlist < ActiveRecord::Base
   end
 
   def setup_uri_array_if_needed(current_user)
-    if has_snapshot? && has_no_tracks?
+    if needs_new_uri_array?
       response = ApiWrap.get_playlist_tracks(self, current_user)
       self.uri_array = uris_from_tracklist_response(response)
       self.save!
     end
   end
 
-  def add_tracks(location)
-    if location == "prepend" # on fresh "create"
-      new_tracklist = ApiWrap.get_new_tracklist(self)
-      save_tracks(new_tracklist)
+  def setup_tracks_if_needed
+    if has_no_tracks?
+      setup_new_tracklist
     end
+  end
+
+  def add_tracks(location)
+    setup_tracks_if_needed
     if tracks.any?
       ordered_tracklist = Camelot.new(uri_array, tracks).order_tracks
       response = ApiWrap.post_tracks_to_spotify(self, ordered_tracklist, location)
@@ -75,6 +79,11 @@ class Playlist < ActiveRecord::Base
         playlist: self
       }
     end
+  end
+
+  def setup_new_tracklist
+    new_tracklist = ApiWrap.get_new_tracklist(self)
+    save_tracks(new_tracklist)
   end
 
   def save_uri_array(uris, location)
@@ -96,6 +105,7 @@ class Playlist < ActiveRecord::Base
       track = Track.find_or_build_track(track)
       self.tracks += [track]
     end
+    tracks
   end
 
   def handle_add_tracks_response(response)
@@ -108,6 +118,23 @@ class Playlist < ActiveRecord::Base
         playlist: self
        }
     end
+  end
+
+  def active_tracks_in_order
+    order = 1
+    get_uri_array.each_with_object(active_tracks = []) do |spotify_id|
+      track = tracks.where(spotify_id: spotify_id)
+      active_tracks += [{ track: track.first, order: order }] if track.any?
+      order += 1
+    end
+    active_tracks
+  end
+
+  def clear_cached_charts_json
+    CHARTS_CACHES.each do |cached_chart|
+      self[cached_chart] = nil
+    end
+    self.save!
   end
 
   def owner?(current_user)
@@ -145,6 +172,11 @@ class Playlist < ActiveRecord::Base
   end
 
   private
+
+  def needs_new_uri_array?
+    has_snapshot? && has_no_tracks? ||
+      has_tracks? && get_uri_array.empty?
+  end
 
   def uris_from_tracklist_response(response)
     response["items"].map do |track|
