@@ -14,7 +14,7 @@ class Playlist < ActiveRecord::Base
   validates :user, presence: true
 
   def self.fetch_or_build_playlist(seed_artist, adventurous, current_user, location)
-    response = ApiWrap.get_artist_info(seed_artist)
+    response = ApiWrap.setup_artist_info(seed_artist)
     return response if response[:errors]
     genres          = response[:genres]
     playlist_params = response[:params]
@@ -26,9 +26,10 @@ class Playlist < ActiveRecord::Base
       playlist.name = "Playlistior: #{artist_name}"
       playlist.user = current_user
       response  = ApiWrap.make_new_playlist(playlist, current_user)
-      if !response[:errors]
-        playlist.link         = response["href"]
-        playlist.spotify_id   = response["id"]
+      if response[:playlist_data]
+        playlist_data = response[:playlist_data]
+        playlist.link         = playlist_data["href"]
+        playlist.spotify_id   = playlist_data["id"]
         playlist.seed_artist  = artist_name
         playlist.adventurous  = adventurous
         playlist.tempo        = playlist_params[:tempo]
