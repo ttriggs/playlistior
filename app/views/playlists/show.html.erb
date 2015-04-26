@@ -43,14 +43,9 @@
   </div>
 </div>
 
-
 <%= render partial: 'playlists/extend_popup' %>
 
 <%= content_for :extra_footer do %>
-  <%= javascript_include_tag "https://code.highcharts.com/highcharts.js" %>
-  <%= javascript_include_tag "https://code.highcharts.com/highcharts-more.js" %>
-  <%= javascript_include_tag "https://code.highcharts.com/modules/exporting.js" %>
-  <%= javascript_include_tag "charts/charts_dark_theme" %>
-  <%= javascript_include_tag "charts/charts" %>
+  <%= javascript_include_tag 'charts/charts' %>
 <% end %>
 
