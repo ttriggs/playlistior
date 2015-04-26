@@ -176,7 +176,7 @@ class ApiWrap
 private
 
   def self.info_error
-    { errors: "Sorry couldn't find information for artist: #{seed_artist}" }
+    { errors: "Sorry couldn't find information for this artist" }
   end
 
   def self.uniquify_songs(all_songs)
