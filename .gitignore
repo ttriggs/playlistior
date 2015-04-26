@@ -11,12 +11,5 @@
 /log/*
 !/log/.keep
 /tmp
-hide
 .env
 
-demo.html
-scratch*
-genres_skim.rb
-genres_raw.html
-generes_by_popularity.csv
-erd.pdf
