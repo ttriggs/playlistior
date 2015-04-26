@@ -1,9 +1,10 @@
 class ApiWrap
+  MAX_RESULTS = 80 # reduce to increase genre variety
+  PLAYLIST_TARGET_SIZE = 150 # leave under a multiple of MAX to reduce API calls
 
   def self.setup_artist_info(seed_artist)
     return { errors: "Seed artist can't be blank" } if seed_artist.blank?
     artist_response = get_artist_info(seed_artist)
-    binding.pry
     return artist_response if artist_response[:errors]
     artist_data   = artist_response[:response].first
     artist_name   = artist_data.name
@@ -94,7 +95,7 @@ class ApiWrap
 
   def self.songs_by_genre(playlist, genre_name)
     Echowrap.playlist_static(genre: genre_name,
-                             results: 50,
+                             results: MAX_RESULTS,
                              limit: true,
                              min_tempo: playlist.min_tempo,
                              min_danceability: playlist.min_danceability,
@@ -142,7 +143,7 @@ class ApiWrap
 
   def self.get_new_tracklist(playlist)
     playlist.genres.each_with_object(all_playlists = []) do |genre|
-      next if all_playlists.length > 150
+      next if all_playlists.length > PLAYLIST_TARGET_SIZE
       all_playlists += songs_by_genre(playlist, genre.name)
     end
     stitch_in_audio_summaries(all_playlists)

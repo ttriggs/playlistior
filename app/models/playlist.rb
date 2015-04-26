@@ -70,15 +70,27 @@ class Playlist < ActiveRecord::Base
 
   def add_tracks(location)
     setup_tracks_if_needed
-    if tracks.any?
-      ordered_tracklist = Camelot.new(uri_array, tracks).order_tracks
+    ordered_tracklist = Camelot.new(uri_array, tracks).order_tracks
+    if ordered_tracklist.any?
       response = ApiWrap.post_tracks_to_spotify(self, ordered_tracklist, location)
       handle_add_tracks_response(response)
     else
       {
-        errors: "Sorry no tracks found for this artist",
+        notice: "Sorry no more tracks found for this playlist",
         playlist: self
       }
+    end
+  end
+
+  def handle_add_tracks_response(response)
+    if response["snapshot_id"]
+      self.snapshot_id = response["snapshot_id"]
+      { playlist: self }
+    else
+      {
+        errors: "Sorry could not create playlist for this artist",
+        playlist: self
+       }
     end
   end
 
@@ -107,18 +119,6 @@ class Playlist < ActiveRecord::Base
       self.tracks += [track]
     end
     tracks
-  end
-
-  def handle_add_tracks_response(response)
-    if response["snapshot_id"]
-      self.snapshot_id = response["snapshot_id"]
-      { playlist: self }
-    else
-      {
-        errors: "Sorry could not create playlist for this artist",
-        playlist: self
-       }
-    end
   end
 
   def active_tracks_in_order

@@ -38,7 +38,7 @@ class Camelot
                  ["E", 1] => 12,
                  ["Db", 0] => 12 }
 
-  def initialize(uris="", tracks="")
+  def initialize(uris, tracks)
     @uris = uris
     @full_tracklist = get_array_of_new_tracks(tracks)
   end
@@ -52,6 +52,7 @@ class Camelot
   end
 
   def order_tracks
+    return @full_tracklist if @full_tracklist.empty?
     tracklist = [take_random(@full_tracklist)]
     until hit_song_limit?(tracklist)
       last_song_params = get_key_and_mode(tracklist.last)

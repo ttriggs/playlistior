@@ -19,6 +19,10 @@ class PlaylistsController < ApplicationController
       playlist = response[:playlist]
       playlist.destroy if playlist
       render "homes/index"
+    elsif response[:notice]
+      flash[:notice] = response[:notice]
+      playlist = response[:playlist]
+      redirect_to playlist
     else
       @playlist = response[:playlist]
       @playlist.save!
