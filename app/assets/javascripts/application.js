@@ -13,14 +13,12 @@
 //= require jquery
 //= require jquery_ujs
 //= require foundation
-//= require_tree .
 //= require twitter/typeahead
 //= require twitter/typeahead/bloodhound
-
+//= require typeahead/typeahead
+//= require magnific_popup/main
 
 $(function(){ $(document).foundation(); });
-
-
 
 $(document).ready(function() {
 // Inline popups
@@ -58,5 +56,3 @@ $(document).ready(function() {
     }).magnificPopup('open');
   });
 });
-
-

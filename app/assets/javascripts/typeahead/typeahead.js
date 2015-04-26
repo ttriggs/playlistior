@@ -1,3 +1,4 @@
+
 // Instantiate the Bloodhound suggestion engine
 var artists = new Bloodhound({
     datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
