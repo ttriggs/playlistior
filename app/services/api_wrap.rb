@@ -1,6 +1,6 @@
 class ApiWrap
-  MAX_RESULTS = 80 # reduce to increase genre variety
-  PLAYLIST_TARGET_SIZE = 150 # leave under a multiple of MAX to reduce API calls
+  MAX_RESULTS = 100 # reduce to increase genre variety
+  PLAYLIST_TARGET_SIZE = 90 # leave under a multiple of MAX to reduce API calls
 
   def self.setup_artist_info(seed_artist)
     return { errors: "Seed artist can't be blank" } if seed_artist.blank?
