@@ -33,19 +33,37 @@ class Api::V1::PlaylistsController < ApplicationController
         @minor_series << [order, circle_zone, energy]
       end
     end
-    create_chart_json(@major_series, @minor_series)
+    create_chart_json(playlist, type, @major_series, @minor_series)
   end
 
-  def create_chart_json(major_series, minor_series)
+  def create_chart_json(playlist, type, major_series, minor_series)
     {
       chart: {
               type: 'bubble',
               zoomType: 'xy'
              },
-             title: { text: 'Highcharts Bubbles' },
+             title: {
+               text: "#{playlist.seed_artist} playlist visualized"
+             },
+             subtitle: {
+               text: "bubble size: relative song #{type.to_s}"
+             },
+             xAxis: {
+               title: { text: 'Play Order' }
+             },
+             yAxis: {
+               allowDecimals: false,
+               title: { text: 'Camelot Zone' }
+             },
             series: [
-              { data: major_series },
-              { data: minor_series }
+              {
+                name: 'Major Songs',
+                data: major_series
+              },
+              {
+                name: 'Minor Songs',
+                data: minor_series
+              }
                     ]
     }
   end
