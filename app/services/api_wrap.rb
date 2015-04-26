@@ -20,7 +20,10 @@ class ApiWrap
     end
     artist_name   = response.first.name
     familiarity   = response.first.familiarity
-    song_response = get_example_song_data(seed_artist)
+    song_response = get_example_song_data(artist_name) # artist_name is for EN
+    if song_response.empty?
+      return { errors: "Sorry couldn't find information for artist: #{seed_artist}" }
+    end
     tempo         = song_response.first.audio_summary.tempo
     danceability  = song_response.first.audio_summary.danceability
     params = { familiarity: familiarity,
