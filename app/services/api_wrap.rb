@@ -37,12 +37,12 @@ class ApiWrap
                                     :genre
                                     ]
                            )
-    response.empty? ? info_error : { response: response }
+    response.empty? ? self.info_error : { response: response }
   end
 
   def self.get_genres_array(artist_response)
     response = artist_response.to_hash[:genres].map(&:values).flatten
-    response.empty? ? info_error : { response: response }
+    response.empty? ? self.info_error : { response: response }
   end
 
   def self.get_example_song_data(seed_artist)
@@ -52,7 +52,7 @@ class ApiWrap
                          limit: true,
                          bucket: ["id:spotify", :audio_summary, :tracks]
                         )
-    response.empty? ? info_error : { response: response }
+    response.empty? ? self.info_error : { response: response }
   end
 
   def self.make_new_playlist(playlist, current_user)
@@ -175,7 +175,7 @@ class ApiWrap
 
 private
 
-  def info_error
+  def self.info_error
     { errors: "Sorry couldn't find information for artist: #{seed_artist}" }
   end
 
