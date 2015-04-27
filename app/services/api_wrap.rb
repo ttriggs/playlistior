@@ -201,36 +201,3 @@ private
   end
 end
 
-
-  # def self.setup_artist_info(seed_artist)
-  #   return { errors: "Seed artist can't be blank" } if seed_artist.blank?
-  #   response = Echowrap.artist_search(results: 1,
-  #                                     limit: true,
-  #                                     name: seed_artist,
-  #                                     bucket: ["id:spotify",
-  #                                              :familiarity,
-  #                                              :songs,
-  #                                              :genre
-  #                                              ]
-  #                                     )
-  #   if response.empty?
-  #     return { errors: "Sorry couldn't find information for artist: #{seed_artist}" }
-  #   end
-  #   genres_array = response.first.to_hash[:genres].map(&:values).flatten
-  #   if genres_array.empty?
-  #     return { errors: "Sorry couldn't find information for artist: #{seed_artist}" }
-  #   end
-  #   artist_name   = response.first.name
-  #   familiarity   = response.first.familiarity
-  #   song_response = get_example_song_data(artist_name) # artist_name is for EN
-  #   if song_response.empty?
-  #     return { errors: "Sorry couldn't find information for artist: #{seed_artist}" }
-  #   end
-  #   tempo         = song_response.first.audio_summary.tempo
-  #   danceability  = song_response.first.audio_summary.danceability
-  #   params = { familiarity: familiarity,
-  #              tempo: tempo,
-  #              danceability: danceability
-  #            }
-  #   { artist_name: artist_name, genres: genres_array, params: params }
-  # end
