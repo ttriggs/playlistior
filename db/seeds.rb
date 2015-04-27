@@ -2,7 +2,6 @@ require 'pry'
 
 require_relative 'seeds_helper.rb'
 require_relative 'update_tables.rb'
-exit
 
 puts "ADDING GENRES TO DB:"
 ifile = './db/genres_by_popularity.csv'
