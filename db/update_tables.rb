@@ -23,7 +23,12 @@ Playlist.all.each do |playlist|
       track.tempo = audio_summary["tempo"]
       track.save!
       playlist.tracks += [track]
-      puts ">> ++ SAVED new track!: #{track.title} by #{track.artist_name} ++"
+      playlist.save!
+      puts "\n>> ++ SAVED new track!: #{track.title} by #{track.artist_name} ++\n"
+    elsif Hlpr.not_in_playlist?(playlist, track)
+      puts "\n>> ++ ADDED new track!: #{track.title} by #{track.artist_name} ++\n"
+      playlist.tracks += [track]
+      playlist.save!
     else
       puts ">> FOUND track!: #{track.title} by #{track.artist_name}"
     end

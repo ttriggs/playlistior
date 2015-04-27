@@ -41,6 +41,11 @@ class Hlpr
     end.join("&")
   end
 
+  def self.not_in_playlist?(playlist, track)
+    track = playlist.tracks.where(spotify_id: track.spotify_id)
+    track.empty? ? true : false
+  end
+
   def self.song_profile_url
     "http://developer.echonest.com/api/v4/song/profile?"
   end
