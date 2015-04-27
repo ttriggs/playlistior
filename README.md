@@ -2,6 +2,7 @@
 
 
 ## Playlistior Demo:
-[Playlistior App Demo](http://i.imgur.com/aifS5jR.gifv)
+![alt](http://i.imgur.com/aifS5jR.gifv)
+![Playlistior App Demo](http://i.imgur.com/aifS5jR.gifv)
 
 <tt>rake doc:app</tt>.
