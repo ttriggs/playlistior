@@ -19,11 +19,11 @@ class Playlist < ActiveRecord::Base
     return response if response[:errors]
     genres          = response[:genres]
     playlist_params = response[:params]
+    artist_name     = response[:artist_name]
     playlist = Playlist.find_or_initialize_by(user: current_user,
-                                              seed_artist: seed_artist)
+                                              seed_artist: artist_name)
     playlist.setup_uri_array_if_needed(current_user)
     if playlist.fresh_playlist?
-      artist_name   = seed_artist
       playlist.name = "Playlistior: #{artist_name}"
       playlist.user = current_user
       response  = ApiWrap.make_new_playlist(playlist, current_user)
