@@ -5,7 +5,7 @@ class Track < ActiveRecord::Base
   def self.find_or_build_track(song)
     echonest_id = song.id
     track = Track.find_or_initialize_by(echonest_id: echonest_id)
-    if track.fresh?
+    if track.persisted?
       track.title       = song.title
       track.spotify_id  = song.tracks.first.foreign_id
       track.artist_name = song.artist_name
@@ -20,9 +20,5 @@ class Track < ActiveRecord::Base
       track.save!
     end
     track
-  end
-
-  def fresh?
-    title.nil? && key.nil?
   end
 end
