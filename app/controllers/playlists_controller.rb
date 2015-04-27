@@ -44,6 +44,42 @@ class PlaylistsController < ApplicationController
     end
   end
 
+  def update
+    playlist = Playlist.find(params[:id])
+    if playlist.owner_or_admin?(current_user)
+      seed_artist = playlist.seed_artist
+      adventurous = playlist.adventurous
+      user_id = playlist.user_id
+      location = "append"
+      if current_user.id == user_id
+        ApiWrap.unfollow_playlist(playlist, current_user)
+      end
+      playlist.delete
+      response = Playlist.fetch_or_build_playlist(seed_artist,
+                                                  adventurous,
+                                                  current_user,
+                                                  location)
+      if response[:errors]
+        flash[:error] = response[:errors]
+        new_playlist = response[:playlist]
+        new_playlist.destroy if new_playlist
+  binding.pry # wut.
+        render "homes/index"
+      elsif response[:notice]
+        flash[:notice] = response[:notice]
+        new_playlist = response[:playlist]
+        redirect_to new_playlist
+      else
+        @playlist = response[:playlist]
+        @playlist.user_id = user_id # restore original owner
+        @playlist.save!
+        @playlist.clear_cached_charts_json
+        flash[:success] = "Playlist created (updates may appear first in Spotify app :)"
+        redirect_to @playlist
+      end
+    end
+  end
+
   def show
     @playlist = Playlist.find(params[:id])
     @playlist.setup_uri_array_if_needed(current_user)

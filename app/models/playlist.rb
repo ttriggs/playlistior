@@ -143,6 +143,10 @@ class Playlist < ActiveRecord::Base
     current_user == user
   end
 
+  def owner_or_admin?(current_user)
+    owner?(current_user) || current_user.admin?
+  end
+
   def fresh_playlist?
     snapshot_id.nil? || has_no_tracks?
   end
