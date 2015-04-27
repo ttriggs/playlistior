@@ -2,7 +2,7 @@
 # 1) remove all cached graphs
 # 2) get tracks currently in playlist and write to playlists
 
-Playlist.all.shuffle.each do |playlist|
+Playlist.all.each do |playlist|
   Hlpr.clear_cached_charts_json(playlist)
   all_tracks_data = Hlpr.get_audio_summaries(playlist)
   all_tracks_data.each_with_index do |song_data, index|
