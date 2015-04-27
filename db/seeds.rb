@@ -1,3 +1,8 @@
+require 'pry'
+
+require_relative 'seeds_helper.rb'
+require_relative 'update_tables.rb'
+exit
 
 puts "ADDING GENRES TO DB:"
 ifile = './db/genres_by_popularity.csv'
@@ -28,11 +33,7 @@ puts ">>>  record tracks for old playlists"
 Playlist.all.each do |playlist|
   if playlist.has_no_tracks?
     playlist.setup_new_tracklist
-    print "sleeping."
-    (1..40).each do
-      sleep 1
-      print "."
-    end
+    Hlpr.do_sleep(40)
   else
     puts ">>>  no need to update tracks"
   end
