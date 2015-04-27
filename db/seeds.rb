@@ -1,4 +1,3 @@
-require 'pry'
 
 require_relative 'seeds_helper.rb'
 require_relative 'update_tables.rb'
