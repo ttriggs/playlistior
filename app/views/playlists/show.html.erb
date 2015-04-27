@@ -14,7 +14,7 @@
       </div>
     <% end %>
 
-    <% if @playlist.owner?(current_user)  %>
+    <% if @playlist.owner?(current_user) || admin? %>
       <%= form_tag(playlists_path, method: 'post') do %>
         <%= hidden_field :playlist, params[:playlist], value: @playlist.seed_artist %>
         <%= submit_tag "Extend", class: "success button playlist-button extend-popup" %>
@@ -22,6 +22,11 @@
       <%= link_to 'Delete', playlist_path(@playlist), method: :delete,
                                                       class: "alert button playlist-button",
                                                       data: { confirm: "Are you sure?" } %>
+      <% if admin? %>
+        <br>
+        <%= link_to 'Remake', playlist_path(@playlist), method: :put,
+                                                        class: "success button full-playlist-button"%>
+      <% end %>
     <% elsif !followed?(@playlist) %>
       <%= render partial: 'follows/follow_create' %>
     <% elsif followed?(@playlist) %>
