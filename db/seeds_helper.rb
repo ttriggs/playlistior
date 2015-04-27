@@ -27,8 +27,7 @@ class Hlpr
   def self.add_audio_summary_data(song_batch, audio_summaries)
     song_batch.each_with_object([]) do |song_uri, array|
       matched_summary = audio_summaries.find do |summary|
-        spotify_id = summary["tracks"].first["foreign_id"]
-        spotify_id = song_uri
+        summary["tracks"].first["foreign_id"] == song_uri
       end
       if matched_summary
         array << matched_summary
