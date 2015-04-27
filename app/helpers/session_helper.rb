@@ -18,4 +18,8 @@ module SessionHelper
       @user = User.find(session[:user_id])
     end
   end
+
+  def admin?
+    current_user.role == "admin"
+  end
 end
