@@ -2,7 +2,7 @@
 
 # Playlistior
 ### The Superior Harmonic Playlist Generator
-[Try it out here](playlistior.herokuapp.com "Try Playlistior!")
+[Try it out here](http://playlistior.herokuapp.com "Try Playlistior!")
 
 ## Playlistior Demo:
 [Playlistior App Demo](http://i.imgur.com/aifS5jR.gifv)
