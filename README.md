@@ -9,6 +9,7 @@
 
 ## About:
 Playlistior: The superior playlist generator.
+
 When given a starting seed artist, Playlistior uses audio information from the Echonest API for each song (key, mode, tempo, daceability, and how familiar the artist is to the public) to construct a playlist that flows harmonically from one song to the next. Check the "Adventurous" box to loosen these constraints to help you find lesser known artists. Under the hood, the generator uses an algorithm inspired by "harmonic mixing," a technique used by DJs to avoid disharmonious song changes.
 
 ## Under the hood:
@@ -53,4 +54,24 @@ rake db:seed
 ```
 
 ## To Do
+### Frontend
+- better navigation around app (add create button within topbar when on small screen)
+  - Use jQuery for a search field to appear on click?
+- Use Ajax for following a playlist without refresh
+- Add a "?" icon next to "Feeling Adventurous?" checkbox to explain its function
+  - Use jQuery to toggle an explaination?
+- Album art cover carousel on playlist show page?
+- Create "About" page
+
+### Backend
 - Use Ajax to create new playlists, show a loading spinner, then serve playlist page (this should circumvent Heroku's page timeout issue). Avoiding this timeout issue will allow more flexibility in how playlists are put together. Currently, the Heroku build tries to get all the songs it needs to build a playlist in one Echonest playlist_static call using the first genre associated with the artist. Fixing this timeout issue will mean more genres associated with the artist will be represented in the playlist created.
+- Add play order to assignments. Currently chart functionality uses the track order stored in the playlist to query the tracks table to assemble the ordered list.
+- Camelot: allow for more varied styles of playlist creation
+  - "wandering" mode: current default, next song is a random Camelot wheel neighbor
+  - "up/down" mode: build a playlist that only increases/decreases in camelot zone #
+  - "alternate" mode: switch from minor to major more frequently (currently the algorithm is somewhat unlikely to switch keys because neighboring zones are more likely to be in the same mode)
+
+### Misc or Back & Front
+- Highcharts:
+  - allow users to toggle between different visualizations of the playlist. Currently, the default is to display song "energy" as the bubble size. Other parameters worth adding: tempo, danceability, & liveness).
+
