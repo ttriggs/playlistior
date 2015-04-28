@@ -28,7 +28,7 @@ Note: API interactions happen within the services/api_wrap.rb file.
 - All unique songs are saved to the tracks table and are associated with the playlist.
 - [Side Note]: One rarely occuring known issue: In Echonest's database, some artists have few to no genres associated with them this may prevent the Echonest playlists_static method from returning all ```MAX_RESULTS``` songs. For example "Die Antwoord" only has one associated Echonest genre: "african rock" - a genre for which they are the only artist. This results in a playlist that is 27 songs of just Die Antwoord songs.
 
-![Camelot Mixing](http://www.djingtips.com/sites/default/files/resize/styles/extra_large/public/images/camelot_wheel_0-294x294.jpg)
+[Camelot Mixing Wheel Image](http://www.djingtips.com/sites/default/files/resize/styles/extra_large/public/images/camelot_wheel_0-294x294.jpg)
 
 ### Harmonic mixing steps, "Camelot" class
 Harmonic Mixing or the "Camelot System" of mixing requires first finding one song's position on the Camelot wheel. From there, a suitable next song's parameters are located one move to the left or right or moving between the inner and outer rings of the wheel.
