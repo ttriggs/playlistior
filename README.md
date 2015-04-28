@@ -5,7 +5,7 @@
 [Try it out here](http://playlistior.herokuapp.com "Try Playlistior!")
 
 ## Playlistior Demo:
-![alt](http://i.imgur.com/aifS5jR.gifv)
+[Playlistior App Demo gif](http://i.imgur.com/aifS5jR.gifv)
 
 ## About:
 Playlistior: The superior playlist generator.
