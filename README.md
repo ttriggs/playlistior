@@ -5,7 +5,7 @@
 [Try it out here](http://playlistior.herokuapp.com "Try Playlistior!")
 
 ## Playlistior Demo:
-[Playlistior App Demo](http://i.imgur.com/aifS5jR.gifv)
+![alt](http://i.imgur.com/aifS5jR.gifv)
 
 ## About:
 Playlistior: The superior playlist generator.
@@ -48,9 +48,8 @@ This will limit results to 100 songs in the first Echonest playlist API request 
 ## Clone it!
 ```
 git clone https://github.com/ttriggs/playlistior.git playlistior
-rake db:create
-rake db:migrate
-rake db:seed
+bundle install
+rake db:create db:migrate db:seed
 ```
 
 ## To Do
