@@ -58,9 +58,6 @@ gem 'foundation-rails', '5.5.1.0'
 gem 'echowrap'
 gem 'httparty'
 gem 'rails_12factor', group: :production
-gem 'fog'
-gem 'fog-aws'
-gem 'carrierwave'
 gem 'mini_magick'
 
 gem 'coveralls', group: :test, require: false
