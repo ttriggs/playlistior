@@ -1,17 +1,12 @@
-
-<% if user_signed_in? %>
-  <%= render partial: 'playlists/playlist_create' %>
-<% else %>
-  <h2 class="playlistior-heading"><a href="#">Playlistior</a></h2>
-  <p class="playlistior-summary">The <em> Superior </em> harmonic mixing playlist generator for Spotify</p>
-  <div class="splash-image">
-  </div>
-  <div class="splash-overlay">
-    <div class="splash-overlay-backdrop"></div>
-    <div class="splash-overlay-container">
-      <div class="spotify-login button radius right waves-effect waves-light">
-        <%= link_to 'Sign in with Spotify to begin', new_session_path %>
-      </div>
+<h2 class="playlistior-heading"><a href="#">Playlistior</a></h2>
+<p class="playlistior-summary">The <em> Superior </em> harmonic mixing playlist generator for Spotify</p>
+<div class="splash-image">
+</div>
+<div class="splash-overlay">
+  <div class="splash-overlay-backdrop"></div>
+  <div class="splash-overlay-container">
+    <div class="spotify-login button radius right waves-effect waves-light">
+      <%= link_to 'Sign in with Spotify to begin', new_session_path %>
     </div>
   </div>
-<% end %>
+</div>

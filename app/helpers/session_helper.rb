@@ -1,25 +1,14 @@
 module SessionHelper
 
-  def authenticate_user!
-    unless user_signed_in?
-      flash[:notice] = "You must log in before continuing"
-      redirect_to new_session_path
-    end
-  end
-
   def user_signed_in?
-    current_user && !need_token_refresh?
+    !current_user.guest? && !need_token_refresh?
   end
 
   def current_user
-    if session[:user_id].nil?
-      false
-    else
-      @user = User.find(session[:user_id])
-    end
+    @current_user ||= User.fetch_or_build_user_for_view(session)
   end
 
-  def admin?
-    current_user.role == "admin"
+  def set_current_user(user)
+    @current_user = user
   end
 end

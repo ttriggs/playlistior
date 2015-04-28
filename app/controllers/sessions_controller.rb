@@ -10,6 +10,7 @@ class SessionsController < ApplicationController
     setup_new_tokens
     user = User.fetch_or_build_user(session)
     if user.save
+      set_current_user(user)
       session[:user_id] = user.id
       flash[:info] = "Signed in successfully."
       redirect_to playlists_path
