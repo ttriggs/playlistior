@@ -48,6 +48,7 @@ This will limit results to 100 songs in the first Echonest playlist API request 
 ## Clone it!
 ```
 git clone https://github.com/ttriggs/playlistior.git playlistior
+cd playlistior
 bundle install
 rake db:create db:migrate db:seed
 ```
