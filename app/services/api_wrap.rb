@@ -181,7 +181,6 @@ private
 
   def self.uniquify_songs(all_songs)
     all_songs.uniq {|song| song.tracks.first.id }
-    # all_songs.uniq(&:artist_name)
   end
 
   def self.playlist_follow_url(owner_id, playlist_id)
