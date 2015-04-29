@@ -2,6 +2,18 @@ class Track < ActiveRecord::Base
   has_many :playlists, through: :assignments
   has_many :assignments
 
+  validates :artist_name, presence: true
+  validates :echonest_id, uniqueness: true
+  validates :spotify_id, presence: true
+  validates :title, presence: true
+  validates :key, numericality: { only_integer: true }
+  validates :mode, inclusion: { in: 0..1 }
+  validates :tempo, numericality: true
+  validates :energy, numericality: true
+  validates :liveness, numericality: true
+  validates :danceability, numericality: true
+  validates :time_signature, numericality: true
+
   def self.find_or_build_track(song)
     echonest_id = song.id
     track = Track.find_or_initialize_by(echonest_id: echonest_id)

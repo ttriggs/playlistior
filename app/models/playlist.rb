@@ -13,6 +13,9 @@ class Playlist < ActiveRecord::Base
 
   validates :seed_artist, presence: true
   validates :user, presence: true
+  validates :name, presence: true
+  validates :spotify_id, presence: true
+  validates :link, presence: true
 
   def self.fetch_or_build_playlist(seed_artist, adventurous, current_user, location)
     response = ApiWrap.setup_artist_info(seed_artist)
