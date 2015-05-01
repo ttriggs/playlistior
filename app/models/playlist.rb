@@ -103,7 +103,7 @@ class Playlist < ActiveRecord::Base
     save_tracks(new_tracklist)
   end
 
-  def save_uri_array(uris, location)
+  def add_to_cached_uris(uris, location)
     playlist_uris = get_uri_array
     if location == "append"
       self.uri_array = (playlist_uris += uris).to_s

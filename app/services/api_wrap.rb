@@ -122,7 +122,7 @@ class ApiWrap
 
   def self.post_tracks_to_spotify(playlist, tracklist, location)
     uri_array    = build_uri_array(tracklist)
-    playlist.save_uri_array(uri_array, location)
+    playlist.add_to_cached_uris(uri_array, location)
     token        = playlist.user.session_token
     spotify_id   = playlist.spotify_id
     spotify_link = playlist.user.spotify_link
