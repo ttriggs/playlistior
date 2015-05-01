@@ -6,7 +6,6 @@ class FollowsController < ApplicationController
     playlist = Playlist.find(params[:follow].first)
     follow = Follow.find_or_initialize_by(user_id: current_user.id,
                                           playlist_id: playlist.id)
-    # ApiWrap.follow_playlist(playlist, current_user)
     if follow.save!
       playlist.increment_followers_cache
       flash[:notice] = "Playlist followed on Playlistior"
