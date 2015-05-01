@@ -18,7 +18,6 @@ class Api::V1::PlaylistsController < ApplicationController
 
   def get_playlist_json(playlist, type=:energy)
     playlist.setup_uri_array_if_needed(current_user)
-    # playlist.setup_tracks_if_needed #should be handled in seeder
     active_tracks = playlist.active_tracks_in_order
     @major_series = []
     @minor_series = []
