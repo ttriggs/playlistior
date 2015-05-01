@@ -18,4 +18,12 @@ FactoryGirl.define do
     time_signature 4
   end
 
+  factory :playlist do
+    name "my cool playlist"
+    seed_artist "cool band"
+    spotify_id "29831hionfose"
+    link "/this/bogus/link"
+    user
+  end
+
 end
