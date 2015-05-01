@@ -34,6 +34,24 @@ class Track < ActiveRecord::Base
     track
   end
 
+  def self.create_by_track_data(track_data)
+    echonest_id = track_data["echonest_id"]
+    track = Track.find_or_initialize_by(echonest_id: echonest_id)
+    track.id = track_data["id"]
+    track.key = track_data["key"]
+    track.mode = track_data["mode"]
+    track.title = track_data["title"]
+    track.tempo = track_data["tempo"]
+    track.energy = track_data["energy"]
+    track.liveness = track_data["liveness"]
+    track.spotify_id = track_data["spotify_id"]
+    track.artist_name = track_data["artist_name"]
+    track.danceability = track_data["danceability"]
+    track.time_signature = track_data["time_signature"]
+    track.save!
+    track
+  end
+
   def fresh?
     artist_name.nil?
   end
