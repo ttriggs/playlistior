@@ -1,8 +1,17 @@
 require 'factory_girl'
+require_relative 'mock_track'
 
 FactoryGirl.define do
   factory :user do
-    name SecureRandom.hex(10)
+    sequence(:name) { |n| "user #{n}" }
+    sequence(:spotify_id) { |n| "spotify_id#{n}" }
+    role "user"
+  end
+
+  factory :admin, class: User do
+    sequence(:name) { |n| "Admin #{n}" }
+    spotify_id SecureRandom.hex(6)
+    role "admin"
   end
 
   factory :track do
@@ -19,10 +28,10 @@ FactoryGirl.define do
   end
 
   factory :playlist do
-    name "my cool playlist"
-    seed_artist "cool band"
-    spotify_id "29831hionfose"
-    link "/this/bogus/link"
+    name        "my cool playlist"
+    sequence(:seed_artist) { |n| "seed_artist #{n}" }
+    spotify_id  "29831hionfose"
+    link        "/this/bogus/link"
     user
   end
 
