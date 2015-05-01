@@ -63,7 +63,6 @@ class PlaylistsController < ApplicationController
         flash[:error] = response[:errors]
         new_playlist = response[:playlist]
         new_playlist.destroy if new_playlist
-  binding.pry # wut.
         render "homes/index"
       elsif response[:notice]
         flash[:notice] = response[:notice]
