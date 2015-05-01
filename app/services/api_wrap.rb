@@ -154,9 +154,7 @@ class ApiWrap
     owner_id    = user.spotify_id
     playlist_id = playlist.spotify_id
     url = playlist_follow_url(owner_id, playlist_id)
-    params = {
-               headers: { "Authorization" => "Bearer #{token}" }
-             }
+    params = { headers: { "Authorization" => "Bearer #{token}" } }
     HTTParty.delete(url, params)
   end
 
@@ -169,9 +167,8 @@ class ApiWrap
                headers: { "Authorization" => "Bearer #{token}",
                           "Content-Type" => "application/json"}
              }
-    response = HTTParty.put(url, params)
+    HTTParty.put(url, params)
   end
-
 
 private
 
