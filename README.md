@@ -52,6 +52,9 @@ bundle install
 rake db:create db:migrate db:seed
 ```
 
+## ERD:
+![alt](http://i.imgur.com/dAUxWRj)
+
 ## To Do
 ### Frontend
 - better navigation around app (add create button within topbar when on small screen)
