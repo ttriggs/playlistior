@@ -32,4 +32,22 @@ feature 'I can unfollow a followed playlist' do
   end
 end
 
+feature 'can see my followed playlist' do
+  context 'on #index page' do
+    scenario 'on #index' do
+      playlist = MockPlaylist.create(30)
+      user = FactoryGirl.create(:user)
+      page.set_rack_session(user_id: user.id)
+      page.set_rack_session(token: TokenFaker.get_fake_token)
+
+      visit playlist_path(playlist)
+      click_on("Follow")
+      visit playlists_path
+      expect(page).to have_content("Followed:")
+      expect(page).to have_link(playlist.seed_artist.titleize)
+    end
+  end
+end
+
+
 
