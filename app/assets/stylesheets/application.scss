@@ -96,12 +96,15 @@ a.top-bar-scroll-dropdown {
     display: none !important;
   }
 }
+
 /* add genre dropdown below create playlist on small screens */
 a.media-scroll-dropdown {
   @media screen and (min-width: 70rem) {
     display: none !important;
   }
 }
+
+
 
 /** Body */
 .content {
@@ -184,9 +187,7 @@ hr {
   text-align: center;
   font-weight: 50;
   em {
-    // @include title-font;
     color: $title-color;
-    // font-size: 1.5rem;
   }
 }
 
@@ -264,6 +265,10 @@ ul li.signed-in-as {
     float: none !important;
     display: block;
   }
+}
+
+strong#medium {
+  font-weight: 600;
 }
 
 /* Playlist popup */
