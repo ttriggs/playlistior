@@ -54,7 +54,7 @@ rake db:create db:migrate db:seed
 ```
 
 ## ERD:
-[alt](http://i.imgur.com/dAUxWRj)
+[ERD_image](http://i.imgur.com/dAUxWRj)
 
 ## To Do
 ### Frontend
