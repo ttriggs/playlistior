@@ -43,6 +43,8 @@ feature 'view/delete playlists' do
       expect(page).to have_link("Search by Genre »")
       click_on("Search by Genre »", match: :first)
       expect(page).to have_link("Rock")
+      click_on("Rock", match: :first)
+      expect(page).to have_link(playlist.seed_artist.titleize)
     end
   end
 end
