@@ -71,7 +71,6 @@ feature 'I can search playlists by genre' do
       visit playlists_path
       expect(page).to have_link("Search by Genre »")
       click_on("Search by Genre »", match: :first)
-      save_and_open_page
       expect(page).to have_link("Rock")
     end
   end
