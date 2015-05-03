@@ -8,6 +8,9 @@ FactoryGirl.define do
     role "user"
   end
 
+  factory :guest do
+  end
+
   factory :track do
     artist_name "bobs neato band"
     spotify_id "29831hionfose"
