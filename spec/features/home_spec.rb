@@ -16,7 +16,7 @@ feature 'view home page' do
       page.set_rack_session(user_id: user.id)
       page.set_rack_session(token: TokenFaker.get_fake_token)
       visit '/'
-      expect(page).to have_content("Signed in as user 1")
+      expect(page).to have_content("Signed in as #{user.name}")
       expect(page).to have_link("Sign Out")
     end
   end
