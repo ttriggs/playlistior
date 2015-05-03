@@ -8,12 +8,6 @@ FactoryGirl.define do
     role "user"
   end
 
-  factory :admin, class: User do
-    sequence(:name) { |n| "Admin #{n}" }
-    spotify_id SecureRandom.hex(6)
-    role "admin"
-  end
-
   factory :track do
     artist_name "bobs neato band"
     spotify_id "29831hionfose"
@@ -34,6 +28,7 @@ FactoryGirl.define do
     adventurous false
     snapshot_id "FakeSnapshot_ID"
     link        "/this/bogus/link"
+    follows_cache 0
     user
   end
 
