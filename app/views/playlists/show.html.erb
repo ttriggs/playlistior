@@ -22,11 +22,6 @@
       <%= link_to 'Delete', playlist_path(@playlist), method: :delete,
                                                       class: "alert button playlist-button",
                                                       data: { confirm: "Are you sure?" } %>
-      <% if current_user.admin? %>
-        <br>
-        <%= link_to 'Remake', playlist_path(@playlist), method: :put,
-                                                        class: "success button full-playlist-button"%>
-      <% end %>
     <% elsif !followed?(@playlist) %>
       <%= render partial: 'follows/follow_create' %>
     <% elsif followed?(@playlist) %>
