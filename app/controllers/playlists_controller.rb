@@ -32,18 +32,6 @@ class PlaylistsController < ApplicationController
     end
   end
 
-  def destroy
-    @playlist = Playlist.find(params[:id])
-    if @playlist.owner_or_admin?(current_user)
-      ApiWrap.unfollow_playlist(@playlist, current_user)
-      @playlist.destroy
-      flash[:success] = "Playlist Deleted"
-      redirect_to playlists_path
-    else
-      redirect_to @playlist
-    end
-  end
-
   def update
     playlist = Playlist.find(params[:id])
     if playlist.owner_or_admin?(current_user)
@@ -76,6 +64,18 @@ class PlaylistsController < ApplicationController
         flash[:success] = "Playlist created (updates may appear first in Spotify app :)"
         redirect_to @playlist
       end
+    end
+  end
+
+  def destroy
+    @playlist = Playlist.find(params[:id])
+    if @playlist.owner_or_admin?(current_user)
+      ApiWrap.unfollow_playlist(@playlist, current_user)
+      @playlist.destroy
+      flash[:success] = "Playlist Deleted"
+      redirect_to playlists_path
+    else
+      redirect_to @playlist
     end
   end
 
