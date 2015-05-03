@@ -15,7 +15,7 @@ class SessionsController < ApplicationController
       flash[:info] = "Signed in successfully."
       redirect_to playlists_path
     else
-      flash[:alert] = "Unable to sign in."
+      flash[:errors] = "Unable to sign in."
       redirect_to root_path
     end
   end
