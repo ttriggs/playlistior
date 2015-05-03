@@ -2,7 +2,7 @@ class User < ActiveRecord::Base
   has_many :playlists
   has_many :follows
 
-  validates :spotify_id, uniqueness: { case_sensitive: false}
+  validates :spotify_id, uniqueness: { case_sensitive: false }
   validates :name, presence: true
 
   def self.fetch_or_build_user(session)
