@@ -9,8 +9,6 @@ class FollowsController < ApplicationController
     if follow.save!
       playlist.increment_followers_cache
       flash[:notice] = "Playlist followed on Playlistior"
-    else
-      flash[:notice] = "Failed to follow playlist"
     end
     redirect_to playlist
   end
