@@ -29,10 +29,18 @@ FactoryGirl.define do
 
   factory :playlist do
     name        "my cool playlist"
-    sequence(:seed_artist) { |n| "seed_artist #{n}" }
+    seed_artist "Beck"
     spotify_id  "29831hionfose"
     link        "/this/bogus/link"
     user
   end
 
+  factory :group do
+    rgb "(100, 100, 100)"
+  end
+
+  factory :genre do
+    name "rock"
+    group_id 1
+  end
 end

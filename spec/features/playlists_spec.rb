@@ -59,3 +59,50 @@ feature 'I cannot modify other users playlist' do
   end
 end
 
+
+feature 'I can search playlists by genre' do
+  context 'on #index page' do
+    scenario 'click search by genre' do
+      playlist = MockPlaylist.create(30)
+      user = FactoryGirl.create(:user)
+      page.set_rack_session(user_id: user.id)
+      page.set_rack_session(token: TokenFaker.get_fake_token)
+
+      visit playlists_path
+      expect(page).to have_link("Search by Genre »")
+      click_on("Search by Genre »", match: :first)
+      save_and_open_page
+      expect(page).to have_link("Rock")
+    end
+  end
+end
+
+# can't test expand playlist button:
+# it uses APIWrap wich causes errors in test env.
+# feature 'I can extend my playlist' do
+#   context 'on #show page' do
+#     scenario 'click extend button to extend playlist' do
+#       playlist = MockPlaylist.create(Playlist::SONGS_LIMIT + 10)
+#       page.set_rack_session(user_id: playlist.user_id)
+#       page.set_rack_session(token: TokenFaker.get_fake_token)
+
+#       visit playlist_path(playlist)
+#       click_on("Extend")
+#       expect(page).to have_content("Playlist created (updates may appear first in Spotify app :)")
+#     end
+#   end
+# end
+
+# feature 'I cannot extend my playlist indefinitely' do
+#   context 'on #show page click extend button' do
+#     scenario 'no new tracks saved to playlist, so I see error' do
+#       playlist = MockPlaylist.create(Playlist::SONGS_LIMIT)
+#       page.set_rack_session(user_id: playlist.user_id)
+#       page.set_rack_session(token: TokenFaker.get_fake_token)
+
+#       visit playlist_path(playlist)
+#       click_on("Extend")
+#       expect(page).to have_content("Sorry no more tracks found for this playlist")
+#     end
+#   end
+# end
