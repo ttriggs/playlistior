@@ -31,6 +31,8 @@ FactoryGirl.define do
     name        "my cool playlist"
     seed_artist "Beck"
     spotify_id  "29831hionfose"
+    adventurous false
+    snapshot_id "FakeSnapshot_ID"
     link        "/this/bogus/link"
     user
   end
