@@ -47,14 +47,14 @@ class Playlist < ActiveRecord::Base
       end
     else
       playlist.record_music_styles(genres)
-      playlist.add_tracks(location) # prepend playlist with 30 new songs
+      playlist.add_tracks(location)
     end
   end
 
   def record_music_styles(genres_array)
     genres_array.each do |genre_name|
       genre = Genre.find_or_create_by(name: genre_name)
-      styles.find_or_create_by(playlist: self, genre: genre ) if genre
+      styles.find_or_create_by(playlist: self, genre: genre) if genre
     end
   end
 
@@ -106,9 +106,9 @@ class Playlist < ActiveRecord::Base
   def add_to_cached_uris(uris, location)
     playlist_uris = get_uri_array
     if location == "append"
-      self.uri_array = (playlist_uris += uris).to_s
+      self.uri_array = (playlist_uris + uris).to_s
     else
-      self.uri_array = (uris += playlist_uris).to_s
+      self.uri_array = (uris + playlist_uris).to_s
     end
     self.save!
   end
@@ -191,8 +191,7 @@ class Playlist < ActiveRecord::Base
   private
 
   def needs_new_uri_array?
-    has_snapshot? && has_no_tracks? ||
-      has_tracks? && get_uri_array.empty?
+    has_tracks? && get_uri_array.empty?
   end
 
   def uris_from_tracklist_response(response)
