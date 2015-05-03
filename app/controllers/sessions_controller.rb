@@ -1,13 +1,13 @@
 class SessionsController < ApplicationController
   before_action :authenticate_user!, except: [:new, :create]
-  before_action :refresh_token_if_needed, except: [:new, :create]
+  before_action :refresh_token_if_needed, except: [:new, :create, :destroy]
 
   def new
-    redirect_to spotify_auth_url
+    redirect_to TokenWrap.spotify_auth_url
   end
 
   def create
-    setup_new_tokens
+    setup_new_tokens(params[:code])
     user = User.fetch_or_build_user(session)
     if user.save
       set_current_user(user)
