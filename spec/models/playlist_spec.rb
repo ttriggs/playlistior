@@ -57,4 +57,18 @@ describe Playlist do
       expect(expected_uri_array).to eq(new_uri_array)
     end
   end
+
+  describe "#active_tracks_in_order" do
+    let(:playlist) { MockPlaylist.create(10) }
+    it "returns array of tracks in order specified by uri_array" do
+      tracks    = playlist.active_tracks_in_order
+      uri_array = playlist.get_uri_array
+      tracks.each.with_index(1) do |track_hash, index|
+        track = track_hash[:track]
+        order = track_hash[:order]
+        expect(order).to eq(index)
+        expect(uri_array[index - 1]).to eq(track.spotify_id)
+      end
+    end
+  end
 end
