@@ -93,9 +93,9 @@ class ApiWrap
     end.join("&")
   end
 
-  def self.songs_by_genre(playlist, genre_name)
+  def self.songs_by_genre(playlist, genre_name, limit)
     Echowrap.playlist_static(genre: genre_name,
-                             results: MAX_RESULTS,
+                             results: limit,
                              limit: true,
                              min_tempo: playlist.min_tempo,
                              min_danceability: playlist.min_danceability,
@@ -141,10 +141,10 @@ class ApiWrap
     tracklist.map(&:spotify_id)
   end
 
-  def self.get_new_tracklist(playlist)
+  def self.get_new_tracklist(playlist, limit = MAX_RESULTS)
     playlist.genres.each_with_object(all_playlists = []) do |genre|
       next if all_playlists.length > PLAYLIST_TARGET_SIZE
-      all_playlists += songs_by_genre(playlist, genre.name)
+      all_playlists += songs_by_genre(playlist, genre.name, limit)
     end
     stitch_in_audio_summaries(all_playlists)
   end
