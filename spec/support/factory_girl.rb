@@ -6,6 +6,7 @@ FactoryGirl.define do
     sequence(:name) { |n| "user #{n}" }
     sequence(:spotify_id) { |n| "spotify_id#{n}" }
     role "user"
+    image "http://this/image/path.png"
   end
 
   factory :guest do
