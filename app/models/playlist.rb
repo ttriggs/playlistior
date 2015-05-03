@@ -188,6 +188,10 @@ class Playlist < ActiveRecord::Base
     tracks.length > 0
   end
 
+  def has_snapshot?
+    !snapshot_id.nil?
+  end
+
   private
 
   def needs_new_uri_array?
@@ -198,10 +202,6 @@ class Playlist < ActiveRecord::Base
     response["items"].map do |track|
       track["track"]["uri"]
     end.to_s
-  end
-
-  def has_snapshot?
-    !snapshot_id.nil?
   end
 
   def destroy_assignments
