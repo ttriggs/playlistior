@@ -2,6 +2,8 @@ class ApiWrap
   MAX_RESULTS = 100 # reduce to increase genre variety
   PLAYLIST_TARGET_SIZE = 90 # leave under a multiple of MAX to reduce API calls
 
+
+  #>> Move
   def self.setup_artist_info(seed_artist)
     return { errors: "Seed artist can't be blank" } if seed_artist.blank?
     artist_response = get_artist_info(seed_artist)
@@ -47,11 +49,13 @@ class ApiWrap
 
   def self.get_example_song_data(seed_artist)
     response = Echowrap.song_search(artist: seed_artist,
-                         results: 1,
-                         sort: 'song_hotttnesss-desc',
-                         limit: true,
-                         bucket: ["id:spotify", :audio_summary, :tracks]
-                        )
+                                    results: 1,
+                                    sort: 'song_hotttnesss-desc',
+                                    limit: true,
+                                    bucket: ["id:spotify",
+                                             :audio_summary,
+                                             :tracks]
+                                   )
     response.empty? ? self.info_error : { response: response }
   end
 

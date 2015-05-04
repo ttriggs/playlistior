@@ -9,8 +9,7 @@ module TokenHelper
 
   def refresh_token_if_needed
     if need_token_refresh?
-      tokens = TokenWrap.get_refresh_token
-      add_token_to_session(tokens)
+      add_token_to_session(TokenWrap.refresh_token)
     end
   end
 
