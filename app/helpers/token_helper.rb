@@ -1,8 +1,8 @@
 module TokenHelper
   def add_token_to_session(tokens)
-    session[:token] = { number: tokens["access_token"],
+    session[:token] = { number: tokens["token"],
                         created_at: Time.now,
-                        expires: tokens["expires_in"],
+                        expires: 3600,
                         refresh: tokens["refresh_token"]
                       }
   end
