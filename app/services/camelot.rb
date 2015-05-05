@@ -64,8 +64,7 @@ class Camelot
 
   def hit_song_limit?(tracklist)
     tracklist.length == Playlist::SONGS_LIMIT ||
-      tracklist.length == @full_tracklist.length ||
-       @full_tracklist.empty?
+      @full_tracklist.empty?
   end
 
   def get_neighbor_params(params_array)
@@ -88,7 +87,7 @@ class Camelot
     array.delete_at(rand(array.length))
   end
 
-  def get_index_of_next_song(song_params)
+  def next_song_by_params(song_params)
     key, mode = song_params
     @full_tracklist.find_index do |song|
       song.key == key &&
@@ -97,19 +96,16 @@ class Camelot
   end
 
   def get_next_song(neighbors_params)
-    index = get_next_song_index(neighbors_params)
-    @full_tracklist.delete_at(index)
+    index = -1
+    neighbors_params.shuffle.each do |song_params|
+      index = next_song_by_params(song_params) || -1
+      return take_song(index) if index > -1
+    end
+    take_song(index)
   end
 
-  def get_next_song_index(neighbors_params)
-    index = -1 # take last if no match
-    neighbors_params.shuffle.each do |song_params|
-      @full_tracklist.find do |song|
-        index = get_index_of_next_song(song_params) || index
-      end
-      return index if index > -1
-    end
-    index
+  def take_song(index)
+    @full_tracklist.delete_at(index)
   end
 
   def self.get_circle_zone(track)
