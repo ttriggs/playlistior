@@ -34,6 +34,13 @@ class Track < ActiveRecord::Base
     track
   end
 
+  def self.save_tracks(tracks, playlist)
+    tracks.each do |track|
+      track = find_or_build_track(track)
+      playlist.tracks += [track]
+    end
+  end
+
   def self.create_by_track_data(track_data)
     echonest_id = track_data["echonest_id"]
     track = Track.find_or_initialize_by(echonest_id: echonest_id)

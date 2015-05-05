@@ -1,4 +1,5 @@
 class Playlist < ActiveRecord::Base
+
   SONGS_LIMIT = 30
   CHARTS_CACHES = [:energy_json_cache, :liveness_json_cache, :tempo_json_cache, :danceability_json_cache]
 
@@ -12,98 +13,48 @@ class Playlist < ActiveRecord::Base
   belongs_to :user
 
   validates :seed_artist, presence: true
+  validates :snapshot_id, presence: true
   validates :user, presence: true
   validates :name, presence: true
-  validates :spotify_id, presence: true
   validates :link, presence: true
 
-  def self.fetch_or_build_playlist(seed_artist, adventurous, current_user, location)
-    response = ApiWrap.setup_artist_info(seed_artist)
-    return response if response[:errors]
-    genres          = response[:genres]
-    playlist_params = response[:params]
-    artist_name     = response[:artist_name]
+  def self.fetch_or_build_playlist(playlist_params, current_user)
+    artist_name = playlist_params[:artist_name]
     playlist = Playlist.find_or_initialize_by(user: current_user,
-                                              seed_artist: artist_name)
-    playlist.setup_uri_array_if_needed(current_user)
-    if playlist.fresh_playlist?
-      playlist.name = "Playlistior: #{artist_name}"
-      playlist.user = current_user
-      response  = ApiWrap.make_new_playlist(playlist, current_user)
-      if response[:playlist_data]
-        playlist_data = response[:playlist_data]
-        playlist.link         = playlist_data["href"]
-        playlist.spotify_id   = playlist_data["id"]
-        playlist.seed_artist  = artist_name
-        playlist.adventurous  = adventurous
-        playlist.tempo        = playlist_params[:tempo]
-        playlist.familiarity  = playlist_params[:familiarity]
-        playlist.danceability = playlist_params[:danceability]
-        playlist.save! # need playlist id ready for genre/style linking
-        playlist.record_music_styles(genres)
-        playlist.add_tracks(location)
-      else
-        response
-      end
-    else
-      playlist.record_music_styles(genres)
-      playlist.add_tracks(location)
+                                              seed_artist: artist_name,
+                                              name: "Playlistior: #{artist_name}")
+    if playlist.not_on_spotify?
+      playlist.build_playlist_for_spotify(playlist_params)
+    end
+    playlist
+  end
+
+  def build_playlist_for_spotify(playlist_params)
+    user_spotify_id = self.user.spotify_id
+    response = spotify_service.create_playlist(user_spotify_id, name)
+    if !response[:errors]
+      self.link         = response["href"]
+      self.snapshot_id  = response["snapshot_id"]
+      self.adventurous  = playlist_params[:adventurous]
+      self.familiarity  = playlist_params[:familiarity]
+      self.tempo        = playlist_params[:tempo]
+      self.danceability = playlist_params[:danceability]
+      save_genres(playlist_params[:genres]) if self.save
     end
   end
 
-  def record_music_styles(genres_array)
-    genres_array.each do |genre_name|
+  def spotify_service
+    SpotifyService.new(user.session_token)
+  end
+
+  def save_genres(genres)
+    genres.each do |genre_name|
       genre = Genre.find_or_create_by(name: genre_name)
       styles.find_or_create_by(playlist: self, genre: genre) if genre
     end
   end
 
-  def setup_uri_array_if_needed(current_user)
-    if needs_new_uri_array?
-      response = ApiWrap.get_playlist_tracks(self, current_user)
-      self.uri_array = uris_from_tracklist_response(response)
-      self.save!
-    end
-  end
-
-  def setup_tracks_if_needed
-    if has_no_tracks?
-      setup_new_tracklist
-    end
-  end
-
-  def add_tracks(location)
-    setup_tracks_if_needed
-    ordered_tracklist = Camelot.new(uri_array, tracks).order_tracks
-    if ordered_tracklist.any?
-      response = ApiWrap.post_tracks_to_spotify(self, ordered_tracklist, location)
-      handle_add_tracks_response(response)
-    else
-      {
-        notice: "Sorry no more tracks found for this playlist",
-        playlist: self
-      }
-    end
-  end
-
-  def handle_add_tracks_response(response)
-    if response["snapshot_id"]
-      self.snapshot_id = response["snapshot_id"]
-      { playlist: self }
-    else
-      {
-        errors: "Sorry could not create playlist for this artist",
-        playlist: self
-       }
-    end
-  end
-
-  def setup_new_tracklist
-    new_tracklist = ApiWrap.get_new_tracklist(self)
-    save_tracks(new_tracklist)
-  end
-
-  def add_to_cached_uris(uris, location)
+  def update_cached_uris(uris, location)
     playlist_uris = get_uri_array
     if location == "append"
       self.uri_array = (playlist_uris + uris).to_s
@@ -115,14 +66,6 @@ class Playlist < ActiveRecord::Base
 
   def get_uri_array
     uri_array.gsub(/\"/,"").tr("[]","").split(", ")
-  end
-
-  def save_tracks(tracks)
-    tracks.each do |track|
-      track = Track.find_or_build_track(track)
-      self.tracks += [track]
-    end
-    tracks
   end
 
   def active_tracks_in_order
@@ -142,6 +85,11 @@ class Playlist < ActiveRecord::Base
     self.save!
   end
 
+  def update_uri_array(tracklist)
+    update(uri_array: tracklist.map(&:spotify_id).to_s)
+    clear_cached_charts_json
+  end
+
   def owner?(current_user)
     current_user == user
   end
@@ -150,8 +98,12 @@ class Playlist < ActiveRecord::Base
     owner?(current_user) || current_user.admin?
   end
 
-  def fresh_playlist?
+  def not_on_spotify?
     snapshot_id.nil? || has_no_tracks?
+  end
+
+  def spotify_id
+    link.split("/").last
   end
 
   def min_tempo
@@ -167,7 +119,9 @@ class Playlist < ActiveRecord::Base
   end
 
   def spotify_embed
-    "https://embed.spotify.com/?uri=spotify:user:#{user.spotify_id}:playlist:#{spotify_id}"
+    spotify_user_uri = "uri=spotify:user:#{user.spotify_id}"
+    playlist_uri     = "playlist:#{spotify_id}"
+    "https://embed.spotify.com/?#{spotify_user_uri}:#{playlist_uri}"
   end
 
   def increment_followers_cache
@@ -198,11 +152,11 @@ class Playlist < ActiveRecord::Base
     has_tracks? && get_uri_array.empty?
   end
 
-  def uris_from_tracklist_response(response)
-    response["items"].map do |track|
-      track["track"]["uri"]
-    end.to_s
-  end
+  # def uris_from_tracklist_response(response)
+  #   response["items"].map do |track|
+  #     track["track"]["uri"]
+  #   end.to_s
+  # end
 
   def destroy_assignments
     Assignment.where(playlist_id: id).destroy_all
