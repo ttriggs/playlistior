@@ -17,7 +17,7 @@ class Api::V1::PlaylistsController < ApplicationController
   private
 
   def get_playlist_json(playlist, type=:energy)
-    playlist.setup_uri_array_if_needed(current_user)
+    # playlist.setup_uri_array_if_needed(current_user)
     active_tracks = playlist.active_tracks_in_order
     @major_series = []
     @minor_series = []
