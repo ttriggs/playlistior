@@ -7,31 +7,26 @@ class PlaylistsController < ApplicationController
   end
 
   def create
-    seed_artist = get_seed_artist(params)
-    location = get_location_from_params(params)
-    adventurous = params[:adventurous] || false
-    response = Playlist.fetch_or_build_playlist(seed_artist,
-                                                adventurous,
-                                                current_user,
-                                                location)
-      @playlist = response[:playlist]
-      set_flash_from_response(response)
-    if response[:errors]
-      @playlist.destroy if @playlist
-      render "homes/index"
-    elsif response[:notice]
-      redirect_to playlist
-    else
-      @playlist.save!
-      @playlist.clear_cached_charts_json
-      redirect_to @playlist
+    playlist_creator = PlaylistCreator.new(params, current_user)
+    playlist_creator.create if playlist_creator.no_errors?
+
+    if playlist_creator.success?
+      flash[:success] = "Playlist generated (updates may appear first in Spotify app :)"
+      redirect_to playlist_path(playlist_creator.playlist)
+    elsif playlist_creator.notice?
+      flash[:notice] = playlist_creator.flash_errors[:notice]
+      redirect_to playlist_path(playlist_creator.playlist)
+    elsif playlist_creator.exit_error?
+      flash[:errors] = playlist_creator.flash_errors[:errors]
+      playlist_creator.playlist.destroy if playlist_creator.playlist_invalid?
+      redirect_to playlists_path
     end
   end
 
   def destroy
     @playlist = Playlist.find_by_id(params[:id])
     if @playlist && @playlist.owner_or_admin?(current_user)
-      ApiWrap.unfollow_playlist(@playlist, current_user)
+      SpotifyService.unfollow_playlist(@playlist, current_user)
       @playlist.destroy
       flash[:success] = "Playlist Deleted"
       redirect_to playlists_path
@@ -42,34 +37,5 @@ class PlaylistsController < ApplicationController
 
   def show
     @playlist = Playlist.find(params[:id])
-    @playlist.setup_uri_array_if_needed(current_user)
-  end
-
-  private
-
-  def set_flash_from_response(response)
-    if response[:errors]
-      flash[:errors] = response[:errors]
-    elsif response[:notice]
-      flash[:notice] = response[:notice]
-    else
-      flash[:success] = "Playlist created (updates may appear first in Spotify app :)"
-    end
-  end
-
-  def get_seed_artist(params)
-    if params[:playlist].class == Array
-      params[:playlist].first.titleize
-    else
-      params[:playlist].titleize
-    end
-  end
-
-  def get_location_from_params(params)
-    if params[:commit] == "Create Playlist"
-      "prepend"
-    else
-      "append"
-    end
   end
 end
