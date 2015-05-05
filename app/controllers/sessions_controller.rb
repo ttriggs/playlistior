@@ -3,7 +3,7 @@ class SessionsController < ApplicationController
   before_action :refresh_token_if_needed, except: [:new, :create, :destroy]
 
   def new
-    redirect_to TokenWrap.spotify_auth_url
+    redirect_to TokenService.spotify_auth_url
   end
 
   def create
