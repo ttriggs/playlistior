@@ -1,0 +1,408 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.spotify.com/v1/browse/featured-playlists
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Bearer BQAST2oR-N7sgSh8uiVO9mhFQkDEyJNaEGpNdKbkngEG65m4wiZYUydhxSa2U6B7X2e-pSXjdf17P6_8rPixY4TgwxSXaWfL5CWBtcntEfQ9VoRVpNYNjbRhM6GMbAzs8V2X7gdC30zsBmU1-uLTkfcUXTViQar_Wzk-xUe_zsJLyAQ3ymF_sLVMuuo4DonU_IPZ3PxfawNeohgJs5jPCVdJ5cSZnzI3fp9G92hljmaDsOtKfvMAs11svkY
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      server:
+      - nginx
+      date:
+      - Wed, 18 Mar 2015 21:39:31 GMT
+      content-type:
+      - application/json; charset=utf-8
+      transfer-encoding:
+      - chunked
+      connection:
+      - close
+      cache-control:
+      - private, max-age=0
+      access-control-allow-headers:
+      - Accept, Authorization, Origin, Content-Type
+      access-control-allow-origin:
+      - "*"
+      access-control-max-age:
+      - '604800'
+      access-control-allow-methods:
+      - GET, POST, OPTIONS, PUT, DELETE
+      access-control-allow-credentials:
+      - 'true'
+      x-content-type-options:
+      - nosniff
+      strict-transport-security:
+      - max-age=31536000;
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "message" : "Enjoy a peaceful evening...",
+          "playlists" : {
+            "href" : "https://api.spotify.com/v1/browse/featured-playlists?timestamp=2015-03-18T21:39:31&offset=0&limit=20",
+            "items" : [ {
+              "collaborative" : false,
+              "external_urls" : {
+                "spotify" : "http://open.spotify.com/user/spotify/playlist/0lBxkSj5VzRfcy8gxFUB5E"
+              },
+              "href" : "https://api.spotify.com/v1/users/spotify/playlists/0lBxkSj5VzRfcy8gxFUB5E",
+              "id" : "0lBxkSj5VzRfcy8gxFUB5E",
+              "images" : [ {
+                "height" : 300,
+                "url" : "https://i.scdn.co/image/e5771727a3699f0fc795afbe587a2f5b4f5ca91d",
+                "width" : 300
+              } ],
+              "name" : "Peaceful Indie Ambient",
+              "owner" : {
+                "external_urls" : {
+                  "spotify" : "http://open.spotify.com/user/spotify"
+                },
+                "href" : "https://api.spotify.com/v1/users/spotify",
+                "id" : "spotify",
+                "type" : "user",
+                "uri" : "spotify:user:spotify"
+              },
+              "public" : null,
+              "tracks" : {
+                "href" : "https://api.spotify.com/v1/users/spotify/playlists/0lBxkSj5VzRfcy8gxFUB5E/tracks",
+                "total" : 75
+              },
+              "type" : "playlist",
+              "uri" : "spotify:user:spotify:playlist:0lBxkSj5VzRfcy8gxFUB5E"
+            }, {
+              "collaborative" : false,
+              "external_urls" : {
+                "spotify" : "http://open.spotify.com/user/spotify/playlist/0mTqANDkS6KLEGGKBKXPPe"
+              },
+              "href" : "https://api.spotify.com/v1/users/spotify/playlists/0mTqANDkS6KLEGGKBKXPPe",
+              "id" : "0mTqANDkS6KLEGGKBKXPPe",
+              "images" : [ {
+                "height" : 300,
+                "url" : "https://i.scdn.co/image/acefa5c85e92d3d6b4173e3e7ef6a081ab7627ba",
+                "width" : 300
+              } ],
+              "name" : "Cozy Evening",
+              "owner" : {
+                "external_urls" : {
+                  "spotify" : "http://open.spotify.com/user/spotify"
+                },
+                "href" : "https://api.spotify.com/v1/users/spotify",
+                "id" : "spotify",
+                "type" : "user",
+                "uri" : "spotify:user:spotify"
+              },
+              "public" : null,
+              "tracks" : {
+                "href" : "https://api.spotify.com/v1/users/spotify/playlists/0mTqANDkS6KLEGGKBKXPPe/tracks",
+                "total" : 40
+              },
+              "type" : "playlist",
+              "uri" : "spotify:user:spotify:playlist:0mTqANDkS6KLEGGKBKXPPe"
+            }, {
+              "collaborative" : false,
+              "external_urls" : {
+                "spotify" : "http://open.spotify.com/user/spotify/playlist/2dUPFbuNyHAZSNDhLsJ1Hp"
+              },
+              "href" : "https://api.spotify.com/v1/users/spotify/playlists/2dUPFbuNyHAZSNDhLsJ1Hp",
+              "id" : "2dUPFbuNyHAZSNDhLsJ1Hp",
+              "images" : [ {
+                "height" : 300,
+                "url" : "https://i.scdn.co/image/e3ecb8f52459374dbf7f38ac66eebed79b62ae5f",
+                "width" : 300
+              } ],
+              "name" : "Chill Party",
+              "owner" : {
+                "external_urls" : {
+                  "spotify" : "http://open.spotify.com/user/spotify"
+                },
+                "href" : "https://api.spotify.com/v1/users/spotify",
+                "id" : "spotify",
+                "type" : "user",
+                "uri" : "spotify:user:spotify"
+              },
+              "public" : null,
+              "tracks" : {
+                "href" : "https://api.spotify.com/v1/users/spotify/playlists/2dUPFbuNyHAZSNDhLsJ1Hp/tracks",
+                "total" : 92
+              },
+              "type" : "playlist",
+              "uri" : "spotify:user:spotify:playlist:2dUPFbuNyHAZSNDhLsJ1Hp"
+            }, {
+              "collaborative" : false,
+              "external_urls" : {
+                "spotify" : "http://open.spotify.com/user/spotify/playlist/0H6qbVVo0qB3tw5DJZA4yL"
+              },
+              "href" : "https://api.spotify.com/v1/users/spotify/playlists/0H6qbVVo0qB3tw5DJZA4yL",
+              "id" : "0H6qbVVo0qB3tw5DJZA4yL",
+              "images" : [ {
+                "height" : 300,
+                "url" : "https://i.scdn.co/image/067f4a2eb622da4277dc30b4523d53ce6affa2ab",
+                "width" : 300
+              } ],
+              "name" : "Timeless Feel Good Acoustics",
+              "owner" : {
+                "external_urls" : {
+                  "spotify" : "http://open.spotify.com/user/spotify"
+                },
+                "href" : "https://api.spotify.com/v1/users/spotify",
+                "id" : "spotify",
+                "type" : "user",
+                "uri" : "spotify:user:spotify"
+              },
+              "public" : null,
+              "tracks" : {
+                "href" : "https://api.spotify.com/v1/users/spotify/playlists/0H6qbVVo0qB3tw5DJZA4yL/tracks",
+                "total" : 78
+              },
+              "type" : "playlist",
+              "uri" : "spotify:user:spotify:playlist:0H6qbVVo0qB3tw5DJZA4yL"
+            }, {
+              "collaborative" : false,
+              "external_urls" : {
+                "spotify" : "http://open.spotify.com/user/spotify/playlist/6Y5oLMTb9CdZ9eO1v6ns7F"
+              },
+              "href" : "https://api.spotify.com/v1/users/spotify/playlists/6Y5oLMTb9CdZ9eO1v6ns7F",
+              "id" : "6Y5oLMTb9CdZ9eO1v6ns7F",
+              "images" : [ {
+                "height" : 300,
+                "url" : "https://i.scdn.co/image/57d3c37f9947e643c35a41f9aca27d248d65fa46",
+                "width" : 300
+              } ],
+              "name" : "Night Rider",
+              "owner" : {
+                "external_urls" : {
+                  "spotify" : "http://open.spotify.com/user/spotify"
+                },
+                "href" : "https://api.spotify.com/v1/users/spotify",
+                "id" : "spotify",
+                "type" : "user",
+                "uri" : "spotify:user:spotify"
+              },
+              "public" : null,
+              "tracks" : {
+                "href" : "https://api.spotify.com/v1/users/spotify/playlists/6Y5oLMTb9CdZ9eO1v6ns7F/tracks",
+                "total" : 60
+              },
+              "type" : "playlist",
+              "uri" : "spotify:user:spotify:playlist:6Y5oLMTb9CdZ9eO1v6ns7F"
+            }, {
+              "collaborative" : false,
+              "external_urls" : {
+                "spotify" : "http://open.spotify.com/user/spotify/playlist/0Hu7CSowgijVx330GHhUS0"
+              },
+              "href" : "https://api.spotify.com/v1/users/spotify/playlists/0Hu7CSowgijVx330GHhUS0",
+              "id" : "0Hu7CSowgijVx330GHhUS0",
+              "images" : [ {
+                "height" : 300,
+                "url" : "https://i.scdn.co/image/41f87474f36389a4605a9ef508ff757441df1bd7",
+                "width" : 300
+              } ],
+              "name" : "Calming Evening",
+              "owner" : {
+                "external_urls" : {
+                  "spotify" : "http://open.spotify.com/user/spotify"
+                },
+                "href" : "https://api.spotify.com/v1/users/spotify",
+                "id" : "spotify",
+                "type" : "user",
+                "uri" : "spotify:user:spotify"
+              },
+              "public" : null,
+              "tracks" : {
+                "href" : "https://api.spotify.com/v1/users/spotify/playlists/0Hu7CSowgijVx330GHhUS0/tracks",
+                "total" : 16
+              },
+              "type" : "playlist",
+              "uri" : "spotify:user:spotify:playlist:0Hu7CSowgijVx330GHhUS0"
+            }, {
+              "collaborative" : false,
+              "external_urls" : {
+                "spotify" : "http://open.spotify.com/user/spotify/playlist/6vaaau50gPDmKcjDrs4pA2"
+              },
+              "href" : "https://api.spotify.com/v1/users/spotify/playlists/6vaaau50gPDmKcjDrs4pA2",
+              "id" : "6vaaau50gPDmKcjDrs4pA2",
+              "images" : [ {
+                "height" : 300,
+                "url" : "https://i.scdn.co/image/0218508ff2ad512d17e69b02612fd12f453db393",
+                "width" : 300
+              } ],
+              "name" : "One Love",
+              "owner" : {
+                "external_urls" : {
+                  "spotify" : "http://open.spotify.com/user/spotify"
+                },
+                "href" : "https://api.spotify.com/v1/users/spotify",
+                "id" : "spotify",
+                "type" : "user",
+                "uri" : "spotify:user:spotify"
+              },
+              "public" : null,
+              "tracks" : {
+                "href" : "https://api.spotify.com/v1/users/spotify/playlists/6vaaau50gPDmKcjDrs4pA2/tracks",
+                "total" : 104
+              },
+              "type" : "playlist",
+              "uri" : "spotify:user:spotify:playlist:6vaaau50gPDmKcjDrs4pA2"
+            }, {
+              "collaborative" : false,
+              "external_urls" : {
+                "spotify" : "http://open.spotify.com/user/spotify/playlist/1SvdCw4FMhqxo7dj8uYNxb"
+              },
+              "href" : "https://api.spotify.com/v1/users/spotify/playlists/1SvdCw4FMhqxo7dj8uYNxb",
+              "id" : "1SvdCw4FMhqxo7dj8uYNxb",
+              "images" : [ {
+                "height" : 300,
+                "url" : "https://i.scdn.co/image/744409461d3879c0769edea00d887a9da6e853a7",
+                "width" : 300
+              } ],
+              "name" : "Indie Electronica",
+              "owner" : {
+                "external_urls" : {
+                  "spotify" : "http://open.spotify.com/user/spotify"
+                },
+                "href" : "https://api.spotify.com/v1/users/spotify",
+                "id" : "spotify",
+                "type" : "user",
+                "uri" : "spotify:user:spotify"
+              },
+              "public" : null,
+              "tracks" : {
+                "href" : "https://api.spotify.com/v1/users/spotify/playlists/1SvdCw4FMhqxo7dj8uYNxb/tracks",
+                "total" : 187
+              },
+              "type" : "playlist",
+              "uri" : "spotify:user:spotify:playlist:1SvdCw4FMhqxo7dj8uYNxb"
+            }, {
+              "collaborative" : false,
+              "external_urls" : {
+                "spotify" : "http://open.spotify.com/user/spotify/playlist/6VFQeQWFz2WgvSZrpJ7uuy"
+              },
+              "href" : "https://api.spotify.com/v1/users/spotify/playlists/6VFQeQWFz2WgvSZrpJ7uuy",
+              "id" : "6VFQeQWFz2WgvSZrpJ7uuy",
+              "images" : [ {
+                "height" : 300,
+                "url" : "https://i.scdn.co/image/b52458df211366cd847207deace31461d6b2abee",
+                "width" : 300
+              } ],
+              "name" : "R&B Love",
+              "owner" : {
+                "external_urls" : {
+                  "spotify" : "http://open.spotify.com/user/spotify"
+                },
+                "href" : "https://api.spotify.com/v1/users/spotify",
+                "id" : "spotify",
+                "type" : "user",
+                "uri" : "spotify:user:spotify"
+              },
+              "public" : null,
+              "tracks" : {
+                "href" : "https://api.spotify.com/v1/users/spotify/playlists/6VFQeQWFz2WgvSZrpJ7uuy/tracks",
+                "total" : 169
+              },
+              "type" : "playlist",
+              "uri" : "spotify:user:spotify:playlist:6VFQeQWFz2WgvSZrpJ7uuy"
+            }, {
+              "collaborative" : false,
+              "external_urls" : {
+                "spotify" : "http://open.spotify.com/user/spotify/playlist/5uyhBdXXU45smNFcfHPtgp"
+              },
+              "href" : "https://api.spotify.com/v1/users/spotify/playlists/5uyhBdXXU45smNFcfHPtgp",
+              "id" : "5uyhBdXXU45smNFcfHPtgp",
+              "images" : [ {
+                "height" : 300,
+                "url" : "https://i.scdn.co/image/e6bf9d6a191c53cc3cdba1178c97a3aab32ffdb3",
+                "width" : 300
+              } ],
+              "name" : "A Dreamy Wind Down",
+              "owner" : {
+                "external_urls" : {
+                  "spotify" : "http://open.spotify.com/user/spotify"
+                },
+                "href" : "https://api.spotify.com/v1/users/spotify",
+                "id" : "spotify",
+                "type" : "user",
+                "uri" : "spotify:user:spotify"
+              },
+              "public" : null,
+              "tracks" : {
+                "href" : "https://api.spotify.com/v1/users/spotify/playlists/5uyhBdXXU45smNFcfHPtgp/tracks",
+                "total" : 13
+              },
+              "type" : "playlist",
+              "uri" : "spotify:user:spotify:playlist:5uyhBdXXU45smNFcfHPtgp"
+            }, {
+              "collaborative" : false,
+              "external_urls" : {
+                "spotify" : "http://open.spotify.com/user/spotify/playlist/3IWEp81rnAsLo5Z4DferTi"
+              },
+              "href" : "https://api.spotify.com/v1/users/spotify/playlists/3IWEp81rnAsLo5Z4DferTi",
+              "id" : "3IWEp81rnAsLo5Z4DferTi",
+              "images" : [ {
+                "height" : 300,
+                "url" : "https://i.scdn.co/image/93b1682b084f5da9e84f1891ed135446c65b31df",
+                "width" : 300
+              } ],
+              "name" : "Alternative R&B",
+              "owner" : {
+                "external_urls" : {
+                  "spotify" : "http://open.spotify.com/user/spotify"
+                },
+                "href" : "https://api.spotify.com/v1/users/spotify",
+                "id" : "spotify",
+                "type" : "user",
+                "uri" : "spotify:user:spotify"
+              },
+              "public" : null,
+              "tracks" : {
+                "href" : "https://api.spotify.com/v1/users/spotify/playlists/3IWEp81rnAsLo5Z4DferTi/tracks",
+                "total" : 194
+              },
+              "type" : "playlist",
+              "uri" : "spotify:user:spotify:playlist:3IWEp81rnAsLo5Z4DferTi"
+            }, {
+              "collaborative" : false,
+              "external_urls" : {
+                "spotify" : "http://open.spotify.com/user/spotify/playlist/2nLBLpHHD8nvUcpr6vmRsR"
+              },
+              "href" : "https://api.spotify.com/v1/users/spotify/playlists/2nLBLpHHD8nvUcpr6vmRsR",
+              "id" : "2nLBLpHHD8nvUcpr6vmRsR",
+              "images" : [ {
+                "height" : 300,
+                "url" : "https://i.scdn.co/image/6926bafda6b28e8f01f2fbf04484fefcad074d7c",
+                "width" : 300
+              } ],
+              "name" : "Hip-Hop Chill Nights",
+              "owner" : {
+                "external_urls" : {
+                  "spotify" : "http://open.spotify.com/user/spotify"
+                },
+                "href" : "https://api.spotify.com/v1/users/spotify",
+                "id" : "spotify",
+                "type" : "user",
+                "uri" : "spotify:user:spotify"
+              },
+              "public" : null,
+              "tracks" : {
+                "href" : "https://api.spotify.com/v1/users/spotify/playlists/2nLBLpHHD8nvUcpr6vmRsR/tracks",
+                "total" : 39
+              },
+              "type" : "playlist",
+              "uri" : "spotify:user:spotify:playlist:2nLBLpHHD8nvUcpr6vmRsR"
+            } ],
+            "limit" : 20,
+            "next" : null,
+            "offset" : 0,
+            "previous" : null,
+            "total" : 12
+          }
+        }
+    http_version: 
+  recorded_at: Wed, 18 Mar 2015 21:39:31 GMT
+recorded_with: VCR 2.9.3
