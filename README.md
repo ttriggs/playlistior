@@ -5,7 +5,6 @@
 [Try it out here](https://playlistior.herokuapp.com)
 
 ## Playlistior Demo:
-
 ![Playlistior App Demo](http://i.imgur.com/aifS5jR.gif)
 
 ## About:
