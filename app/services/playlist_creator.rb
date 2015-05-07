@@ -28,11 +28,11 @@ class PlaylistCreator
 
   def get_tracks_if_needed
     if @playlist.has_no_tracks?
-      save_new_tracklist
+      get_and_save_new_tracklist
     end
   end
 
-  def save_new_tracklist
+  def get_and_save_new_tracklist
     new_tracklist = EchoNestService.get_new_tracklist(@playlist)
     Track.save_tracks(new_tracklist, @playlist)
   end
@@ -60,11 +60,7 @@ class PlaylistCreator
 
   def add_tracks_url(location)
     url = "#{@playlist.link}/tracks"
-    if location == "prepend"
-      url.concat("?position=0")
-    else
-      url
-    end
+    location == "prepend" ? url.concat("?position=0") : url
   end
 
   def build_track_ids(tracklist)
