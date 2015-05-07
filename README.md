@@ -10,15 +10,15 @@
 ## About:
 Playlistior: The superior playlist generator.
 
-When given a starting seed artist, Playlistior uses audio information from the Echonest API for each song (key, mode, tempo, daceability, and how familiar the artist is to the public) to construct a playlist that flows harmonically from one song to the next. Check the "Adventurous" box to loosen these constraints to help you find lesser known artists. Under the hood, the generator uses an algorithm inspired by "harmonic mixing," a technique used by DJs to avoid disharmonious song changes.
+When given a starting seed artist Playlistior uses audio information from the Echonest API for each song (key, mode, tempo, daceability, and how familiar the artist is to the public) to construct a playlist that flows harmonically from one song to the next. Check the "Adventurous" box to loosen these constraints to help you find lesser known artists. Under the hood, the generator uses an algorithm inspired by "harmonic mixing," a technique used by DJs to avoid disharmonious song changes.
 
 ## Under the hood:
 ### Playlist Creation steps:
 
-- The user supplied seed artist is verified with Echonest and artist-specific information is returned including, artist familiarity to the public, and genres associated with the artist.
-- Another API request gets tempo and danceability data on a sample song by the artist
+- The user-supplied seed artist is verified with Echonest and artist-specific information is returned including, artist familiarity to the public, and genres associated with the artist.
+- Another API request gets tempo and danceability data on a sample song by the artist.
 - Familiarity, tempo, & danceability are optionally used to apply limits on the Echonest's playlist generator method. If the user checks the "Feeling Adventurous?" checkbox, the minimum requirements will be removed. If the box is left unchecked (default) these minimum requirements will constrain Echonest's playlist results to songs with a similar profile to the seed artist and sample song.
-- To build a new playlist, I'm using the Echonest playlist_static method which  allows you to supply a genre name as well as minimums for tempo, danceability, and familiarity.
+- To build a new playlist, I'm using the Echonest playlist_static method which allows you to supply a genre name as well as minimums for tempo, danceability, and familiarity.
 - Two constants dictate how the playlists are compiled. Their current settings are: ``` MAX_RESULTS = 100 ``` and ``` PLAYLIST_TARGET_SIZE = 90 ```
 - Generally speaking, Playlistior will loop through the array of genres associated with an artist and call Echonest's playlist_static method to request a playlist of ```MAX_RESULTS``` songs within the genre [and within any other constraints (danceability, tempo, familiarity)]. If the total number of songs returned is less than ```PLAYLIST_TARGET_SIZE```, Playlistior will issue more playlist_static requests using the next genre in the array till it's out of genres to search or the total number of songs returned is greater than ```PLAYLIST_TARGET_SIZE```. After each request, the new results are concatenated with any previous results. To avoid duplicate songs, they are uniquified by thier echonest track id. This is the unordered tracklist for the harmonic mixing algorithm (performed within services/camelot.rb)
 - ```MAX_RESULTS``` is used in the Echonest playlist_static call to specify the number of songs expected in return.
@@ -31,7 +31,7 @@ When given a starting seed artist, Playlistior uses audio information from the E
 
 ### Harmonic mixing steps, "Camelot" class
 Harmonic Mixing or the "Camelot System" of mixing requires first finding one song's position on the Camelot wheel. From there, a suitable next song's parameters are located one move to the left or right or moving between the inner and outer rings of the wheel.
-- Once an unorederd list of songs is compiled, the Camelot POR class does the ordering
+- Once an unorederd list of songs is compiled, the Camelot class does the ordering.
 - First, it picks a random starting track and adds it to the ordered list to be output.
 - The first track's key and mode are translated into a zone on the Camelot wheel.
 - Neighbor zones are found (one move left, one move right, or inner <-> outer ).
@@ -39,9 +39,8 @@ Harmonic Mixing or the "Camelot System" of mixing requires first finding one son
 - If it fails to find one, it will pick a random track and continue.
 - A playlist is complete if it runs out of unused tracks or if the ordered list hits the ```Playlist::SONGS_LIMIT``` constant (currently set to 30).
 
-
 ## Notes on using the APIs:
-API calls to Echonest can be slow so increasing the number of calls to generate a playlist can greatly reduce a playlist's load time. Two to three calls requesting a playlist of 100 songs each may take 30+ seconds. This is fine if you're running it locally, but cause issues on Heroku as a timeout error occures if the page load is >30s. For now, I've reduced the playlist requests by setting  ``` MAX_RESULTS = 100 ``` and ``` PLAYLIST_TARGET_SIZE = 90 ```
+API calls to Echonest can be slow, so increasing the number of calls to generate a playlist can greatly increase a playlist's load time. Two to three calls requesting a playlist of 100 songs each may take 30+ seconds. This is fine if you're running it locally, but cause issues on Heroku as a timeout error occures if the page load is >30s. For now, I've reduced the playlist requests by setting  ``` MAX_RESULTS = 100 ``` and ``` PLAYLIST_TARGET_SIZE = 90 ```
 This will limit results to 100 songs in the first Echonest playlist API request and so long as 100 songs are actually returned, the generator will not request a second batch.
 
 ## Clone it!
@@ -72,6 +71,7 @@ rake db:create db:migrate db:seed
   - "wandering" mode: current default, next song is a random Camelot wheel neighbor
   - "up/down" mode: build a playlist that only increases/decreases in camelot zone #
   - "alternate" mode: switch from minor to major more frequently (currently the algorithm is somewhat unlikely to switch keys because neighboring zones are more likely to be in the same mode)
+  - update the algorithm to avoid (rarely occuring) random selections when no neighbor songs are found.
 
 ### Misc or Back & Front
 - Highcharts:
