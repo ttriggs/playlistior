@@ -134,3 +134,17 @@ feature 'create/extend playlists' do
     end
   end
 end
+
+feature 'cannot create invalid playlist' do
+  before(:each) do
+    OmniauthMock.setup_login
+  end
+  context 'on #show submit blank seed artist' do
+    scenario 'get error for seed artist' do
+      visit "/playlists"
+      click_on "Create Playlist"
+      expect(page).to have_content("Seed artist can't be blank")
+      expect(current_path).to eq(playlists_path)
+    end
+  end
+end
