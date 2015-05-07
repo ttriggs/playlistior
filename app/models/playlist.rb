@@ -43,8 +43,9 @@ class Playlist < ActiveRecord::Base
     end
   end
 
-  def spotify_service
-    SpotifyService.new(user.session_token)
+  def spotify_service(token = nil)
+    session_token = token || user.session_token
+    SpotifyService.new(session_token)
   end
 
   def save_genres(genres)
@@ -151,12 +152,6 @@ class Playlist < ActiveRecord::Base
   def needs_new_uri_array?
     has_tracks? && get_uri_array.empty?
   end
-
-  # def uris_from_tracklist_response(response)
-  #   response["items"].map do |track|
-  #     track["track"]["uri"]
-  #   end.to_s
-  # end
 
   def destroy_assignments
     Assignment.where(playlist_id: id).destroy_all
