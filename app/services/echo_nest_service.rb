@@ -15,8 +15,6 @@ class EchoNestService
     EchoNestResponse.new(response.first).return("artist")
   end
 
-  # echonest_service
-  # def self.get_example_song_data(seed_artist)
   def self.get_demo_song_data(artist)
     response = Echowrap.song_search(artist: artist,
                                     results: 1,
@@ -29,7 +27,20 @@ class EchoNestService
     EchoNestResponse.new(response.first).return("song data")
   end
 
-  # echonest
+  def self.songs_to_track_id_string(unique_songs)
+    unique_songs.map do |song|
+      "track_id=" + song.tracks.first.to_hash[:foreign_id]
+    end.join("&")
+  end
+
+  def self.get_new_tracklist(playlist, limit = MAX_RESULTS, target = PLAYLIST_TARGET_SIZE)
+    playlist.genres.each_with_object(all_playlists = []) do |genre|
+      next if all_playlists.length > target
+      all_playlists += songs_by_genre(playlist, genre.name, limit)
+    end
+    stitch_in_audio_summaries(all_playlists)
+  end
+
   def self.songs_by_genre(playlist, genre_name, limit)
     Echowrap.playlist_static(genre: genre_name,
                              results: limit,
@@ -46,7 +57,6 @@ class EchoNestService
                             )
   end
 
-  #echonest service
   def self.stitch_in_audio_summaries(all_playlists)
     unique_songs = uniquify_songs(all_playlists)
     key = ENV['ECHONEST_API_KEY']
@@ -55,6 +65,7 @@ class EchoNestService
       url = "#{base_url}api_key=#{key}&format=json&"
       url += "bucket=audio_summary&bucket=id:spotify&limit=true&"
       track_ids_string = songs_to_track_id_string(song_batch)
+
       url.concat(track_ids_string)
       result = HTTParty.get(url)["response"]["songs"]
       if result
@@ -63,37 +74,20 @@ class EchoNestService
     end
   end
 
-  # echonest service
-  def self.songs_to_track_id_string(unique_songs)
-    unique_songs.map do |song|
-      "track_id=" + song.tracks.first.foreign_id
-    end.join("&")
-  end
-
-  # echonest
-  def self.get_new_tracklist(playlist, limit = MAX_RESULTS)
-    playlist.genres.each_with_object(all_playlists = []) do |genre|
-      next if all_playlists.length > PLAYLIST_TARGET_SIZE
-      all_playlists += songs_by_genre(playlist, genre.name, limit)
-    end
-    stitch_in_audio_summaries(all_playlists)
-  end
-
-  #echonest
   def self.uniquify_songs(all_songs)
-    all_songs.uniq {|song| song.tracks.first.id }
+    all_songs.uniq {|song| song.tracks.first.to_hash[:id] }
   end
 
-  #echonest
   def self.add_audio_summary_data(song_batch, audio_summaries)
     audio_summaries.each_with_object([]) do |summary, array|
       matched_song = song_batch.find { |song| song.id == summary["id"] }
-      matched_song.update({ audio_summary: summary["audio_summary"] })
-      array << matched_song
+      if !matched_song.nil?
+        matched_song.update({ audio_summary: summary["audio_summary"] })
+        array << matched_song
+      end
     end
   end
 
-  #echonest
   def self.song_profile_url
     "http://developer.echonest.com/api/v4/song/profile?"
   end

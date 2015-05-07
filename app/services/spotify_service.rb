@@ -7,10 +7,6 @@ class SpotifyService
     @connection.headers = { 'Authorization' => header_key }
   end
 
-  # def playlist_tracks(tracks)
-  #   parse(connection.get(tracks))
-  # end
-
   def create_playlist(user_id, playlist_name)
     body = { name: playlist_name, public: false }.to_json
     response = connection.post("/v1/users/#{user_id}/playlists", body) do |request|
@@ -27,19 +23,13 @@ class SpotifyService
     SpotifyResponse.new(response).return
   end
 
-  #spotify
-  def self.unfollow_playlist(playlist, user)
-    token       = user.session_token
-    owner_id    = user.spotify_id
-    playlist_id = playlist.spotify_id
-    url = playlist_follow_url(owner_id, playlist_id)
-    params = { headers: { "Authorization" => "Bearer #{token}" } }
-    HTTParty.delete(url, params)
+  def self.unfollow_playlist(playlist_spotify_id, user_spotify_id, token)
+    url = playlist_follow_url(user_spotify_id, playlist_spotify_id)
+    response = new(token).connection.delete(url)
   end
 
- #spotify
   def self.playlist_follow_url(owner_id, playlist_id)
-    "https://api.spotify.com/v1/users/#{owner_id}/playlists/#{playlist_id}/followers"
+    "/v1/users/#{owner_id}/playlists/#{playlist_id}/followers"
   end
 
   class SpotifyResponse
