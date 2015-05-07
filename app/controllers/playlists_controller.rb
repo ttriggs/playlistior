@@ -11,13 +11,10 @@ class PlaylistsController < ApplicationController
     playlist_creator.create if playlist_creator.no_errors?
     set_create_flash(playlist_creator.flash_errors)
     if playlist_creator.success?
-      # flash[:success] = "Playlist generated (updates may appear first in Spotify app :)"
       redirect_to playlist_path(playlist_creator.playlist)
     elsif playlist_creator.notice?
-      # flash[:notice] = playlist_creator.flash_errors[:notice]
       redirect_to playlist_path(playlist_creator.playlist)
     elsif playlist_creator.exit_error?
-      # flash[:errors] = playlist_creator.flash_errors[:errors]
       playlist_creator.playlist.destroy if playlist_creator.playlist_invalid?
       redirect_to playlists_path
     end
@@ -43,7 +40,7 @@ class PlaylistsController < ApplicationController
 
   private
 
-  def set_flash(flash_errors)
+  def set_create_flash(flash_errors)
     if flash_errors[:errors]
       flash[:errors] = flash_errors[:errors]
     elsif flash_errors[:notice]
