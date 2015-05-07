@@ -2,20 +2,18 @@ class User < ActiveRecord::Base
   has_many :playlists
   has_many :follows
 
-  validates :spotify_id, uniqueness: { case_sensitive: false }
+  validates :spotify_id, presence: true, uniqueness: { case_sensitive: false }
+  validates :spotify_link, presence: true
   validates :name, presence: true
 
   def self.find_or_create_from_auth(auth)
-    user = User.find_or_create_by(spotify_id: auth.uid)
-
+    user = User.find_or_initialize_by(spotify_id: auth.uid)
     user.email         = auth.info.email
     user.name          = auth.info.name || user.email
     user.image         = auth.info.image
     user.spotify_link  = auth.extra.raw_info.href
     user.session_token = auth.credentials.token
     user.refresh_token = auth.credentials.refresh_token
-    user.save
-
     user
   end
 
