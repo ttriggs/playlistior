@@ -25,7 +25,7 @@ describe Api::V1::PlaylistsController do
     end
 
     it "responds with cached json if exists" do
-      playlist.energy_json_cache = MockChart.get_mock_chart
+      playlist.update(energy_json_cache: MockChart.get_mock_chart)
       session[:user_id] = playlist.user_id
       session[:token] = TokenFaker.get_fake_token
 
