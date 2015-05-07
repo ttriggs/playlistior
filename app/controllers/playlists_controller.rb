@@ -9,7 +9,6 @@ class PlaylistsController < ApplicationController
   def create
     playlist_creator = PlaylistCreator.new(params, current_user)
     playlist_creator.create if playlist_creator.no_errors?
-
     if playlist_creator.success?
       flash[:success] = "Playlist generated (updates may appear first in Spotify app :)"
       redirect_to playlist_path(playlist_creator.playlist)
@@ -26,7 +25,9 @@ class PlaylistsController < ApplicationController
   def destroy
     @playlist = Playlist.find_by_id(params[:id])
     if @playlist && @playlist.owner_or_admin?(current_user)
-      SpotifyService.unfollow_playlist(@playlist, current_user)
+      SpotifyService.unfollow_playlist(@playlist.spotify_id,
+                                        current_user.spotify_id,
+                                        current_user.session_token)
       @playlist.destroy
       flash[:success] = "Playlist Deleted"
       redirect_to playlists_path
