@@ -30,6 +30,7 @@ gem 'rails-erd', group: [:development]
 gem 'shoulda-matchers', group: [:development, :test], require: false
 gem 'coveralls', group: :test, require: false
 gem 'rack_session_access', group: :test
+gem 'webmock', group: :test
 gem 'rails_12factor', group: :production
 gem 'foundation-rails', '5.5.1.0'
 gem 'omniauth-spotify', '~> 0.0.8'
