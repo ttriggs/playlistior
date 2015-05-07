@@ -13,10 +13,6 @@ module TokenHelper
     end
   end
 
-  def setup_new_tokens(code)
-    add_token_to_session(TokenService.new_tokens(code))
-  end
-
   def need_token_refresh?
     if session[:token]["refresh"]
       expires    = session[:token]["expires"]
