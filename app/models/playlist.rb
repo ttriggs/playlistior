@@ -86,11 +86,6 @@ class Playlist < ActiveRecord::Base
     self.save!
   end
 
-  def update_uri_array(tracklist)
-    update(uri_array: tracklist.map(&:spotify_id).to_s)
-    clear_cached_charts_json
-  end
-
   def owner?(current_user)
     current_user == user
   end
