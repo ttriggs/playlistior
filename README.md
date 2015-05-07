@@ -14,13 +14,12 @@ When given a starting seed artist, Playlistior uses audio information from the E
 
 ## Under the hood:
 ### Playlist Creation steps:
-Note: API interactions happen within the services/api_wrap.rb file.
 
 - The user supplied seed artist is verified with Echonest and artist-specific information is returned including, artist familiarity to the public, and genres associated with the artist.
 - Another API request gets tempo and danceability data on a sample song by the artist
 - Familiarity, tempo, & danceability are optionally used to apply limits on the Echonest's playlist generator method. If the user checks the "Feeling Adventurous?" checkbox, the minimum requirements will be removed. If the box is left unchecked (default) these minimum requirements will constrain Echonest's playlist results to songs with a similar profile to the seed artist and sample song.
 - To build a new playlist, I'm using the Echonest playlist_static method which  allows you to supply a genre name as well as minimums for tempo, danceability, and familiarity.
-- Within api_wrap.rb, two constants dictate how the playlists are compiled. Their current settings are: ``` MAX_RESULTS = 100 ``` and ``` PLAYLIST_TARGET_SIZE = 90 ```
+- Two constants dictate how the playlists are compiled. Their current settings are: ``` MAX_RESULTS = 100 ``` and ``` PLAYLIST_TARGET_SIZE = 90 ```
 - Generally speaking, Playlistior will loop through the array of genres associated with an artist and call Echonest's playlist_static method to request a playlist of ```MAX_RESULTS``` songs within the genre [and within any other constraints (danceability, tempo, familiarity)]. If the total number of songs returned is less than ```PLAYLIST_TARGET_SIZE```, Playlistior will issue more playlist_static requests using the next genre in the array till it's out of genres to search or the total number of songs returned is greater than ```PLAYLIST_TARGET_SIZE```. After each request, the new results are concatenated with any previous results. To avoid duplicate songs, they are uniquified by thier echonest track id. This is the unordered tracklist for the harmonic mixing algorithm (performed within services/camelot.rb)
 - ```MAX_RESULTS``` is used in the Echonest playlist_static call to specify the number of songs expected in return.
 - ```PLAYLIST_TARGET_SIZE``` is used to internally limit how many songs are needed before a playlist can be created. If this number is increased above ```MAX_RESULTS```, multiple calls to Echonest's playlist_static uri will be made with different genres associated with the seed artist. This will increase genre variability in you playlists, but at the expense of load times.
@@ -42,7 +41,7 @@ Harmonic Mixing or the "Camelot System" of mixing requires first finding one son
 
 
 ## Notes on using the APIs:
-API calls to Echonest can be slow so increasing the number of calls to generate a playlist can greatly reduce a playlist's load time. Two to three calls requesting a playlist of 100 songs each may take 30+ seconds. This is fine if you're running it locally, but cause issues on Heroku as a timeout error occures if the page load is >30s. For now, I've reduced the playlist requests by setting (within services/api_wrap.rb) ``` MAX_RESULTS = 100 ``` and ``` PLAYLIST_TARGET_SIZE = 90 ```
+API calls to Echonest can be slow so increasing the number of calls to generate a playlist can greatly reduce a playlist's load time. Two to three calls requesting a playlist of 100 songs each may take 30+ seconds. This is fine if you're running it locally, but cause issues on Heroku as a timeout error occures if the page load is >30s. For now, I've reduced the playlist requests by setting  ``` MAX_RESULTS = 100 ``` and ``` PLAYLIST_TARGET_SIZE = 90 ```
 This will limit results to 100 songs in the first Echonest playlist API request and so long as 100 songs are actually returned, the generator will not request a second batch.
 
 ## Clone it!
