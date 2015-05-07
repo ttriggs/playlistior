@@ -2,10 +2,12 @@ require 'factory_girl'
 require_relative 'mock_track'
 
 FactoryGirl.define do
+
   factory :user do
     sequence(:name) { |n| "user #{n}" }
     sequence(:spotify_id) { |n| "spotify_id#{n}" }
     role "user"
+    spotify_link "http://my/spotify_link"
     image "http://this/image/path.png"
   end
 
@@ -26,12 +28,11 @@ FactoryGirl.define do
   end
 
   factory :playlist do
-    name        "my cool playlist"
+    name        "Playlistior: Beck"
     seed_artist "Beck"
-    spotify_id  "29831hionfose"
-    adventurous false
+    adventurous  false
     snapshot_id "FakeSnapshot_ID"
-    link        "/this/bogus/link"
+    link        "v1/users/TestUser123/playlists/3P95eDoSwbtMrJRF4lOAdn"
     follows_cache 0
     user
   end
@@ -41,7 +42,7 @@ FactoryGirl.define do
   end
 
   factory :genre do
-    name "rock"
+    name "alternative rock"
     group_id 1
   end
 end
