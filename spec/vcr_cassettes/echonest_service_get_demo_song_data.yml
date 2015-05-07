@@ -1,0 +1,87 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://developer.echonest.com/api/v4/song/search?api_key=1234&artist=Beck&bucket=tracks&limit=true&results=1&sort=song_hotttnesss-desc
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - Echowrap Ruby Gem 0.1.4
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Thu, 07 May 2015 00:30:40 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Vary:
+      - Accept-Encoding
+      X-Request-Id:
+      - "/JaA1WyaTkac8Z/IgzzE2A"
+      X-Worker-Node:
+      - 7545e:25848
+      X-Ratelimit-Remaining:
+      - '119'
+      Server:
+      - TornadoServer/3.1
+      X-Ratelimit-Limit:
+      - '120'
+      X-Api-Key:
+      - 5KBOJ3MEOY97EZ23N
+      Cache-Control:
+      - max-age=86400
+      Access-Control-Allow-Origin:
+      - "*"
+      X-Ratelimit-Used:
+      - '1'
+    body:
+      encoding: UTF-8
+      string: '{"response": {"status": {"version": "4.2", "code": 0, "message": "Success"},
+        "songs": [{"title": "Loser", "artist_name": "Beck", "artist_foreign_ids":
+        [{"catalog": "spotify", "foreign_id": "spotify:artist:3vbKDsSS70ZX9D2OcvbZmS"}],
+        "tracks": [{"album_type": "album", "album_date": "1994-01-18", "foreign_release_id":
+        "spotify:album:14Bh5QtBaH7FRZ1jK55X3z", "catalog": "spotify", "foreign_id":
+        "spotify:track:6h6p4WuDlZVdBfmGqT0dcR", "album_name": "Loser", "id": "TRRATZT144D1AFFF8A"},
+        {"album_type": "unknown", "album_date": "1994-03-01", "foreign_release_id":
+        "spotify:album:7MKi8PuCX5QJtaG9wLbOI2", "catalog": "spotify", "foreign_id":
+        "spotify:track:4b8GTae6rqb9oPiRzVa3Gy", "album_name": "Mellow Gold", "id":
+        "TRYSFTR144D1569020"}, {"album_type": "unknown", "album_date": "1994-03-01",
+        "foreign_release_id": "spotify:album:1M1dhwZE65bqGfbUdMzvlj", "catalog": "spotify",
+        "foreign_id": "spotify:track:5NTZM8YYeKM2YsGSffVIge", "album_name": "Mellow
+        Gold", "id": "TRIVZIA144D17B203C"}, {"album_type": "unknown", "album_date":
+        "1994-03-01", "foreign_release_id": "spotify:album:0iIGP4Sxw3KR4OCFv2yvz8",
+        "catalog": "spotify", "foreign_id": "spotify:track:5PntSbMHC1ud6Vvl8x56qd",
+        "album_name": "Mellow Gold", "id": "TRQVGHE144D17DC830"}, {"album_type": "unknown",
+        "album_date": "1994-03-01", "foreign_release_id": "spotify:album:6h1WDKfPF2qdOiE7jsrCBl",
+        "catalog": "spotify", "foreign_id": "spotify:track:5Km3EdIOL6PaFbbZWGPiCH",
+        "album_name": "Mellow Gold", "id": "TRLFNSI144D1796FB0"}, {"album_type": "other",
+        "album_date": "2007-12-11", "foreign_release_id": "spotify:album:7oX7wSGNKNmu3IHKI9qQk8",
+        "catalog": "spotify", "foreign_id": "spotify:track:2egIbgsH3SU7O52AmT0sAn",
+        "album_name": "Lance Armstrong: Run Longer", "id": "TRFMCDL144D100402F"},
+        {"album_type": "other", "album_date": "2007-12-11", "foreign_release_id":
+        "spotify:album:6T8AywNxNH884epzDD3hfy", "catalog": "spotify", "foreign_id":
+        "spotify:track:2ELMUGBFIqUdRSAf24nxbp", "album_name": "Lance Armstrong: Run
+        Longer", "id": "TRJJMKJ144D0EE5D58"}, {"foreign_release_id": "spotify:album:5fS7PzCkR0JLMKpNbvs1s9",
+        "catalog": "spotify", "foreign_id": "spotify:track:2m9cDUawCW5SfnpwHWtJJi",
+        "id": "TRWOCYO144D105A3A5"}], "audio_md5": "e0a0b2bd2e4d36ff15d699b1dbc762af",
+        "artist_id": "ARC2XR11187FB5CC95", "id": "SOFWZUR12AF729EC33", "audio_summary":
+        {"key": 6, "analysis_url": "http://echonest-analysis.s3.amazonaws.com/TR/oMyi0QIVdv96QdztOsaMji9NpzlfSiQzAESemxAWwRDmyFQI0W4KdDly6st097f3xYQ8Rgq059UBS01zo%3D/3/full.json?AWSAccessKeyId=AKIAJRDFEY23UEVW42BQ&Expires=1430959240&Signature=zMQJuudqN5o3Dh7YJPKC4ggUwlY%3D",
+        "energy": 0.619407, "liveness": 0.367351, "tempo": 85.404, "speechiness":
+        0.111374, "acousticness": 0.033777, "instrumentalness": 0.000247, "mode":
+        0, "time_signature": 4, "duration": 235.49955, "loudness": -10.396, "audio_md5":
+        "e0a0b2bd2e4d36ff15d699b1dbc762af", "valence": 0.824947, "danceability": 0.65534}}]}}'
+    http_version:
+  recorded_at: Thu, 07 May 2015 00:30:40 GMT
+recorded_with: VCR 2.9.3
