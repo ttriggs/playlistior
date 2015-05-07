@@ -2,21 +2,18 @@ class User < ActiveRecord::Base
   has_many :playlists
   has_many :follows
 
-  validates :spotify_id, uniqueness: { case_sensitive: false }
+  validates :spotify_id, presence: true, uniqueness: { case_sensitive: false }
+  validates :spotify_link, presence: true
   validates :name, presence: true
 
-  def self.fetch_or_build_user(session)
-    user_data = get_user_data(session)
-    user = User.find_or_initialize_by(spotify_id: user_data["id"] )
-    unless user.persisted?
-      user.email = user_data["email"]
-      user.name  = user_data["display_name"] || user.email
-      user.image = user.get_image(user_data["images"])
-      user.country = user_data["country"]
-      user.spotify_link = user_data["href"]
-    end
-    user.session_token = session[:token][:number]
-    user.refresh_token = session[:token][:refresh]
+  def self.find_or_create_from_auth(auth)
+    user = User.find_or_initialize_by(spotify_id: auth.uid)
+    user.email         = auth.info.email
+    user.name          = auth.info.name || user.email
+    user.image         = auth.info.image
+    user.spotify_link  = auth.extra.raw_info.href
+    user.session_token = auth.credentials.token
+    user.refresh_token = auth.credentials.refresh_token
     user
   end
 
@@ -49,13 +46,5 @@ class User < ActiveRecord::Base
 
   def guest?
     false
-  end
-
-  private
-
-  def self.get_user_data(session)
-    access_token = session[:token][:number]
-    params = { headers: { "Authorization" => "Bearer #{access_token}"} }
-    HTTParty.get("https://api.spotify.com/v1/me", params)
   end
 end

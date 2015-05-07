@@ -4,7 +4,8 @@ class Genre < ActiveRecord::Base
   belongs_to :group
 
   def group_color
-    rgb = group.rgb.tr('()','').split(" ")
+    starting_rgb = (group ? group.rgb : "(100 100 100)")
+    rgb = starting_rgb.tr('()','').split(" ")
     red = 114
     green = 147 + (rgb[1].to_i/5)
     blue = 0

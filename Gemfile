@@ -22,14 +22,18 @@ group :development, :test do
   gem 'launchy'
   gem 'factory_girl'
   gem 'valid_attribute'
+  gem 'vcr'
+  gem 'better_errors'
 end
 
 gem 'rails-erd', group: [:development]
 gem 'shoulda-matchers', group: [:development, :test], require: false
 gem 'coveralls', group: :test, require: false
 gem 'rack_session_access', group: :test
+gem 'webmock', group: :test
 gem 'rails_12factor', group: :production
 gem 'foundation-rails', '5.5.1.0'
+gem 'omniauth-spotify', '~> 0.0.8'
 gem 'echowrap'
 gem 'httparty'
 gem 'mini_magick'

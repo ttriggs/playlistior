@@ -19,35 +19,34 @@ describe Playlist do
     it { should validate_presence_of(:seed_artist) }
     it { should validate_presence_of(:user) }
     it { should validate_presence_of(:name) }
-    it { should validate_presence_of(:spotify_id) }
     it { should validate_presence_of(:link) }
   end
 
-  describe "#record_music_styles" do
-    it "records genres for playlist when given array of genres" do
+  describe "#save_genres" do
+    it "save genres for playlist when given array of genres" do
       genres = ["rock", "hip-hop", "soul"]
-      playlist_one_track.record_music_styles(genres)
-      expect(playlist_one_track.styles.length).to eq(3)
-      expect(playlist_one_track.styles.first.genre.name).to eq("rock")
-      expect(playlist_one_track.styles.second.genre.name).to eq("hip-hop")
-      expect(playlist_one_track.styles.third.genre.name).to eq("soul")
+      playlist.save_genres(genres)
+      expect(playlist.styles.length).to eq(3)
+      expect(playlist.styles.first.genre.name).to eq("rock")
+      expect(playlist.styles.second.genre.name).to eq("hip-hop")
+      expect(playlist.styles.third.genre.name).to eq("soul")
     end
   end
 
-  describe "#add_to_cached_uris location" do
+  describe "#update_cached_uris location" do
     let(:first_uri) { playlist_one_track.get_uri_array }
     let(:new_uris)  { ["spotify:track:1234", "spotify:track:5678"] }
 
     it "appends an array of uris to end of playlist.uri_array" do
       expected_uri_array = first_uri + new_uris
-      playlist_one_track.add_to_cached_uris(new_uris, "append")
+      playlist_one_track.update_cached_uris(new_uris, "append")
       new_uri_array = playlist_one_track.get_uri_array
       expect(expected_uri_array).to eq(new_uri_array)
     end
 
     it "prepends an array of uris to start of playlist.uri_array" do
       expected_uri_array =  new_uris + first_uri
-      playlist_one_track.add_to_cached_uris(new_uris, "prepend")
+      playlist_one_track.update_cached_uris(new_uris, "prepend")
       new_uri_array = playlist_one_track.get_uri_array
       expect(expected_uri_array).to eq(new_uri_array)
     end
@@ -115,22 +114,6 @@ describe Playlist do
     end
   end
 
-  describe "#fresh_playlist?" do
-    it "returns true if has_no_tracks? or nil snapshot_id" do
-      without_tracks = playlist.fresh_playlist?
-      playlist_one_track.snapshot_id = nil
-      without_snapshot = playlist_one_track.fresh_playlist?
-
-      expect(without_tracks).to be
-      expect(without_snapshot).to be
-    end
-
-    it "returns false if has tracks && snapshot_id present" do
-      with_both = playlist_one_track.fresh_playlist?
-      expect(with_both).to_not be
-    end
-  end
-
   describe "#clear_cached_charts_json" do
     it "sets all cached chart data to nil" do
       fake_data = "{super,fake,json,chart,data}"
@@ -138,32 +121,12 @@ describe Playlist do
         playlist[cache] = fake_data
       end
       before_clear = playlist.energy_json_cache
-
       playlist.clear_cached_charts_json
-
       expect(before_clear).to include(fake_data)
-
       Playlist::CHARTS_CACHES.each do |cache|
         expect(playlist[cache]).to eq(nil)
       end
     end
   end
 
-  describe "#setup_tracks_if_needed #setup_new_tracklist" do
-    it "gets new set of 100 tracks if playlist has no tracks, saves tracks" do
-      playlist = playlist_no_tracks
-      orig_track_count = playlist.tracks.length
-      playlist.setup_tracks_if_needed
-      new_track_count = playlist.tracks.length
-      expect(new_track_count - orig_track_count).to eq(100)
-    end
-
-    it "skips setup if playlist already has tracks associated" do
-      playlist = playlist_one_track
-      orig_track_count = playlist.tracks.length
-      playlist.setup_tracks_if_needed
-      new_track_count = playlist.tracks.length
-      expect(new_track_count - orig_track_count).to eq(0)
-    end
-  end
 end

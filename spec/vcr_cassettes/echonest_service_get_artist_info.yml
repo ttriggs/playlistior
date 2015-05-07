@@ -1,0 +1,69 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://developer.echonest.com/api/v4/artist/search?api_key=1234&bucket=genre&limit=true&name=Beck&results=1
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - Echowrap Ruby Gem 0.1.4
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Thu, 07 May 2015 00:20:56 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Vary:
+      - Accept-Encoding
+      X-Request-Id:
+      - scdp6CctRKyamnXNghaSPQ
+      X-Worker-Node:
+      - 1ce08:7451
+      X-Ratelimit-Remaining:
+      - '119'
+      Server:
+      - TornadoServer/3.1
+      X-Ratelimit-Limit:
+      - '120'
+      X-Api-Key:
+      - 5KBOJ3MEOY97EZ23N
+      Cache-Control:
+      - max-age=86400
+      Access-Control-Allow-Origin:
+      - "*"
+      X-Ratelimit-Used:
+      - '1'
+    body:
+      encoding: UTF-8
+      string: '{"response": {"status": {"version": "4.2", "code": 0, "message": "Success"},
+        "artists": [{"genres": [{"name": "alternative rock"}, {"name": "permanent
+        wave"}, {"name": "indie christmas"}, {"name": "lo-fi"}, {"name": "indie rock"},
+        {"name": "anti-folk"}, {"name": "folk christmas"}], "name": "Beck", "foreign_ids":
+        [{"catalog": "spotify", "foreign_id": "spotify:artist:3vbKDsSS70ZX9D2OcvbZmS"}],
+        "familiarity": 0.799059, "id": "ARC2XR11187FB5CC95", "songs": [{"id": "SOFWZUR12AF729EC33",
+        "title": "Loser"}, {"id": "SOGKSOJ14373B756E5", "title": "Loser"}, {"id":
+        "SONDCNC14441376436", "title": "Heart Is A Drum"}, {"id": "SOLKXHB1315CD47038",
+        "title": "Where It''s At"}, {"id": "SORDBSJ14441372537", "title": "Morning"},
+        {"id": "SONJLVN12A6702036A", "title": "E-Pro"}, {"id": "SOVHGRW13740A1D344",
+        "title": "E-Pro"}, {"id": "SOUPNGU13E9060459D", "title": "E-Pro"}, {"id":
+        "SORFHBD12A58A7C3E3", "title": "Girl"}, {"id": "SOEHTHR12A6701E0B7", "title":
+        "Devils Haircut"}, {"id": "SOISTNR1315CD4680D", "title": "Lost Cause"}, {"id":
+        "SOKGKTK1315CD46F04", "title": "Go It Alone"}, {"id": "SODDQLT144413A0A64",
+        "title": "Turn Away"}, {"id": "SOIIJNG12A6D4F8544", "title": "Think I''m In
+        Love"}, {"id": "SOJDMEQ144413B6648", "title": "Country Down"}]}]}}'
+    http_version:
+  recorded_at: Thu, 07 May 2015 00:20:56 GMT
+recorded_with: VCR 2.9.3

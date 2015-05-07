@@ -4,11 +4,12 @@ describe User do
   let(:user) { FactoryGirl.create(:user) }
 
   describe "validations" do
-    it { should  have_many(:playlists) }
-    it { should  have_many(:follows) }
-
-    it { should have_valid(:name).when('red') }
-    it { should_not have_valid(:name).when(nil) }
+    it { should have_many(:playlists) }
+    it { should have_many(:follows) }
+    it { should validate_presence_of(:name) }
+    it { should validate_presence_of(:spotify_id) }
+    it { should validate_uniqueness_of(:spotify_id) }
+    it { should validate_presence_of(:spotify_link) }
 
     subject { FactoryGirl.build(:user) }
     it { should validate_uniqueness_of(:spotify_id).case_insensitive }
@@ -60,4 +61,21 @@ describe User do
       expect(response.guest?).to be
     end
   end
+
+  describe ".find_or_create_from_auth" do
+    it "saves or finds by auth" do
+      auth = OmniauthMock.valid_credentials
+
+      user = User.find_or_create_from_auth(auth)
+
+      expect(user.spotify_id).to eq ('1234567')
+      expect(user.name).to eq ('1337_haxor')
+      expect(user.image).to eq ("www.myface.com/123.png")
+      expect(user.email).to eq ("myface@hullo.com")
+      expect(user.session_token).to eq ("token")
+      expect(user.refresh_token).to eq ("refresh_token")
+      expect(user.spotify_link).to eq ("my_spotify_link.com")
+    end
+  end
+
 end

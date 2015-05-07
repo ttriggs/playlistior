@@ -3,11 +3,11 @@ class MockTrack
 
   TRACKS_JSON = File.read(TRACKS_FILE)
   TRACKS_HASH = JSON.parse(TRACKS_JSON)
-  attr_reader :artist_name, :echonest_id, :spotify_id, :title,
-              :key, :mode, :energy, :danceability
+  attr_reader :artist_name, :echonest_id, :spotify_id, :title, :tracks,
+              :key, :mode, :energy, :danceability, :audio_summary, :id
 
   def initialize(track_data)
-    @id = track_data["id"]
+    @id = track_data["echonest_id"]
     @key = track_data["key"]
     @mode = track_data["mode"]
     @title = track_data["title"]
@@ -19,7 +19,17 @@ class MockTrack
     @echonest_id = track_data["echonest_id"]
     @danceability = track_data["danceability"]
     @time_signature = track_data["time_signature"]
+    #for flexible use w/ track model:
+    @tracks = [{ foreign_id: @spotify_id, id: @echonest_id }]
+    @audio_summary = {"key" => @key,
+                      "mode" => @mode,
+                      "tempo" => @tempo,
+                      "energy" => @energy,
+                      "liveness" => @liveness,
+                      "danceability" => @danceability,
+                      "time_signature" => @time_signature }
   end
+
 
   def self.get_mock_track(index=0)
     track_data = TRACKS_HASH[index]
@@ -35,8 +45,8 @@ class MockTrack
   end
 
   def self.get_saved_track(index=0)
-    track_data = TRACKS_HASH[index]
-    track = Track.create_by_track_data(track_data) if track_data
+    mock_track = get_mock_track(index)
+    track = Track.find_or_create_track(mock_track) if mock_track
   end
 
   def self.get_saved_tracks(n)
@@ -50,4 +60,9 @@ class MockTrack
   def self.get_uris_from_tracks(tracks)
     tracks.map(&:spotify_id).to_s
   end
+
+  def update(hash)
+    # do nothing here...
+  end
+
 end

@@ -6,7 +6,6 @@ class ApplicationController < ActionController::Base
   include TokenHelper
   include PlaylistHelper
 
-
   def authenticate_user!
     unless user_signed_in?
       flash[:notice] = "You must log in before continuing"

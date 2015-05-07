@@ -1,0 +1,61 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.spotify.com/v1/users/TestUser123/playlists/3P95eDoSwbtMrJRF4lOAdn/tracks
+    body:
+      encoding: UTF-8
+      string: '{"uris":["spotify:track:0UUmLyk9WUO3KNtDzARbO8","spotify:track:4mfNiZl9qisxdLiLHIRa4n"]}'
+    headers:
+      Authorization:
+      - Bearer BQCNHRHO_VXbJY43KbdtZjqFLY3wjsITkxcn0hxWtj4mtxHAlhmW2VmWEbK7ot0TlxRFOxcznLGQuVDxllx_8XljA0-Pkh6Fv2jtjzuNC88DjQ3SfYJAbCj58cevsO_bSFZPMc3ngytXmj_uE_yMVzLkaP9FuscxvQcyJtc5c0lmNtHTIgl5KeJ7KoSRvyurgVQgg449OX1omeacjuYqKj1BuaTW3y98gs6I1w
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Wed, 06 May 2015 21:10:51 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - timeout=600
+      Cache-Control:
+      - private, max-age=0
+      Access-Control-Allow-Headers:
+      - Accept, Authorization, Origin, Content-Type
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Max-Age:
+      - '604800'
+      Access-Control-Allow-Methods:
+      - GET, POST, OPTIONS, PUT, DELETE
+      Access-Control-Allow-Credentials:
+      - 'true'
+      X-Content-Type-Options:
+      - nosniff
+      Strict-Transport-Security:
+      - max-age=31536000;
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "snapshot_id" : "J2/+ssQihXRHU7K8i9V7hCNFsOg+PvamjW7NCR3+UsFADn8RHQYCo2Si7912m++K"
+        }
+    http_version:
+  recorded_at: Wed, 06 May 2015 21:10:51 GMT
+recorded_with: VCR 2.9.3

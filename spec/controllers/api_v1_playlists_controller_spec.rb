@@ -6,8 +6,6 @@ describe Api::V1::PlaylistsController do
     let(:playlist) { MockPlaylist.create(total_songs) }
 
     it "responds with new json for highcharts if none cached" do
-      # total_songs = 30
-      # playlist = MockPlaylist.create(total_songs)
       session[:user_id] = playlist.user_id
       session[:token] = TokenFaker.get_fake_token
       playlist.energy_json_cache = nil
@@ -36,6 +34,5 @@ describe Api::V1::PlaylistsController do
       chart_data = response.stream.instance_values["buf"].first
       expect(JSON.parse(chart_data)).to eq(JSON.parse(playlist.energy_json_cache))
     end
-
   end
 end

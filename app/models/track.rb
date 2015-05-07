@@ -14,12 +14,12 @@ class Track < ActiveRecord::Base
   validates :danceability, numericality: true
   validates :time_signature, numericality: true
 
-  def self.find_or_build_track(song)
+  def self.find_or_create_track(song)
     echonest_id = song.id
     track = Track.find_or_initialize_by(echonest_id: echonest_id)
-    if track.fresh?
+    if !track.persisted?
       track.title       = song.title
-      track.spotify_id  = song.tracks.first.foreign_id
+      track.spotify_id  = song.tracks.first.to_hash[:foreign_id]
       track.artist_name = song.artist_name
       summary  = song.audio_summary.to_hash
       track.key = summary["key"]
@@ -34,25 +34,14 @@ class Track < ActiveRecord::Base
     track
   end
 
-  def self.create_by_track_data(track_data)
-    echonest_id = track_data["echonest_id"]
-    track = Track.find_or_initialize_by(echonest_id: echonest_id)
-    track.id = track_data["id"]
-    track.key = track_data["key"]
-    track.mode = track_data["mode"]
-    track.title = track_data["title"]
-    track.tempo = track_data["tempo"]
-    track.energy = track_data["energy"]
-    track.liveness = track_data["liveness"]
-    track.spotify_id = track_data["spotify_id"]
-    track.artist_name = track_data["artist_name"]
-    track.danceability = track_data["danceability"]
-    track.time_signature = track_data["time_signature"]
-    track.save!
-    track
+  def self.save_tracks(tracks, playlist)
+    tracks.each do |track|
+      track = find_or_create_track(track)
+      playlist.tracks += [track]
+    end
   end
 
-  def fresh?
-    artist_name.nil?
-  end
+  # def fresh?
+  #   artist_name.nil?
+  # end
 end
