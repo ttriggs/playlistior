@@ -7,9 +7,9 @@ Rails.application.config.assets.version = '1.0'
 
 # Precompile additional assets.
 # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
-# Rails.application.config.assets.precompile += %w( search.js )
 Rails.application.config.assets.precompile += %w( charts/highcharts.js )
 Rails.application.config.assets.precompile += %w( charts/highcharts-more.js )
 Rails.application.config.assets.precompile += %w( charts/highcharts-dark-theme.js )
 Rails.application.config.assets.precompile += %w( charts/modules/exporting.js )
 Rails.application.config.assets.precompile += %w( charts/charts.js )
+Rails.application.config.assets.precompile += %w( carousel/slick.js )

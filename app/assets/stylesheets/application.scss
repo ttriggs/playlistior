@@ -13,6 +13,7 @@
  *= require_tree .
  *= require_self
  *= require foundation_and_overrides
+ *= require slick
 
  */
 
@@ -342,6 +343,37 @@ p#popup-small-text {
 
 .highchart {
   box-shadow: #222 2px 2px 3px;
+  height: 400px;
+  min-width: 310px;
+  max-width: 600px;
+  margin: 0 0;
+}
+
+/** about page carousel **/
+.about-me {
+  .my-face {
+    box-shadow: #222 2px 2px 3px;
+    max-height: 300px;
+    max-width: 200px;
+  }
+  h4 {
+    margin-bottom: 0.1em;
+    margin-top: -0.3rem;
+  }
+  p {
+  font-weight: 300;
+  }
+}
+.slick-carousel {
+    max-height: 400px;
+    max-width: 600px;
+    text-align: center;
+  .slick-slide {
+    box-shadow: #222 2px 2px 3px;
+    max-height: 400px;
+    max-width: 600px;
+    overflow: hidden;
+  }
 }
 
 /** Playlists index */

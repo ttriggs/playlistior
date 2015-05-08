@@ -38,4 +38,4 @@ gem 'echowrap'
 gem 'httparty'
 gem 'mini_magick'
 gem 'twitter-typeahead-rails'
-
+gem 'jquery-slick-rails'

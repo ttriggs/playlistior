@@ -17,6 +17,8 @@
 //= require twitter/typeahead/bloodhound
 //= require typeahead/typeahead
 //= require magnific_popup/main
+//= require jquery.slick
+//= require carousel/slick
 
 $(function(){ $(document).foundation(); });
 

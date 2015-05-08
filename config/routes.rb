@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   get "/auth/:provider/callback", to: "sessions#create"
   get "/auth/failure", to: "sessions#failure"
 
+  get "/about", to: "homes#show"
+
   resources :playlists, only: [:show, :index, :create, :destroy]
   resources :genres, only: [:show]
   resources :follows, only: [:create, :destroy]
