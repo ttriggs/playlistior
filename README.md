@@ -1,3 +1,5 @@
+![Playlistior](http://i.imgur.com/jJeUm46.png)
+
 [![Build Status](https://travis-ci.org/ttriggs/playlistior.svg?branch=master)](https://travis-ci.org/ttriggs/playlistior) [![Code Climate](https://codeclimate.com/github/ttriggs/playlistior.png)](https://codeclimate.com/github/ttriggs/playlistior) [![Coverage Status](https://coveralls.io/repos/ttriggs/playlistior/badge.svg?branch=master)](https://coveralls.io/r/ttriggs/playlistior?branch=master)
 
 # Playlistior
