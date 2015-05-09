@@ -1,17 +1,17 @@
 
 [![Build Status](https://travis-ci.org/ttriggs/playlistior.svg?branch=master)](https://travis-ci.org/ttriggs/playlistior) [![Code Climate](https://codeclimate.com/github/ttriggs/playlistior.png)](https://codeclimate.com/github/ttriggs/playlistior) [![Coverage Status](https://coveralls.io/repos/ttriggs/playlistior/badge.svg?branch=master)](https://coveralls.io/r/ttriggs/playlistior?branch=master)
 
-![Playlistior](http://i.imgur.com/jJeUm46.png)
+[![Playlistior](http://i.imgur.com/jJeUm46.png)](https://playlistior.herokuapp.com)
 ### The Superior Harmonic Playlist Generator
 [Try it out here](https://playlistior.herokuapp.com)
 
-## Playlistior Demo:
-![Playlistior App Demo](https://i.imgur.com/DNMXWRa.gif)
 
 ## About:
 Playlistior: The superior playlist generator.
 
 When given a starting seed artist Playlistior uses audio information from the Echonest API for each song (key, mode, tempo, daceability, and how familiar the artist is to the public) to construct a playlist that flows harmonically from one song to the next. Check the "Adventurous" box to loosen these constraints to help you find lesser known artists. Under the hood, the generator uses an algorithm inspired by "harmonic mixing," a technique used by DJs to avoid disharmonious song changes.
+
+![Playlistior App Demo](https://i.imgur.com/DNMXWRa.gif)
 
 ## Under the hood:
 ### Playlist Creation steps:
