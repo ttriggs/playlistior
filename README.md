@@ -26,7 +26,7 @@ When given a starting seed artist Playlistior uses audio information from the Ec
 
 ![Camelot Mixing Wheel Image](http://www.djingtips.com/sites/default/files/resize/styles/extra_large/public/images/camelot_wheel_0-294x294.jpg)
 
-### Harmonic mixing steps, "Camelot" class
+### Harmonic mixing steps, "Camelot" class:
 Harmonic Mixing or the "Camelot System" of mixing requires first finding one song's position on the Camelot wheel. From there, a suitable next song's parameters are located one move to the left or right or moving between the inner and outer rings of the wheel.
 - Once an unorederd list of songs is compiled, the Camelot class does the ordering.
 - First, it picks a random starting track and adds it to the ordered list to be output.
