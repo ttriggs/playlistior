@@ -5,8 +5,6 @@
 ### The Superior Harmonic Playlist Generator
 
 ## About:
-Playlistior: The superior playlist generator.
-
 When given a starting seed artist Playlistior uses audio information from the Echonest API for each song (key, mode, tempo, daceability, and how familiar the artist is to the public) to construct a playlist that flows harmonically from one song to the next. Check the "Adventurous" box to loosen these constraints to help you find lesser known artists. Under the hood, the generator uses an algorithm inspired by "harmonic mixing," a technique used by DJs to avoid disharmonious song changes.
 
 ![Playlistior App Demo](https://i.imgur.com/DNMXWRa.gif)
