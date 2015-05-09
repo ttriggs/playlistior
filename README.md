@@ -3,8 +3,6 @@
 
 [![Playlistior](http://i.imgur.com/jJeUm46.png)](https://playlistior.herokuapp.com)
 ### The Superior Harmonic Playlist Generator
-[Try it out here](https://playlistior.herokuapp.com)
-
 
 ## About:
 Playlistior: The superior playlist generator.
