@@ -29,10 +29,9 @@
                                                       class: "alert button full-playlist-button"%>
     <% end %>
   </div>
-  <!-- build playlist api url for highcharts json get -->
-  <% playlist_api_url = api_v1_playlist_path(@playlist) + ".jsonp?callback=?" %>
+
   <%= javascript_tag do %>
-    window.playlist_api_url = '<%= j playlist_api_url %>';
+    window.playlist_api_url = '<%= api_v1_playlist_path(@playlist) %>';
   <% end %>
 
   <div class="large-7 columns">
