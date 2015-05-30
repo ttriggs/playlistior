@@ -4,7 +4,6 @@ describe Api::V1::PlaylistsController do
   describe 'get #show' do
     let(:total_songs) { 30 }
     let(:playlist) { MockPlaylist.create(total_songs) }
-
     it "responds with new json for highcharts if none cached" do
       session[:user_id] = playlist.user_id
       session[:token] = TokenFaker.get_fake_token
