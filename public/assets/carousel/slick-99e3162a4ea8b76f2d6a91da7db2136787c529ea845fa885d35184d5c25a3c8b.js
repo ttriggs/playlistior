@@ -1,0 +1,1 @@
+$(".slick-carousel").slick({arrows:!1,autoplay:!0,autoplaySpeed:4500,dots:!1,infinite:!0,speed:700,fade:!0,cssEase:"linear"});
