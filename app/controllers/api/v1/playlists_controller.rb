@@ -2,7 +2,7 @@ class Api::V1::PlaylistsController < ApplicationController
 
   def show
     playlist = Playlist.find(params[:id])
-    type = params[:type].to_sym || :energy # change later to be a user-defined input
+    type = get_type_from_params(params[:type])
     json_cache_symbol = type_to_json_cache_symbol(type)
     if playlist[json_cache_symbol]
       @playlist_data = playlist[json_cache_symbol]
@@ -17,7 +17,6 @@ class Api::V1::PlaylistsController < ApplicationController
   private
 
   def get_playlist_json(playlist, type=:energy)
-    # playlist.setup_uri_array_if_needed(current_user)
     active_tracks = playlist.active_tracks_in_order
     @major_series = []
     @minor_series = []
@@ -65,6 +64,10 @@ class Api::V1::PlaylistsController < ApplicationController
         }
       ]
     }
+  end
+
+  def get_type_from_params(type)
+    type.nil? ? :energy : type.to_sym
   end
 
   def type_to_json_cache_symbol(type)
