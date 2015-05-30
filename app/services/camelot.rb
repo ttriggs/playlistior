@@ -108,7 +108,7 @@ class Camelot
     @full_tracklist.delete_at(index)
   end
 
-  def self.get_circle_zone(track)
+  def self.get_camelot_zone(track)
     key = EN_KEYS[track.key]
     CIRCLE[[key, track.mode]]
   end
