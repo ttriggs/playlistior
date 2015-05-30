@@ -136,6 +136,9 @@ class Playlist < ActiveRecord::Base
   end
 
   # highcharts:
+  def highchart_maker
+    @highchart ||= BubbleChart.new(self)
+  end
 
   def clear_cached_charts_json
     CHARTS_CACHES.each do |cached_chart|
@@ -143,81 +146,16 @@ class Playlist < ActiveRecord::Base
     end
   end
 
-  def find_or_create_chart_data(quality)
-    chart_cache = quality_to_json_cache_symbol(quality)
-    create_highcharts_json(quality, chart_cache) unless self[chart_cache]
+  def find_or_create_chart_data(quality, chart_cache)
+    highchart_maker.create(quality, chart_cache) unless self[chart_cache]
     self[chart_cache]
   end
 
   private
 
-    def create_highcharts_json(quality, chart_cache)
-      chart_data = get_playlist_json(quality)
-      self.update(chart_cache => JSON(chart_data))
-    end
-
-    def get_playlist_json(quality)
-      @major_series = []
-      @minor_series = []
-      active_tracks_in_order.each do |track_hash|
-        track = track_hash[:track]
-        order = track_hash[:order]
-        camelot_zone = Camelot.get_camelot_zone(track)
-        bubble_size = scaled_value(track[quality])
-        if track.mode == 1
-          @major_series << [order, camelot_zone, bubble_size]
-        else
-          @minor_series << [order, camelot_zone, bubble_size]
-        end
-      end
-      format_chart_json(quality, @major_series, @minor_series)
-    end
-
-    def format_chart_json(quality, major_series, minor_series)
-      {
-        chart: {
-               type: 'bubble',
-               zoomType: 'xy'
-               },
-        title: {
-          text: "#{seed_artist} playlist visualized"
-        },
-        subtitle: {
-          text: "bubble size: relative song #{quality.to_s}"
-        },
-        xAxis: {
-          title: { text: 'Play Order' }
-        },
-        yAxis: {
-           allowDecimals: false,
-           title: { text: 'Camelot Zone' }
-        },
-        series: [
-          {
-            name: 'Major Songs',
-            data: major_series
-          },
-          {
-            name: 'Minor Songs',
-            data: minor_series
-          }
-        ]
-      }
-    end
-
-    def scaled_value(value)
-      value < 1 ? (value * 100_000).to_i : value
-    end
-
-    def quality_to_json_cache_symbol(quality)
-      (quality.to_s + "_json_cache").to_sym
-    end
-
     def needs_new_uri_array?
       has_tracks? && get_uri_array.empty?
     end
-
-    # callback cleanup:
 
     def destroy_assignments
       Assignment.where(playlist_id: id).destroy_all
