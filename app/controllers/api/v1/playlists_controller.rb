@@ -2,12 +2,12 @@ class Api::V1::PlaylistsController < ApplicationController
 
   def show
     playlist = Playlist.find(params[:id])
-    type = :energy # change later to be a user-defined input
+    type = params[:type].to_sym || :energy # change later to be a user-defined input
     json_cache_symbol = type_to_json_cache_symbol(type)
     if playlist[json_cache_symbol]
       @playlist_data = playlist[json_cache_symbol]
     else
-      @playlist_data = get_playlist_json(playlist, :energy)
+      @playlist_data = get_playlist_json(playlist, type)
       playlist[json_cache_symbol] = JSON(@playlist_data)
       playlist.save! # move this to model later
     end
@@ -72,6 +72,6 @@ class Api::V1::PlaylistsController < ApplicationController
   end
 
   def scaled_value(value)
-    (value * 100_000).to_i
+    value < 1 ? (value * 100_000).to_i : value
   end
 end
