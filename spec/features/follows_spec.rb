@@ -11,7 +11,7 @@ feature 'can follow someone elses playlist' do
       visit playlist_path(playlist)
       click_on("Follow")
       expect(page).to have_content("Playlist followed on Playlistior")
-      expect(page).to have_link("Unfollow")
+      expect(page).to have_button("Unfollow")
     end
   end
 end
