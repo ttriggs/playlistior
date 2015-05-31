@@ -3,7 +3,6 @@ class FollowsController < ApplicationController
   before_action :refresh_token_if_needed, except: [:show]
 
   def create
-    binding.pry
     playlist = Playlist.find(params[:follow].first)
     follow = Follow.find_or_initialize_by(user_id: current_user.id,
                                           playlist_id: playlist.id)
