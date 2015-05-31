@@ -58,35 +58,14 @@ $(document).ready(function() {
     }).magnificPopup('open');
   });
 
-// $('form').submit(function() {
-  // $("#follow-button").on("click", function(e){
-  //   e.preventDefault();
-  //   debugger;
-  //   $.ajax({
-  //     method: "POST",
-  //     url: "/follows",
-  //     data: $(this).serialize(),
-  //     success: function(data){
-  //     var id = data;
-  //     alert("id iz: " + id)
-  //       // $('#myvar').val(id);
-  //     },
-  //     error : function(data) {
-  //         console.log(data);
-  //     }
-  //   });
-  // });
+  // handle follow button toggle
+  $("#follow-button").on("click", function(e){
+    $("#follow-button").addClass("hidden");
+    $("#unfollow-button").removeClass("hidden");
+  });
 
-
-    //
-  //   debugger;
-  //   $.ajax({
-  //     url: "/follows",
-  //     method: "POST",
-  //     data: {id: 23},
-  //     context: document.body
-  //   }).done(function() {
-  //     // $( this ).removeClass( "done" );
-  //   });
-
+  $("#unfollow-button").on("click", function(e){
+    $("#unfollow-button").addClass("hidden");
+    $("#follow-button").removeClass("hidden");
+  });
 });
