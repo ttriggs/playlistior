@@ -22,15 +22,18 @@
       <%= link_to 'Delete', playlist_path(@playlist), method: :delete,
                                                       class: "alert button playlist-button",
                                                       data: { confirm: "Are you sure?" } %>
-    <% elsif !followed?(@playlist) %>
-      <% @follow_destroy_hidden = true %>
-    <% elsif followed?(@playlist) %>
-      <% @follow_create_hidden = true %>
+    <% else %>
+      <% if !followed?(@playlist) %>
+        <% @follow_destroy_hidden = true %>
+      <% elsif followed?(@playlist) %>
+        <% @follow_create_hidden = true %>
+      <% end %>
+
+      <%= render partial: 'follows/follow_create',
+                           locals: { hidden: @follow_create_hidden || false } %>
+      <%= render partial: 'follows/follow_destroy',
+                           locals: { hidden: @follow_destroy_hidden || false } %>
     <% end %>
-    <%= render partial: 'follows/follow_create',
-                         locals: { hidden: @follow_create_hidden || false } %>
-    <%= render partial: 'follows/follow_destroy',
-                         locals: { hidden: @follow_destroy_hidden || false } %>
   </div>
 
   <%= javascript_tag do %>
