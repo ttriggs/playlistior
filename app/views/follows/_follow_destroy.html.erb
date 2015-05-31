@@ -1,0 +1,4 @@
+<%= form_tag(follow_path(@playlist), method: :delete, remote: true) do %>
+  <% hidden_class = (hidden ? "hidden" : "") %>
+  <%= submit_tag "Unfollow", id: "unfollow-button", class: "#{hidden_class} alert button full-playlist-button"%>
+<% end %>
