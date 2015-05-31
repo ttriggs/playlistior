@@ -23,11 +23,14 @@
                                                       class: "alert button playlist-button",
                                                       data: { confirm: "Are you sure?" } %>
     <% elsif !followed?(@playlist) %>
-      <%= render partial: 'follows/follow_create' %>
+      <% @follow_destroy_hidden = true %>
     <% elsif followed?(@playlist) %>
-      <%= link_to 'Unfollow', follow_path(@playlist), method: :delete,
-                                                      class: "alert button full-playlist-button"%>
+      <% @follow_create_hidden = true %>
     <% end %>
+    <%= render partial: 'follows/follow_create',
+                         locals: { hidden: @follow_create_hidden || false } %>
+    <%= render partial: 'follows/follow_destroy',
+                         locals: { hidden: @follow_destroy_hidden || false } %>
   </div>
 
   <%= javascript_tag do %>
@@ -38,13 +41,11 @@
     <h3 class="playlist-header">This harmonic playlist visualized</h3>
     <small class="playlist-attribution">powered by <a href="http://www.highcharts.com/">Highcharts</a></small>
     <div class="highchart" id="chart-container"></div>
-
-
     <ul class="button-group radius center">
-      <li><a href="#" type="radio" id="energy" class="button tiny success">Energy</a></li>
-      <li><a href="#" type="radio" id="tempo" class="button tiny">Tempo</a></li>
-      <li><a href="#" type="radio" id="danceability" class="button tiny">Danceability</a></li>
-      <li><a href="#" type="radio" id="liveness" class="button tiny">Liveness</a></li>
+      <li><a href="#" id="energy" class="button tiny success">Energy</a></li>
+      <li><a href="#" id="tempo" class="button tiny">Tempo</a></li>
+      <li><a href="#" id="danceability" class="button tiny">Danceability</a></li>
+      <li><a href="#" id="liveness" class="button tiny">Liveness</a></li>
     </ul>
   </div>
 
