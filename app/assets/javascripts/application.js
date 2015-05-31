@@ -57,4 +57,36 @@ $(document).ready(function() {
       midClick: true // allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source.
     }).magnificPopup('open');
   });
+
+// $('form').submit(function() {
+  // $("#follow-button").on("click", function(e){
+  //   e.preventDefault();
+  //   debugger;
+  //   $.ajax({
+  //     method: "POST",
+  //     url: "/follows",
+  //     data: $(this).serialize(),
+  //     success: function(data){
+  //     var id = data;
+  //     alert("id iz: " + id)
+  //       // $('#myvar').val(id);
+  //     },
+  //     error : function(data) {
+  //         console.log(data);
+  //     }
+  //   });
+  // });
+
+
+    //
+  //   debugger;
+  //   $.ajax({
+  //     url: "/follows",
+  //     method: "POST",
+  //     data: {id: 23},
+  //     context: document.body
+  //   }).done(function() {
+  //     // $( this ).removeClass( "done" );
+  //   });
+
 });

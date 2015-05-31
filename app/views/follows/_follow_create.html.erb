@@ -1,4 +1,4 @@
-  <%= form_tag(follows_path, method: 'post') do %>
+  <%= form_tag(follows_path, method: 'post', id: "follow-form", remote: true) do %>
     <%= hidden_field :follow, params[:follow], value: @playlist.id %>
-    <%= submit_tag "Follow", class: "success button full-playlist-button" %>
+    <%= submit_tag "Follow", id: "follow-button", class: "success button full-playlist-button" %>
   <% end %>
