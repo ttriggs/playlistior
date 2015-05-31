@@ -310,6 +310,10 @@ p#popup-small-text {
 
 /** Playlist show */
 
+.hidden {
+  display: none;
+}
+
 .playlist-show {
   form {
     display: inline-block;
