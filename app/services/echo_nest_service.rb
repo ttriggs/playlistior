@@ -102,7 +102,7 @@ class EchoNestService
     end
 
     def return(type)
-      return error if failed?
+      return artist_not_found_error if failed?
       if type == "artist"
         parsed_artist_data
       elsif type == "song data"
@@ -126,13 +126,13 @@ class EchoNestService
     def genres_from_response
       genres = @response.attrs[:genres].map(&:values).flatten
       if genres.empty?
-        error
+        artist_not_found_error
       else
         { genres: genres }
       end
     end
 
-    def error
+    def artist_not_found_error
       { errors: "Sorry, couldn't find data for this artist." }
     end
   end
