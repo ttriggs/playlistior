@@ -42,9 +42,9 @@ class Camelot
                ["Db", 0] => 11
              }
 
-  def initialize(full_tracklist, selection_method = :wander)
+  def initialize(full_tracklist)
     @full_tracklist = full_tracklist
-    @selection_method = selection_method
+    @selection_method = [:wander, :escalator].sample
   end
 
   def order_tracks
