@@ -1,5 +1,4 @@
 class PlaylistCreator
-
   attr_accessor :playlist, :errors
 
   def initialize(params, current_user)
@@ -16,7 +15,8 @@ class PlaylistCreator
 
   def create
     get_tracks_if_needed
-    ordered_tracklist = Camelot.new(@playlist.uri_array, @playlist.tracks).order_tracks
+    full_tracklist = Tracklist.new(@playlist.uri_array, @playlist.tracks).setup
+    ordered_tracklist = Camelot.new(full_tracklist).order_tracks
     if ordered_tracklist.empty?
       add_error(no_tracks_left_error)
     else
