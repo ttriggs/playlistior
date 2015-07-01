@@ -1,8 +1,7 @@
 require 'rails_helper'
 
-feature 'Camelot ordering tracks' do
+feature 'Camelot class' do
   context 'when given a list of tracks larger than Playlist::SONGS_LIMIT' do
-
     scenario 'a playlist equal to Playlist::SONGS_LIMIT returns' do
       tracks = MockTrack.get_mock_tracks(Playlist::SONGS_LIMIT + 5)
       uris = ""
@@ -46,6 +45,23 @@ feature 'Camelot ordering tracks' do
       ordered_list_uris.each do |uri|
         expect( uris_in_use.include?(uri) ).to be false
       end
+    end
+  end
+end
+
+describe Camelot do
+  context '#escalate key' do
+    let(:camelot) { Camelot.new("tracklist") }
+
+    it 'returns echonest key number when supplied zone and mode' do
+      key_B  = camelot.escalate_key(0, 1)
+      key_Eb = camelot.escalate_key(1, 0)
+      key_F  = camelot.escalate_key(3, 0)
+      key_E  = camelot.escalate_key(11, 1)
+      expect(key_B).to eq(11)
+      expect(key_Eb).to eq(3)
+      expect(key_F).to eq(5)
+      expect(key_E).to eq(4)
     end
   end
 end
