@@ -91,7 +91,7 @@ class Camelot
 
   def get_next_song
     next_song = method(@selection_method).call
-    if next_song.class != Track
+    unless next_song.class.to_s.include?("Track")
       next_song = @full_tracklist.take_random
     end
     next_song
