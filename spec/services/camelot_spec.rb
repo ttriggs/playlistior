@@ -6,7 +6,8 @@ feature 'Camelot ordering tracks' do
     scenario 'a playlist equal to Playlist::SONGS_LIMIT returns' do
       tracks = MockTrack.get_mock_tracks(Playlist::SONGS_LIMIT + 5)
       uris = ""
-      ordered_list = Camelot.new(uris, tracks).order_tracks
+      tracklist = Tracklist.new(uris, tracks).setup
+      ordered_list = Camelot.new(tracklist).order_tracks
       expect(ordered_list.length).to eq(Playlist::SONGS_LIMIT)
     end
   end
@@ -15,7 +16,8 @@ feature 'Camelot ordering tracks' do
     scenario 'a playlist equal to the initial length returns' do
       tracks = MockTrack.get_mock_tracks(Playlist::SONGS_LIMIT - 5)
       uris = ""
-      ordered_list = Camelot.new(uris, tracks).order_tracks
+      tracklist = Tracklist.new(uris, tracks).setup
+      ordered_list = Camelot.new(tracklist).order_tracks
       expect(ordered_list.length).to eq(tracks.length)
     end
   end
@@ -24,7 +26,8 @@ feature 'Camelot ordering tracks' do
     scenario 'an empty playlist returns' do
       tracks = []
       uris = ""
-      ordered_list = Camelot.new(uris, tracks).order_tracks
+      tracklist = Tracklist.new(uris, tracks).setup
+      ordered_list = Camelot.new(tracklist).order_tracks
       expect(ordered_list.length).to eq(0)
     end
   end
@@ -35,7 +38,8 @@ feature 'Camelot ordering tracks' do
       in_use = 5
       tracks_in_use = tracks.take(in_use)
       uris_in_use   = MockTrack.get_uris_from_tracks(tracks_in_use)
-      ordered_list = Camelot.new(uris_in_use, tracks).order_tracks
+      tracklist = Tracklist.new(uris_in_use, tracks).setup
+      ordered_list = Camelot.new(tracklist).order_tracks
       ordered_list_uris = ordered_list.map(&:spotify_id)
       expect(ordered_list.length).to eq(tracks.length - in_use)
 
