@@ -1,7 +1,0 @@
-
-<h3 class="show-title"><%= @genre.name.titleize %></h3>
-<ul class="playlists-list">
-  <% @genre.playlists.each do |playlist| %>
-    <li><%= link_to playlist.seed_artist.titleize, playlist_path(playlist) %> </li>
-  <% end %>
-</ul>
