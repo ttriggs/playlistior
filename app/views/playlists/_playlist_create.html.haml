@@ -1,0 +1,12 @@
+.row.collapse
+  %h3.center Create a playlist
+  = form_tag(playlists_path, method: 'post') do
+    .large-12.columns
+      = text_field_tag :playlist, params[:playlist], placeholder: "Enter an artist to begin  (Radiohead, Yelle, Rihanna, Zero 7)", class: "typeahead"
+    .two.mobile-one.columns
+      = label :adventurous, "Feeling Adventurous?"
+      = check_box_tag :adventurous, params[:adventurous], false
+    .two.mobile-one.columns
+      = submit_tag "Create Playlist", class: "button expand postfix playlist-popup", "data-effect" => "mfp-3d-unfold"
+  = render partial: 'genres/media_genre_dropdown'
+= render partial: 'playlists/camelot_popup'

@@ -1,0 +1,5 @@
+%h3.show-title= @genre.name.titleize
+%ul.playlists-list
+  - @genre.playlists.each do |playlist|
+    %li
+      = link_to playlist.seed_artist.titleize, playlist_path(playlist)

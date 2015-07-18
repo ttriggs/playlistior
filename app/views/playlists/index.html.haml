@@ -1,0 +1,25 @@
+.large-6.columns
+  %h3#your-playlists Yours:
+  - if @playlists.any?
+    %ul.playlists-list
+      - @playlists.where(user_id: current_user.id).each do |playlist|
+        %li
+          = link_to playlist.seed_artist.titleize, playlist
+  - else
+    %p You have no playlists yet!
+  - followed_playlists = all_playlists_following
+  - if followed_playlists.any?
+    %h3#followed-playlists Followed:
+    %ul.playlists-list
+      - followed_playlists.each do |playlist|
+        %li
+          = link_to playlist.seed_artist.titleize, playlist
+  - their_playlists = get_their_playlists
+  - if their_playlists.any?
+    %h3#their-playlists Theirs:
+    %ul.playlists-list
+      - their_playlists.each do |playlist|
+        %li
+          = link_to playlist.seed_artist.titleize, playlist
+.large-6.columns
+  = render partial: 'playlists/playlist_create'
