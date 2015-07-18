@@ -39,3 +39,5 @@ gem 'httparty'
 gem 'mini_magick'
 gem 'twitter-typeahead-rails'
 gem 'jquery-slick-rails'
+gem 'haml-rails', '~> 0.9'
+
