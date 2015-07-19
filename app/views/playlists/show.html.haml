@@ -4,7 +4,7 @@
       Inspired by #{@playlist.seed_artist.titleize}
     %small.playlist-attribution built by Playlistior
     %br/
-    %iframe.spotify-widget{:src => "<haml_loud"} @playlist.spotify_embed  frameborder="0" allowtransparency="true" width="300" height="380"&gt;
+    %iframe.spotify-widget{src: @playlist.spotify_embed, frameborder:"0", allowtransparency:"true", width:"300", height:"380"}
     %br/
     - number_followers = number_of_followers(@playlist)
     - if number_followers > 0
@@ -22,10 +22,8 @@
         - @follow_destroy_hidden = true
       - elsif followed?(@playlist)
         - @follow_create_hidden = true
-        render partial: 'follows/follow_create',           |
-        locals: { hidden: =@follow_create_hidden || false } |
-      = render partial: 'follows/follow_destroy',           |
-        locals: { hidden: @follow_destroy_hidden || false } |
+      = render partial: 'follows/follow_create', locals: { hidden: @follow_create_hidden || false }
+      = render partial: 'follows/follow_destroy', locals: { hidden: @follow_destroy_hidden || false }
   = javascript_tag do
     window.playlist_api_url = '#{api_v1_playlist_path(@playlist)}';
   .large-7.columns
@@ -36,13 +34,13 @@
     #chart-container.highchart
     %ul.button-group.radius.center
       %li
-        %a#energy.button.tiny.success{:href => "#"} Energy
+        %a#energy.button.tiny.success{href: "#"} Energy
       %li
-        %a#tempo.button.tiny{:href => "#"} Tempo
+        %a#tempo.button.tiny{href: "#"} Tempo
       %li
-        %a#danceability.button.tiny{:href => "#"} Danceability
+        %a#danceability.button.tiny{href: "#"} Danceability
       %li
-        %a#liveness.button.tiny{:href => "#"} Liveness
+        %a#liveness.button.tiny{href: "#"} Liveness
 = render partial: 'playlists/extend_popup'
 = content_for :extra_footer do
   = javascript_include_tag 'charts/charts'
