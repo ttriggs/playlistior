@@ -1,0 +1,14 @@
+<% genres_in_use = all_genres_in_use %>
+<% if genres_in_use.any? %>
+  <div class="row">
+    <div class="small-12 columns">
+      <a href="#" class="media-scroll-dropdown button expand postfix" data-dropdown="hover-media" data-options="is_hover:true; hover_timeout:1000 ">Search by Genre &raquo;</a>
+      <ul id="hover-media" class="small f-dropdown" data-dropdown-content>
+        <% all_genres_in_use.sort_by(&:group_id).each do |genre| %>
+          <% color = genre.group_color %>
+          <li> <%= link_to genre.name.titleize, genre_path(genre), { style: "background-color:rgba(#{color}, 0.7)"} %> </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+<% end %>

@@ -1,0 +1,45 @@
+
+
+<div class="large-6 columns">
+  <h3 id="your-playlists">Yours:</h3>
+
+  <% if @playlists.any? %>
+    <ul class="playlists-list">
+      <% @playlists.where(user_id: current_user.id).each do |playlist| %>
+        <li>
+          <%= link_to playlist.seed_artist.titleize, playlist %>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p>You have no playlists yet!</p>
+  <% end %>
+
+  <% followed_playlists = all_playlists_following %>
+  <% if followed_playlists.any? %>
+    <h3 id="followed-playlists">Followed:</h3>
+    <ul class="playlists-list">
+      <% followed_playlists.each do |playlist| %>
+        <li>
+          <%= link_to playlist.seed_artist.titleize, playlist %>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
+
+  <% their_playlists = get_their_playlists %>
+  <% if their_playlists.any? %>
+    <h3 id="their-playlists">Theirs:</h3>
+    <ul class="playlists-list">
+      <% their_playlists.each do |playlist| %>
+        <li>
+          <%= link_to playlist.seed_artist.titleize, playlist %>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
+</div>
+
+<div class="large-6 columns">
+  <%= render partial: 'playlists/playlist_create' %>
+</div>

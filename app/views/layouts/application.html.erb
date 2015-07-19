@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Playlistior</title>
+  <%= stylesheet_link_tag 'application', media: 'all' %>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href='https://fonts.googleapis.com/css?family=Great+Vibes' rel='stylesheet' type='text/css'>
+  <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48 64x64 110x110 114x114" type="image/vnd.microsoft.icon">
+
+
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+  <nav class="top-bar"  data-topbar>
+    <ul class="title-area">
+      <li class="name">
+        <h1 class="playlistior-title"><a href="/playlists">Playlistior</a></h1>
+      </li>
+      <li class="toggle-topbar menu-icon"><a href="#"><span><p id="menu">Menu</p></span></a></li>
+    </ul>
+
+    <section class="top-bar-section">
+      <ul class="right">
+        <% if user_signed_in? -%>
+          <li class="signed-in-as"><span>Signed in as <%= current_user.name %></span><img class="user-thumbnail" src="<%= current_user.image_link%>" /></li>
+          <li class="divider"></li>
+
+          <li>
+            <%= render partial: 'genres/topbar_genre_dropdown' %>
+          </li>
+          <li class="divider"></li>
+          <li><%= link_to 'Browse Playlists', playlists_path %></li>
+          <li><%= link_to 'Sign Out', session_path, method: :delete %></li>
+        <% else %>
+          <li><%= link_to 'Sign In', new_session_path %></li>
+        <% end %>
+      </ul>
+    </section>
+  </nav>
+
+  <% flash.each do |key, value| -%>
+    <div class="flash flash-<%= key %>">
+      <%= value %>
+    </div>
+  <% end %>
+
+  <div class="content row">
+    <div class="large-12 columns">
+
+      <%= yield %>
+
+    </div>
+  </div>
+
+  <footer class="row">
+    <div class="footer large-12 columns"><hr/>
+      <div class="row">
+        <div class="large-3 columns">
+          <div class="left-production"><em>A Tyler Triggs Production</em></div>
+          <ul class="icon-list">
+            <li id="icon-li">
+              <div id="link-icon">
+                <%= link_to image_tag("/assets/images/github-icon.png"), "https://github.com/ttriggs/playlistior", target: "_blank" %>
+              </div>
+            </li>
+            <li>
+              <div id="link-icon">
+              <%= link_to image_tag("/assets/images/linkedin-icon.png"), "https://www.linkedin.com/in/tylertriggs", target: "_blank"%>
+              </div>
+            </li>
+            <li>
+              <div id="link-icon">
+                <%= link_to image_tag("/assets/images/wordpress-icon.png"), "https://tylertriggs.wordpress.com/", target: "_blank"%>
+              </div>
+            </li>
+            <li>
+              <div id="link-icon">
+                <%= link_to image_tag("/assets/images/twitter-icon.png"), "https://twitter.com/triggstyler", target: "_blank"%>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="large-3 columns right attributions">
+          <div>
+            <!-- <strong id="medium">Created by</strong> <a href="https://github.com/ttriggs">Tyler Triggs</a> -->
+            <strong id="medium">Created by</strong> <%= link_to "Tyler Triggs", about_path %>
+          </div>
+          <div>
+            <strong id="medium">Powered by</strong> the<a href="http://www.echonest.com/"> Echonest </a>API
+          </div>
+          <div>
+            <stron id="medium"g>And by</strong> the<a href="https://developer.spotify.com/"> Spotify </a>API
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </footer>
+
+  <%= javascript_include_tag 'application' %>
+  <%= javascript_include_tag 'charts/highcharts' %>
+  <%= javascript_include_tag 'charts/highcharts-more' %>
+  <%= javascript_include_tag 'charts/highcharts-dark-theme' %>
+  <%= javascript_include_tag 'charts/modules/exporting' %>
+  <%= yield :extra_footer %>
+</body>
+</html>
