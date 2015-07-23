@@ -7,7 +7,8 @@ class PlaylistsController < ApplicationController
   end
 
   def create
-    playlist_creator = PlaylistCreator.new(params, current_user)
+    request = PlaylistRequest.new(params, current_user).prepare_request
+    playlist_creator = PlaylistCreator.new(request)
     playlist_creator.create if playlist_creator.no_errors?
     set_create_flash(playlist_creator.flash_errors)
     if playlist_creator.success?

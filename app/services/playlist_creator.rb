@@ -5,13 +5,7 @@ class PlaylistCreator
     @request = request
     @errors = request.errors
     @location = @request.location
-    # @playlist_params = get_playlist_params(artist_from(params))
-    # demo_song_params = get_demo_song_params if no_errors?
     if no_errors?
-#       @playlist_params.merge!(demo_song_params)
-#       @playlist_params.merge!(adventurous: adventurous_from(params))
-# binding.pry
-      # @playlist = Playlist.fetch_or_build_playlist(@playlist_params, current_user)
       @playlist = Playlist.fetch_or_build_playlist(request)
     end
   end
@@ -97,40 +91,4 @@ class PlaylistCreator
   def playlist_invalid?
     !@playlist.nil? && !@playlist.valid?
   end
-
-  private
-
-  # def get_playlist_params(artist)
-  #   if !artist.blank?
-  #     response = EchoNestService.get_artist_info(artist)
-  #     response[:errors] ? add_error(response) : response
-  #   else
-  #     @errors = { errors: "Seed artist can't be blank" }
-  #   end
-  # end
-
-  # def get_demo_song_params
-  #   artist = @playlist_params[:artist_name]
-  #   response = EchoNestService.get_demo_song_data(artist)
-  # end
-
-  # def adventurous_from(params)
-  #   params[:adventurous] || false
-  # end
-
-  # def artist_from(params)
-  #   if params[:playlist].class == Array
-  #     params[:playlist].first
-  #   else
-  #     params[:playlist]
-  #   end
-  # end
-
-  # def location_from(params)
-  #   if params[:commit] == "Create Playlist"
-  #     "prepend"
-  #   else
-  #     "append"
-  #   end
-  # end
 end
