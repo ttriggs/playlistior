@@ -18,30 +18,53 @@ class Playlist < ActiveRecord::Base
   validates :name, presence: true
   validates :link, presence: true
 
-  def self.fetch_or_build_playlist(playlist_params, current_user)
-    artist_name = playlist_params[:artist_name]
-    playlist = Playlist.find_or_initialize_by(user: current_user,
-                                              seed_artist: artist_name,
-                                              name: "Playlistior: #{artist_name}")
+  def self.fetch_or_build_playlist(request)
+    playlist = Playlist.find_or_initialize_by(user: request.user,
+                                              seed_artist: request.artist_name,
+                                              name: request.playlist_title)
     if playlist.not_on_spotify?
-      playlist.build_playlist_for_spotify(playlist_params)
+      playlist.build_playlist_for_spotify(request)
     end
     playlist
   end
 
-  def build_playlist_for_spotify(playlist_params)
+  def build_playlist_for_spotify(request)
     user_spotify_id = self.user.spotify_id
     response = spotify_service.create_playlist(user_spotify_id, name)
     if !response[:errors]
       self.link         = response["href"]
       self.snapshot_id  = response["snapshot_id"]
-      self.adventurous  = playlist_params[:adventurous]
-      self.familiarity  = playlist_params[:familiarity]
-      self.tempo        = playlist_params[:tempo]
-      self.danceability = playlist_params[:danceability]
-      save_genres(playlist_params[:genres]) if self.save
+      self.adventurous  = request.adventurous
+      self.familiarity  = request.familiarity
+      self.tempo        = request.tempo
+      self.danceability = request.danceability
+      save_genres(request.genres) if self.save
     end
   end
+  # def self.fetch_or_build_playlist(playlist_params, current_user)
+  #   artist_name = playlist_params[:artist_name]
+  #   playlist = Playlist.find_or_initialize_by(user: current_user,
+  #                                             seed_artist: artist_name,
+  #                                             name: "Playlistior: #{artist_name}")
+  #   if playlist.not_on_spotify?
+  #     playlist.build_playlist_for_spotify(playlist_params)
+  #   end
+  #   playlist
+  # end
+
+  # def build_playlist_for_spotify(playlist_params)
+  #   user_spotify_id = self.user.spotify_id
+  #   response = spotify_service.create_playlist(user_spotify_id, name)
+  #   if !response[:errors]
+  #     self.link         = response["href"]
+  #     self.snapshot_id  = response["snapshot_id"]
+  #     self.adventurous  = playlist_params[:adventurous]
+  #     self.familiarity  = playlist_params[:familiarity]
+  #     self.tempo        = playlist_params[:tempo]
+  #     self.danceability = playlist_params[:danceability]
+  #     save_genres(playlist_params[:genres]) if self.save
+  #   end
+  # end
 
   def spotify_service(token = nil)
     session_token = token || user.session_token
