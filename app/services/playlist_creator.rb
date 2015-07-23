@@ -1,15 +1,18 @@
 class PlaylistCreator
   attr_accessor :playlist, :errors
 
-  def initialize(params, current_user)
-    @errors = {}
-    @location        = location_from(params)
-    @playlist_params = get_playlist_params(artist_from(params))
-    demo_song_params = get_demo_song_params if no_errors?
+  def initialize(request)
+    @request = request
+    @errors = request.errors
+    @location = @request.location
+    # @playlist_params = get_playlist_params(artist_from(params))
+    # demo_song_params = get_demo_song_params if no_errors?
     if no_errors?
-      @playlist_params.merge!(demo_song_params)
-      @playlist_params.merge!(adventurous: adventurous_from(params))
-      @playlist = Playlist.fetch_or_build_playlist(@playlist_params, current_user)
+#       @playlist_params.merge!(demo_song_params)
+#       @playlist_params.merge!(adventurous: adventurous_from(params))
+# binding.pry
+      # @playlist = Playlist.fetch_or_build_playlist(@playlist_params, current_user)
+      @playlist = Playlist.fetch_or_build_playlist(request)
     end
   end
 
@@ -18,7 +21,7 @@ class PlaylistCreator
     full_tracklist = Tracklist.new(@playlist.uri_array, @playlist.tracks).setup
     ordered_tracklist = Camelot.new(full_tracklist).order_tracks
     if ordered_tracklist.empty?
-      add_error(no_tracks_left_error)
+      add_error(no_tracks_remain_error)
     else
       add_tracks(ordered_tracklist)
     end
@@ -54,7 +57,7 @@ class PlaylistCreator
     @errors.merge!(error_hash)
   end
 
-  def no_tracks_left_error
+  def no_tracks_remain_error
     { notice: "Sorry no more tracks found for this playlist" }
   end
 
@@ -97,37 +100,37 @@ class PlaylistCreator
 
   private
 
-  def get_playlist_params(artist)
-    if !artist.blank?
-      response = EchoNestService.get_artist_info(artist)
-      response[:errors] ? add_error(response) : response
-    else
-      @errors = { errors: "Seed artist can't be blank" }
-    end
-  end
+  # def get_playlist_params(artist)
+  #   if !artist.blank?
+  #     response = EchoNestService.get_artist_info(artist)
+  #     response[:errors] ? add_error(response) : response
+  #   else
+  #     @errors = { errors: "Seed artist can't be blank" }
+  #   end
+  # end
 
-  def get_demo_song_params
-    artist = @playlist_params[:artist_name]
-    response = EchoNestService.get_demo_song_data(artist)
-  end
+  # def get_demo_song_params
+  #   artist = @playlist_params[:artist_name]
+  #   response = EchoNestService.get_demo_song_data(artist)
+  # end
 
-  def adventurous_from(params)
-    params[:adventurous] || false
-  end
+  # def adventurous_from(params)
+  #   params[:adventurous] || false
+  # end
 
-  def artist_from(params)
-    if params[:playlist].class == Array
-      params[:playlist].first
-    else
-      params[:playlist]
-    end
-  end
+  # def artist_from(params)
+  #   if params[:playlist].class == Array
+  #     params[:playlist].first
+  #   else
+  #     params[:playlist]
+  #   end
+  # end
 
-  def location_from(params)
-    if params[:commit] == "Create Playlist"
-      "prepend"
-    else
-      "append"
-    end
-  end
+  # def location_from(params)
+  #   if params[:commit] == "Create Playlist"
+  #     "prepend"
+  #   else
+  #     "append"
+  #   end
+  # end
 end
