@@ -1,5 +1,6 @@
 class PlaylistRequest
-  attr_reader :errors, :user
+  attr_reader :user
+  attr_accessor :errors
 
   def initialize(params, current_user)
     @params = params
@@ -8,11 +9,11 @@ class PlaylistRequest
   end
 
   def location
-    @location ||= location_from_params
+    @location ||= parse_location
   end
 
   def adventurous
-    @adventurous = adventurous_from_params
+    @adventurous = parse_adventurous
   end
 
   def artist_data
@@ -20,7 +21,11 @@ class PlaylistRequest
   end
 
   def artist_name
-    @artist ||= artist_from_params
+    @artist ||= artist_data[:artist_name]
+  end
+
+  def supplied_artist_name
+    @supplied_artist_name ||= parse_artist
   end
 
   def playlist_title
@@ -28,19 +33,19 @@ class PlaylistRequest
   end
 
   def tempo
-    @tempo = artist_data[:tempo]
+    @tempo ||= artist_data[:tempo]
   end
 
   def familiarity
-    @familiarity = artist_data[:familiarity]
+    @familiarity ||= artist_data[:familiarity]
   end
 
   def danceability
-    @danceability = artist_data[:danceability]
+    @danceability ||= artist_data[:danceability]
   end
 
   def genres
-    @genres = artist_data[:genres]
+    @genres ||= artist_data[:genres]
   end
 
   def prepare_request
@@ -50,51 +55,53 @@ class PlaylistRequest
     self
   end
 
+  def valid?
+    @errors.empty?
+  end
+
   def invalid?
-    !@errors.empty?
+    !valid?
   end
 
   private
 
-#helpers:
-
+# helpers:
   def full_artist_data
     artist_data = echonest_artist_data
-    unless invalid?
+    if valid?
       song_data = echonest_example_song_data
       artist_data.merge!(song_data)
     end
   end
 
-  def example_song_data
-    @example_song_data ||= echonest_example_song_data
+  def add_error(hash)
+    @errors = hash.slice(:errors)
   end
 
-  def add_error(error_hash)
-    @errors.merge!(error_hash.slice(:errors))
-  end
-
-#get from echonest:
+# get from echonest:
   def echonest_artist_data
-    if artist_name.blank?
-      @errors = { errors: "Seed artist can't be blank" }
+    if supplied_artist_name.blank?
+      add_error({ errors: "Seed artist can't be blank" })
     else
-      response = EchoNestService.get_artist_info(artist_name)
-      response[:errors] ? add_error(response) : response
+      echonest(:get_artist_info)
     end
   end
 
   def echonest_example_song_data
-    response = EchoNestService.get_demo_song_data(artist_name)
+    echonest(:get_demo_song_data)
+  end
+
+  def echonest(method)
+    response = EchoNestService.send method, supplied_artist_name
     response[:errors] ? add_error(response) : response
   end
 
-#params parsing:
-  def adventurous_from_params
+# params parsing:
+  def parse_adventurous
     @params[:adventurous] || false
   end
 
-  def artist_from_params
+  def parse_artist
     if @params[:playlist].class == Array
       @params[:playlist].first
     else
@@ -102,7 +109,7 @@ class PlaylistRequest
     end
   end
 
-  def location_from_params
+  def parse_location
     if @params[:commit] == "Create Playlist"
       "prepend"
     else
