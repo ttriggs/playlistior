@@ -39,6 +39,8 @@ class Playlist < ActiveRecord::Base
       self.tempo        = request.tempo
       self.danceability = request.danceability
       save_genres(request.genres) if self.save
+    else
+      request.errors = response.slice(:errors)
     end
   end
 
