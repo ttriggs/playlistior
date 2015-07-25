@@ -1,16 +1,13 @@
 class PlaylistCreator
   attr_accessor :playlist, :errors
 
-  def initialize(request)
-    @request = request
-    @errors = request.errors
-    @location = @request.location
-    if no_errors?
-      @playlist = Playlist.fetch_or_build_playlist(request)
-    end
+  def initialize(params, current_user)
+    @request = PlaylistRequest.new(params, current_user).prepare_request
+    @errors  = @request.errors
   end
 
   def create
+    @playlist = Playlist.fetch_or_build_playlist(@request)
     get_tracks_if_needed
     full_tracklist = Tracklist.new(@playlist.uri_array, @playlist.tracks).setup
     ordered_tracklist = Camelot.new(full_tracklist).order_tracks
@@ -36,13 +33,13 @@ class PlaylistCreator
 
   def add_tracks(tracklist)
     track_ids    = build_track_ids(tracklist)
-    playlist_url = add_tracks_url(@location)
+    playlist_url = add_tracks_url
     response     = @playlist.spotify_service.add_tracks(playlist_url, track_ids)
     if response[:errors]
       add_error(response)
     else
       @playlist.update(snapshot_id: response["snapshot_id"])
-      @playlist.update_cached_uris(track_ids, @location)
+      @playlist.update_cached_uris(track_ids, location)
       @playlist.clear_cached_charts_json
     end
   end
@@ -55,7 +52,7 @@ class PlaylistCreator
     { notice: "Sorry no more tracks found for this playlist" }
   end
 
-  def add_tracks_url(location)
+  def add_tracks_url
     url = "#{@playlist.link}/tracks"
     location == "prepend" ? url.concat("?position=0") : url
   end
@@ -64,31 +61,27 @@ class PlaylistCreator
     tracklist.map(&:spotify_id)
   end
 
+  def location
+    @request.location
+  end
+
   def no_errors?
-    @errors.empty?
+    errors.empty?
   end
 
   def success?
-    flash_errors.empty?
+    no_errors?
   end
 
   def notice?
-    flash_errors[:notice].present?
+    errors[:notice].present?
   end
 
   def exit_error?
-    flash_errors[:errors].present?
+    errors[:errors].present?
   end
 
-  def flash_errors
-    if playlist_invalid?
-      @errors.merge!({ errors: @playlist.errors })
-    else
-      @errors
-    end
-  end
-
-  def playlist_invalid?
+  def should_destroy?
     !@playlist.nil? && !@playlist.valid?
   end
 end
