@@ -7,16 +7,15 @@ class PlaylistsController < ApplicationController
   end
 
   def create
-    request = PlaylistRequest.new(params, current_user).prepare_request
-    playlist_creator = PlaylistCreator.new(request)
+    playlist_creator = PlaylistCreator.new(params, current_user) #request
     playlist_creator.create if playlist_creator.no_errors?
-    set_create_flash(playlist_creator.flash_errors)
+    set_flash(playlist_creator.errors)
     if playlist_creator.success?
       redirect_to playlist_path(playlist_creator.playlist)
     elsif playlist_creator.notice?
       redirect_to playlist_path(playlist_creator.playlist)
     elsif playlist_creator.exit_error?
-      playlist_creator.playlist.destroy if playlist_creator.playlist_invalid?
+      playlist_creator.playlist.destroy if playlist_creator.should_destroy?
       redirect_to playlists_path
     end
   end
@@ -41,7 +40,7 @@ class PlaylistsController < ApplicationController
 
   private
 
-  def set_create_flash(flash_errors)
+  def set_flash(flash_errors)
     if flash_errors[:errors]
       flash[:errors] = flash_errors[:errors]
     elsif flash_errors[:notice]
