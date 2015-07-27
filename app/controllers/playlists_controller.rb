@@ -7,7 +7,7 @@ class PlaylistsController < ApplicationController
   end
 
   def create
-    playlist_creator = PlaylistCreator.new(params, current_user) #request
+    playlist_creator = PlaylistCreator.new(params, current_user)
     playlist_creator.create if playlist_creator.no_errors?
     set_flash(playlist_creator.errors)
     if playlist_creator.success?
@@ -19,7 +19,7 @@ class PlaylistsController < ApplicationController
       redirect_to playlists_path
     end
   end
-
+  
   def destroy
     @playlist = Playlist.find_by_id(params[:id])
     if @playlist && @playlist.owner_or_admin?(current_user)
